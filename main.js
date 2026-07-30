@@ -838,16 +838,25 @@ document.addEventListener('DOMContentLoaded',function(){
   if(fab) fab.addEventListener('click',openGigModal);
 });
 let filtState='all';
-function filt(f){
-  filtState=f;
+function updateFilterPills(){
+  const hasPending = S.gigs.some(g=>g.status==='Pending');
   ['all','Received','Pending'].forEach(x=>{
     const el=document.getElementById('f'+{all:'a',Received:'r',Pending:'p'}[x]);
-    if(el){el.className='pill';el.style.cursor='pointer';el.style.border='none';
-    if(x===f){el.className='pill pill-green';}else{el.style.background='var(--sage-l)';el.style.color='var(--muted)';}}
+    if(!el) return;
+    el.className='pill';el.style.cursor='pointer';el.style.border='none';
+    el.style.background='';el.style.color='';
+    if(x===filtState){el.className='pill pill-green';}
+    else if(x==='Pending'&&hasPending){el.className='pill pill-amber';}
+    else{el.style.background='var(--sage-l)';el.style.color='var(--muted)';}
   });
+}
+function filt(f){
+  filtState=f;
+  updateFilterPills();
   renderGigs();
 }
 function renderGigs(){
+  updateFilterPills();
   // Populate year dropdown once
   const yearSel = document.getElementById('gig-year');
   if(yearSel && yearSel.options.length<=1){
