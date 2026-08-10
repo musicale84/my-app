@@ -96,6 +96,14 @@
         </div>
       </div>
       <div class="hdr-btns">
+        <span style="position:relative;display:inline-flex;align-items:center">
+          <button class="hdr-btn" id="checkin-btn" onclick="openCheckin()" aria-label="Quarterly check-in" title="Quarterly check-in" style="position:relative;gap:6px">
+            <i class="ti ti-calendar-check" aria-hidden="true"></i>
+            <span class="checkin-label" data-i18n="checkin_header_label" style="display:none;font-size:13px">Quarterly check-in</span>
+            <span id="checkin-dot" style="display:none;position:absolute;top:6px;right:6px;width:8px;height:8px;border-radius:50%;background:var(--gold)"></span>
+          </button>
+          <span id="checkin-tip-anchor" style="display:inline-flex;align-items:center"></span>
+        </span>
         <button class="hdr-btn" onclick="showPage('settings')" aria-label="Settings">
           <i class="ti ti-settings" aria-hidden="true"></i>
         </button>
@@ -104,6 +112,7 @@
   </header>
 
   <main class="content" id="main-content" aria-live="polite">
+    <div id="tip-slot-header"></div>
 
     <!-- ONBOARDING -->
     <div class="page active" id="page-onboard" role="region" aria-label="Setup">
@@ -113,19 +122,20 @@
         </div>
         <div class="ob-step active" id="ob1">
           <div class="ob-icon"><i class="ti ti-home-dollar" aria-hidden="true"></i></div>
-          <h1 class="ob-title">Your monthly baseline</h1>
-          <p class="ob-sub">Add every fixed cost — rent, groceries, utilities, childcare. This is the number your income is measured against each month.</p>
+          <h1 class="ob-title" data-i18n="onb1_title">Your monthly baseline</h1>
+          <p class="ob-sub" data-i18n="onb1_sub">Add every fixed cost — rent, groceries, utilities, childcare. This is the number your income is measured against each month.</p>
           <div id="ob-exp-rows"></div>
-          <button onclick="addObExp()" class="btn-outline" style="margin-bottom:10px"><i class="ti ti-plus" style="vertical-align:-2px;margin-right:4px" aria-hidden="true"></i> Add expense</button>
-          <div class="exp-total" role="status"><div class="tl">Monthly baseline</div><div class="tv" id="ob-total">$0</div></div>
-          <button class="btn btn-p" onclick="obNext()">Continue</button>
+          <p style="font-size:11px;color:var(--muted);margin:-4px 0 10px" data-i18n="onb1_suggestion_note">The grey numbers are rough starting suggestions — type your real amount to replace them.</p>
+          <button onclick="addObExp()" class="btn-outline" style="margin-bottom:10px"><i class="ti ti-plus" style="vertical-align:-2px;margin-right:4px" aria-hidden="true"></i> <span data-i18n="onb1_add_expense">Add expense</span></button>
+          <div class="exp-total" role="status"><div class="tl" data-i18n="onb1_baseline_label">Monthly baseline</div><div class="tv" id="ob-total">$0</div></div>
+          <button class="btn btn-p" onclick="obNext()" data-i18n="onb1_continue">Continue</button>
         </div>
         <div class="ob-step" id="ob2">
           <div class="ob-icon"><i class="ti ti-receipt-tax" aria-hidden="true"></i></div>
-          <h1 class="ob-title">Tax settings</h1>
-          <p class="ob-sub">These drive every calculation. Defaults are set for Ontario — adjust for your province or country.</p>
+          <h1 class="ob-title" data-i18n="onb2_title">Tax settings</h1>
+          <p class="ob-sub" data-i18n="onb2_sub">These drive every calculation. Defaults are set for Ontario — adjust for your province or country.</p>
           <div class="field">
-            <label for="t-currency">Currency symbol</label>
+            <label for="t-currency" data-i18n="onb2_currency_label">Currency symbol</label>
             <select id="t-currency" style="width:100%;padding:11px 12px;border:1.5px solid var(--border);border-radius:var(--rs);font-size:15px;font-family:var(--font);outline:none">
               <option value="$">$ — Dollar (CAD, USD, AUD…)</option>
               <option value="€">€ — Euro</option>
@@ -136,94 +146,87 @@
             </select>
           </div>
           <div class="field" id="t-currency-other-field" style="display:none">
-            <label for="t-currency-other">Your currency symbol</label>
+            <label for="t-currency-other" data-i18n="onb2_currency_other_label">Your currency symbol</label>
             <input id="t-currency-other" type="text" placeholder="e.g. kr, R, ₩" maxlength="3">
           </div>
           <div class="frow">
-            <div class="field"><label for="t-tax">Tax set-aside % (includes pension contribution)</label><input id="t-tax" type="number" value="32"></div>
-            <div class="field"><label for="t-hst">Sales tax %</label><input id="t-hst" type="number" value="13"></div>
+            <div class="field"><label for="t-tax" data-i18n="onb2_tax_label">Tax set-aside % (includes pension contribution)</label><input id="t-tax" type="number" value="32"></div>
+            <div class="field"><label for="t-hst" data-i18n="onb2_hst_label">Sales tax %</label><input id="t-hst" type="number" value="13"></div>
           </div>
-          <div class="field"><label for="t-dues">Work dues %</label><input id="t-dues" type="number" value="3"></div>
-          <div style="background:var(--gold-l);border-left:3px solid var(--gold);border-radius:var(--rs);padding:10px 12px;font-size:12px;color:var(--gold-d);margin-top:8px">Your tax set-aside covers income tax and pension contributions. If unsure, 32-35% is a safe starting point for most freelancers — adjust as needed.</div>
-          <button class="btn btn-p" onclick="obNext()" style="margin-top:4px">Continue</button>
-          <button class="btn btn-g" onclick="obPrev()">Back</button>
+          <div class="field"><label for="t-dues" data-i18n="onb2_dues_label">Work dues %</label><input id="t-dues" type="number" value="3"></div>
+          <div style="background:var(--gold-l);border-left:3px solid var(--gold);border-radius:var(--rs);padding:10px 12px;font-size:12px;color:var(--gold-d);margin-top:8px" data-i18n="onb2_note">Your tax set-aside covers income tax and pension contributions. If unsure, 32-35% is a safe starting point for most freelancers — adjust as needed.</div>
+          <button class="btn btn-p" onclick="obNext()" style="margin-top:4px" data-i18n="onb2_continue">Continue</button>
+          <button class="btn btn-g" onclick="obPrev()" data-i18n="onb2_back">Back</button>
         </div>
         <div class="ob-step" id="ob3">
           <div class="ob-icon"><i class="ti ti-piggy-bank" aria-hidden="true"></i></div>
-          <h1 class="ob-title">Your savings goals</h1>
-          <p class="ob-sub">Name your savings buckets and assign a percentage of each gig's surplus. Vacation fund, emergency fund, new instrument — whatever matters to you.</p>
-        <div id="ob3-learn-note" style="background:var(--gold-l);border-left:3px solid var(--gold);border-radius:var(--rs);padding:10px 12px;font-size:12px;color:var(--gold-d);margin-bottom:16px">This is your surplus. Every dollar gets a destination — enjoy next month, save, or invest.</div>
+          <h1 class="ob-title" data-i18n="onb3_title">Your savings goals</h1>
+          <p class="ob-sub" data-i18n="onb3_sub">Name your savings buckets and assign a percentage of each gig's surplus. Vacation fund, emergency fund, new instrument — whatever matters to you.</p>
+        <div id="ob3-learn-note" style="background:var(--gold-l);border-left:3px solid var(--gold);border-radius:var(--rs);padding:10px 12px;font-size:12px;color:var(--gold-d);margin-bottom:16px" data-i18n="onb3_note">This is your surplus. Every dollar gets a destination — enjoy next month, save, or invest.</div>
           <div class="bucket-list" id="ob-bkt-list"></div>
           <div class="add-row">
-            <input id="ob-bn" type="text" placeholder="e.g. Vacation fund" aria-label="Bucket name">
+            <input id="ob-bn" type="text" placeholder="e.g. Vacation fund" data-i18n-ph="onb3_bucket_name_placeholder" aria-label="Bucket name">
             <input id="ob-bp" type="number" class="add-pct" placeholder="%" aria-label="Percentage">
             <button class="add-btn" onclick="addObBucket()" aria-label="Add bucket"><i class="ti ti-plus" aria-hidden="true"></i></button>
           </div>
-          <p class="pct-note" id="ob-pct-left" aria-live="polite">Remaining for investing: <strong>100%</strong></p>
-          <button class="btn btn-p" onclick="obNext()" style="margin-top:8px">Continue</button>
-          <button class="btn btn-g" onclick="obPrev()">Back</button>
+          <p class="pct-note" id="ob-pct-left" aria-live="polite"><span data-i18n="onb3_pct_left_prefix">Remaining for investing:</span> <strong>100%</strong></p>
+          <button class="btn btn-p" onclick="obNext()" style="margin-top:8px" data-i18n="onb3_continue">Continue</button>
+          <button class="btn btn-g" onclick="obPrev()" data-i18n="onb3_back">Back</button>
         </div>
         <div class="ob-step" id="ob4">
           <div class="ob-icon"><i class="ti ti-trending-up" aria-hidden="true"></i></div>
-          <h1 class="ob-title">Investment accounts</h1>
-          <p class="ob-sub">Where does your investing money go? Add one or more accounts — each gets its own percentage.</p>
-          <div id="ob-inv-list"></div>
-          <div class="add-row">
-            <select id="ob-inv-type" style="flex:1;padding:10px 11px;border:1.5px solid var(--border);border-radius:var(--rs);font-size:14px;font-family:var(--font);outline:none;background:var(--white)" aria-label="Account type">
-              <option value="">Select account...</option>
-              <optgroup label="Canada"><option>RRSP</option><option>TFSA</option><option>FHSA</option><option>RESP</option></optgroup>
-              <optgroup label="United States"><option>401(k)</option><option>Roth IRA</option><option>Traditional IRA</option><option>529 Plan</option></optgroup>
-              <optgroup label="United Kingdom"><option>ISA</option><option>SIPP</option></optgroup>
-              <optgroup label="Other"><option>Brokerage account</option><option>Pension fund</option><option>Other</option></optgroup>
-            </select>
-            <input id="ob-inv-pct" type="number" class="add-pct" placeholder="%" aria-label="Percentage">
-            <button class="add-btn" onclick="addObInv()" aria-label="Add account"><i class="ti ti-plus" aria-hidden="true"></i></button>
-          </div>
+          <h1 class="ob-title" data-i18n="onb4_title">Investing</h1>
+          <p class="ob-sub" data-i18n="onb4_sub">Whatever's left after tax, dues, your savings goals, and enjoy-life automatically goes to Invest — no splitting or naming required. Open a self-directed investment account (RRSP, TFSA, brokerage, or your local equivalent) and make sure that surplus actually gets invested once it lands there.</p>
           <div class="field" style="margin-top:12px">
-            <label for="ob-enjoy">Enjoy-life % (of remaining surplus)</label>
+            <label for="ob-enjoy" data-i18n="onb4_enjoy_label">Enjoy-life % (of remaining surplus)</label>
             <input id="ob-enjoy" type="number" value="20" min="0" max="100">
           </div>
-          <button class="btn btn-p" onclick="completeOb()" style="margin-top:4px">Start tracking</button>
-          <button class="btn btn-g" onclick="obPrev()">Back</button>
+          <button class="btn btn-p" onclick="completeOb()" style="margin-top:4px" data-i18n="onb4_start">Start tracking</button>
+          <button class="btn btn-g" onclick="obPrev()" data-i18n="onb4_back">Back</button>
         </div>
       </div>
     </div>
 
     <!-- DASHBOARD -->
     <div class="page" id="page-dashboard" role="region" aria-label="Dashboard">
-      <div class="sec-label">This month</div>
-      <div class="card">
-        <div style="font-size:11px;color:var(--muted);margin-bottom:6px">Status</div>
+      <div class="sec-label" data-i18n="dash_this_month">This month</div>
+      <div class="card" id="this-month-card">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:6px" id="tip-anchor-status"><span data-i18n="dash_status_label">Status</span></div>
         <div id="d-status" class="pill pill-green" style="margin-bottom:10px" aria-live="polite"><i class="ti ti-circle-check" aria-hidden="true"></i> Baseline covered</div>
-        <div style="display:flex;justify-content:space-between;align-items:flex-end">
-          <div><div style="font-size:11px;color:var(--muted)">Income this month</div><div style="font-size:21px;font-weight:600;color:var(--sage-d)" id="d-income">$0</div></div>
-          <div style="text-align:right"><div style="font-size:11px;color:var(--muted)">Baseline</div><div style="font-size:17px;font-weight:600;color:var(--muted)" id="d-baseline">$0</div></div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-end" id="income-baseline-row">
+          <div><div style="font-size:11px;color:var(--muted)" data-i18n="dash_income_label">Income this month</div><div style="font-size:21px;font-weight:600;color:var(--sage-d)" id="d-income">$0</div></div>
+          <div style="text-align:right" id="tip-anchor-buffer"><div style="font-size:11px;color:var(--muted)" data-i18n="dash_baseline_label">Baseline</div><div style="font-size:17px;font-weight:600;color:var(--muted)" id="d-baseline">$0</div></div>
         </div>
       </div>
       <div class="fun-banner" role="status" aria-label="Your spending money this month">
-        <div class="fun-left"><h3>Spending money this month</h3><p id="fun-sub">from last month's enjoy-life allocation</p></div>
+        <div class="fun-left"><h3 data-i18n="dash_spending_title">Spending money this month</h3><p id="fun-sub" data-i18n="dash_spending_sub">from last month's enjoy-life allocation</p></div>
         <div class="fun-amt" id="fun-amt">$0</div>
       </div>
-      <div class="grid2">
-        <div class="metric"><div class="m-lbl">Coverage</div><div class="m-val" id="d-runway">—</div><div class="m-sub">months of runway</div><div class="prog"><div class="prog-fill" id="rwfill" style="width:0%;background:var(--sage)"></div></div></div>
-        <div class="metric"><div class="m-lbl">Saved &amp; invested</div><div class="m-val" id="d-bld">0%</div><div class="m-sub">of net income, last 90 days</div></div>
+      <div class="grid2" id="grid2-coverage">
+        <div class="metric"><div class="m-lbl" data-i18n="dash_coverage">Coverage</div><div class="m-val" id="d-runway">—</div><div class="m-sub" data-i18n="dash_runway_sub">months of runway</div><div class="prog"><div class="prog-fill" id="rwfill" style="width:0%;background:var(--sage)"></div></div></div>
+        <div class="metric"><div class="m-lbl" data-i18n="dash_saved_invested">Saved &amp; invested</div><div class="m-val" id="d-bld">0%</div><div class="m-sub" data-i18n="dash_saved_sub">of net income, last 90 days</div><div class="m-sub" id="tip-anchor-investtrend" style="margin-top:3px;display:none"><span id="d-invest-trend-text"></span></div></div>
       </div>
-      <div class="grid2">
-        <div class="metric"><div class="m-lbl">Net income YTD</div><div class="m-val" id="d-ytd">$0</div><div class="m-sub">after tax set-aside</div></div>
-        <div class="metric"><div class="m-lbl">In your HISA</div><div class="m-val" id="d-hisa">$0</div><div class="m-sub">parked this year</div></div>
+      <div class="grid2" id="grid2-financials">
+        <div class="metric"><div class="m-lbl" data-i18n="dash_net_ytd">Net income YTD</div><div class="m-val" id="d-ytd">$0</div><div class="m-sub" data-i18n="dash_net_ytd_sub">after tax set-aside</div></div>
+        <div class="metric"><div id="tip-anchor-setaside" style="display:flex;align-items:center"><div class="m-lbl" id="d-hisa-lbl">In your set-aside account</div></div><div class="m-val" id="d-hisa">$0</div><div class="m-sub" data-i18n="dash_setaside_sub">parked this year</div></div>
       </div>
       <div id="d-debt-section"></div>
       <div id="d-selfloan-section"></div>
-      <div class="chart-wrap" role="img" aria-label="Monthly momentum chart">
-        <div class="chart-hdr">Momentum — this year</div>
-        <div style="font-size:11px;color:var(--muted);margin:-4px 0 8px">What your surplus built each month</div>
-        <div class="bars" id="mbars" aria-hidden="true"></div>
+      <div class="chart-wrap" id="chart-wrap-momentum" role="img" aria-label="Monthly momentum chart">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+          <div class="chart-hdr" id="tip-anchor-momentum"><span id="momentum-title" data-i18n="dash_momentum_header">Momentum</span></div>
+          <select id="momentum-year-sel" onchange="renderMomentumChart()" style="font-size:12px;padding:4px 8px;border:1.5px solid var(--border);border-radius:6px;color:var(--sage-d);background:var(--white);font-family:var(--font)" aria-label="Select year"></select>
+        </div>
+        <div style="font-size:11px;color:var(--muted);margin:-4px 0 8px" id="momentum-sub" data-i18n="dash_momentum_sub">What your surplus built each month</div>
+        <div id="year-lifetime-banner" style="display:none"></div>
+        <div class="bars" id="mbars" aria-hidden="true" style="overflow-x:auto"></div>
+        <div id="month-expand" style="display:none"></div>
         <div class="legend">
-          <div class="leg-i"><div class="leg-d" style="background:var(--sage)"></div>Savings & investing</div>
-          <div class="leg-i"><div class="leg-d" style="background:var(--gold)"></div>Debt payoff</div>
+          <div class="leg-i"><div class="leg-d" style="background:var(--sage)"></div><span data-i18n="dash_leg_savings">Savings & investing</span></div>
+          <div class="leg-i"><div class="leg-d" style="background:var(--gold)"></div><span data-i18n="dash_leg_debt">Debt payoff</span></div>
         </div>
       </div>
-      <div class="sec-label">Recent gigs</div>
+      <div class="sec-label" data-i18n="dash_recent_gigs">Recent gigs</div>
       <div id="d-recent"></div>
     </div>
 
@@ -260,16 +263,18 @@
         <div style="padding:14px 16px 0">
           <select id="rep-year" onchange="renderRepList()" style="width:100%;padding:9px 10px;border:1.5px solid var(--border);border-radius:var(--rs);font-size:13px;font-family:var(--font);color:var(--sage-d);background:var(--white);font-weight:600" aria-label="Select tax year"></select>
         </div>
-        <div class="sec-label">Your reports</div>
-        <button class="rep-card" onclick="showRep('accountant')"><div class="rep-ico"><i class="ti ti-file-invoice" aria-hidden="true"></i></div><div class="rep-info"><h3>For your accountant</h3><p>Business income, tax, pension, deductions</p></div><i class="ti ti-chevron-right" style="color:var(--muted);margin-left:auto" aria-hidden="true"></i></button>
-        <button class="rep-card" onclick="showRep('giglog')"><div class="rep-ico"><i class="ti ti-list-details" aria-hidden="true"></i></div><div class="rep-info"><h3>Gig log</h3><p>All income entries for the tax year</p></div><i class="ti ti-chevron-right" style="color:var(--muted);margin-left:auto" aria-hidden="true"></i></button>
-        <button class="rep-card" onclick="showRep('snapshot')"><div class="rep-ico"><i class="ti ti-chart-pie" aria-hidden="true"></i></div><div class="rep-info"><h3>Year-end snapshot</h3><p>Your full financial year in review</p></div><i class="ti ti-chevron-right" style="color:var(--muted);margin-left:auto" aria-hidden="true"></i></button>
-        <button class="rep-card" onclick="showRep('invest')"><div class="rep-ico"><i class="ti ti-trending-up" aria-hidden="true"></i></div><div class="rep-info"><h3>Investment tracker</h3><p>Contributions by account type</p></div><i class="ti ti-chevron-right" style="color:var(--muted);margin-left:auto" aria-hidden="true"></i></button>
-        <div class="sec-label" style="margin-top:4px">Free tools</div>
-        <button class="rep-card" onclick="showPage('invoice')"><div class="rep-ico" style="background:var(--gold)"><i class="ti ti-file-dollar" aria-hidden="true"></i></div><div class="rep-info"><h3>Invoice generator</h3><p>Create a professional invoice in seconds</p></div><i class="ti ti-chevron-right" style="color:var(--muted);margin-left:auto" aria-hidden="true"></i></button>
+        <div class="sec-label" data-i18n="rep_your_reports">Your reports</div>
+        <button class="rep-card" onclick="showRep('accountant')"><div class="rep-ico"><i class="ti ti-file-invoice" aria-hidden="true"></i></div><div class="rep-info"><h3 data-i18n="rep_card_accountant_title">For your accountant</h3><p data-i18n="rep_card_accountant_sub">Business income, tax, pension, deductions</p></div><i class="ti ti-chevron-right" style="color:var(--muted);margin-left:auto" aria-hidden="true"></i></button>
+        <button class="rep-card" onclick="showRep('giglog')"><div class="rep-ico"><i class="ti ti-list-details" aria-hidden="true"></i></div><div class="rep-info"><h3 data-i18n="rep_card_giglog_title">Gig log</h3><p data-i18n="rep_card_giglog_sub">All income entries for the tax year</p></div><i class="ti ti-chevron-right" style="color:var(--muted);margin-left:auto" aria-hidden="true"></i></button>
+        <button class="rep-card" onclick="showRep('snapshot')"><div class="rep-ico"><i class="ti ti-chart-pie" aria-hidden="true"></i></div><div class="rep-info"><h3 data-i18n="rep_card_snapshot_title">Year-end snapshot</h3><p data-i18n="rep_card_snapshot_sub">Your full financial year in review</p></div><i class="ti ti-chevron-right" style="color:var(--muted);margin-left:auto" aria-hidden="true"></i></button>
+        <button class="rep-card" onclick="showRep('invest')"><div class="rep-ico"><i class="ti ti-trending-up" aria-hidden="true"></i></div><div class="rep-info"><h3 data-i18n="rep_card_invest_title">Investment tracker</h3><p data-i18n="rep_card_invest_sub">Contributions by account type</p></div><i class="ti ti-chevron-right" style="color:var(--muted);margin-left:auto" aria-hidden="true"></i></button>
+        <button class="rep-card" onclick="showRep('goals')"><div class="rep-ico"><i class="ti ti-target-arrow" aria-hidden="true"></i></div><div class="rep-info"><h3 data-i18n="rep_card_goals_title">Goals progress</h3><p data-i18n="rep_card_goals_sub">How close you are, and when you'll get there</p></div><i class="ti ti-chevron-right" style="color:var(--muted);margin-left:auto" aria-hidden="true"></i></button>
+        <button class="rep-card" onclick="showRep('audit')"><div class="rep-ico"><i class="ti ti-shield-check" aria-hidden="true"></i></div><div class="rep-info"><h3 data-i18n="rep_card_audit_title">Set-aside transfer audit</h3><p data-i18n="rep_card_audit_sub">Checks every gig against the correct formula</p></div><i class="ti ti-chevron-right" style="color:var(--muted);margin-left:auto" aria-hidden="true"></i></button>
+        <div class="sec-label" style="margin-top:4px" data-i18n="rep_free_tools">Free tools</div>
+        <button class="rep-card" onclick="showPage('invoice')"><div class="rep-ico" style="background:var(--gold)"><i class="ti ti-file-dollar" aria-hidden="true"></i></div><div class="rep-info"><h3 data-i18n="rep_card_invoice_title">Invoice generator</h3><p data-i18n="rep_card_invoice_sub">Create a professional invoice in seconds</p></div><i class="ti ti-chevron-right" style="color:var(--muted);margin-left:auto" aria-hidden="true"></i></button>
       </div>
       <div id="rep-detail" style="display:none">
-        <button class="back-btn" onclick="hideRep()"><i class="ti ti-arrow-left" aria-hidden="true"></i> Back</button>
+        <button class="back-btn" onclick="hideRep()"><i class="ti ti-arrow-left" aria-hidden="true"></i> <span data-i18n="btn_back">Back</span></button>
         <div class="sec-label" id="rep-title">Report</div>
         <div style="margin:0 14px" id="rep-content"></div>
       </div>
@@ -277,215 +282,225 @@
 
     <!-- INVOICE GENERATOR -->
     <div class="page" id="page-invoice" role="region" aria-label="Invoice generator">
-      <button class="back-btn" onclick="showPage('reports')"><i class="ti ti-arrow-left" aria-hidden="true"></i> Back</button>
-      <div class="sec-label">Invoice generator</div>
+      <button class="back-btn" onclick="showPage('reports')"><i class="ti ti-arrow-left" aria-hidden="true"></i> <span data-i18n="btn_back">Back</span></button>
+      <div class="sec-label" data-i18n="rep_card_invoice_title">Invoice generator</div>
       <div style="padding:0 14px 14px">
         <div style="background:var(--gold-l);border-radius:var(--rs);padding:10px 12px;font-size:12px;color:var(--gold-d);margin-bottom:14px;border-left:3px solid var(--gold)">
-          <strong>Free for everyone.</strong> Fill in the details below and tap "Preview invoice" to see your finished invoice, then save it as a PDF from your browser's print menu (File → Print → Save as PDF).
+          <strong data-i18n="inv_free_note_strong">Free for everyone.</strong> <span data-i18n="inv_free_note_body">Fill in the details below and tap "Preview invoice" to see your finished invoice, then save it as a PDF from your browser's print menu (File → Print → Save as PDF).</span>
         </div>
-        <h3 style="font-size:14px;font-weight:600;color:var(--sage-d);margin-bottom:12px">Your details</h3>
-        <div class="field"><label for="inv-your-name">Your name / business name</label><input id="inv-your-name" type="text" placeholder="Your Name"></div>
-        <div class="field"><label for="inv-your-addr">Your address</label><textarea id="inv-your-addr" rows="2" placeholder="123 Main St, Toronto, ON M5V 1A1" style="resize:none"></textarea></div>
+        <h3 style="font-size:14px;font-weight:600;color:var(--sage-d);margin-bottom:12px" data-i18n="inv_your_details">Your details</h3>
+        <div class="field"><label for="inv-your-name" data-i18n="inv_your_name_label">Your name / business name</label><input id="inv-your-name" type="text" placeholder="Your Name" data-i18n-ph="inv_your_name_ph"></div>
+        <div class="field"><label for="inv-your-addr" data-i18n="inv_your_addr_label">Your address</label><textarea id="inv-your-addr" rows="2" placeholder="123 Main St, Toronto, ON M5V 1A1" data-i18n-ph="inv_your_addr_ph" style="resize:none"></textarea></div>
         <div class="frow">
-          <div class="field"><label for="inv-your-email">Email</label><input id="inv-your-email" type="email" placeholder="you@email.com"></div>
-          <div class="field"><label for="inv-your-phone">Phone (optional)</label><input id="inv-your-phone" type="tel" placeholder=""></div>
+          <div class="field"><label for="inv-your-email" data-i18n="inv_email_label">Email</label><input id="inv-your-email" type="email" placeholder="you@email.com"></div>
+          <div class="field"><label for="inv-your-phone" data-i18n="inv_phone_label">Phone (optional)</label><input id="inv-your-phone" type="tel" placeholder=""></div>
         </div>
-        <h3 style="font-size:14px;font-weight:600;color:var(--sage-d);margin:16px 0 12px">Client details</h3>
-        <div class="field"><label for="inv-client-name">Client name / organization</label><input id="inv-client-name" type="text" placeholder="Client Name"></div>
-        <div class="field"><label for="inv-client-addr">Client address</label><textarea id="inv-client-addr" rows="2" placeholder="123 Main St, City, Province/State" style="resize:none"></textarea></div>
-        <h3 style="font-size:14px;font-weight:600;color:var(--sage-d);margin:16px 0 12px">Invoice details</h3>
+        <h3 style="font-size:14px;font-weight:600;color:var(--sage-d);margin:16px 0 12px" data-i18n="inv_client_details">Client details</h3>
+        <div class="field"><label for="inv-client-name" data-i18n="inv_client_name_label">Client name / organization</label><input id="inv-client-name" type="text" placeholder="Client Name" data-i18n-ph="inv_client_name_ph"></div>
+        <div class="field"><label for="inv-client-addr" data-i18n="inv_client_addr_label">Client address</label><textarea id="inv-client-addr" rows="2" placeholder="123 Main St, City, Province/State" data-i18n-ph="inv_client_addr_ph" style="resize:none"></textarea></div>
+        <h3 style="font-size:14px;font-weight:600;color:var(--sage-d);margin:16px 0 12px" data-i18n="inv_details_title">Invoice details</h3>
         <div class="frow">
-          <div class="field"><label for="inv-num">Invoice #</label><input id="inv-num" type="text" placeholder="INV-001"></div>
-          <div class="field"><label for="inv-date">Date</label><input id="inv-date" type="date"></div>
+          <div class="field"><label for="inv-num" data-i18n="inv_num_label">Invoice #</label><input id="inv-num" type="text" placeholder="INV-001" data-i18n-ph="inv_num_ph"></div>
+          <div class="field"><label for="inv-date" data-i18n="det_date">Date</label><input id="inv-date" type="date"></div>
         </div>
-        <div class="field"><label for="inv-due">Due date</label><input id="inv-due" type="date"></div>
-        <h3 style="font-size:14px;font-weight:600;color:var(--sage-d);margin:16px 0 12px">Line items</h3>
+        <div class="field"><label for="inv-due" data-i18n="inv_due_label">Due date</label><input id="inv-due" type="date"></div>
+        <h3 style="font-size:14px;font-weight:600;color:var(--sage-d);margin:16px 0 12px" data-i18n="inv_line_items">Line items</h3>
         <div id="inv-lines"></div>
-        <button onclick="addInvLine()" class="btn-outline" style="margin-bottom:16px"><i class="ti ti-plus" style="vertical-align:-2px;margin-right:4px" aria-hidden="true"></i> Add line item</button>
+        <button onclick="addInvLine()" class="btn-outline" style="margin-bottom:16px"><i class="ti ti-plus" style="vertical-align:-2px;margin-right:4px" aria-hidden="true"></i> <span data-i18n="inv_add_line">Add line item</span></button>
         <div class="frow">
           <div class="field">
-            <label for="inv-premium-toggle">Apply premium / markup?</label>
+            <label for="inv-premium-toggle" data-i18n="inv_premium_label">Apply premium / markup?</label>
             <select id="inv-premium-toggle" onchange="document.getElementById('inv-premium-field').style.display=this.value==='yes'?'block':'none'">
-              <option value="no">No premium</option>
-              <option value="yes">Yes — add a percentage</option>
+              <option value="no" data-i18n="inv_premium_no">No premium</option>
+              <option value="yes" data-i18n="inv_premium_yes">Yes — add a percentage</option>
             </select>
           </div>
           <div class="field" id="inv-premium-field" style="display:none">
-            <label for="inv-premium-pct">Premium %</label>
+            <label for="inv-premium-pct" data-i18n="inv_premium_pct_label">Premium %</label>
             <input id="inv-premium-pct" type="number" placeholder="25">
           </div>
         </div>
         <div class="frow">
           <div class="field">
-            <label for="inv-tax-toggle">Include sales tax?</label>
+            <label for="inv-tax-toggle" data-i18n="inv_tax_label">Include sales tax?</label>
             <select id="inv-tax-toggle">
-              <option value="no">No — exempt or not registered</option>
-              <option value="yes">Yes — include sales tax</option>
+              <option value="no" data-i18n="inv_tax_no">No — exempt or not registered</option>
+              <option value="yes" data-i18n="inv_tax_yes">Yes — include sales tax</option>
             </select>
           </div>
           <div class="field" id="inv-tax-rate-field" style="display:none">
-            <label for="inv-tax-pct">Tax rate %</label>
+            <label for="inv-tax-pct" data-i18n="inv_tax_rate_label">Tax rate %</label>
             <input id="inv-tax-pct" type="number" value="13">
           </div>
         </div>
         <div class="field" id="inv-tax-reg-field" style="display:none">
-          <label for="inv-tax-reg">Tax registration number</label>
-          <input id="inv-tax-reg" type="text" placeholder="123456789 RT0001">
+          <label for="inv-tax-reg" data-i18n="inv_tax_reg_label">Tax registration number</label>
+          <input id="inv-tax-reg" type="text" placeholder="123456789 RT0001" data-i18n-ph="inv_tax_reg_ph">
         </div>
         <div class="field">
-          <label for="inv-payment-note">Payment instructions</label>
-          <input id="inv-payment-note" type="text" placeholder="e-Transfer to you@email.com within 30 days">
+          <label for="inv-payment-note" data-i18n="inv_payment_label">Payment instructions</label>
+          <input id="inv-payment-note" type="text" placeholder="e-Transfer to you@email.com within 30 days" data-i18n-ph="inv_payment_ph">
         </div>
-        <button class="btn btn-p" onclick="previewInvoice()" style="margin-top:4px">Preview invoice</button>
+        <button class="btn btn-p" onclick="previewInvoice()" style="margin-top:4px" data-i18n="inv_preview_btn">Preview invoice</button>
       </div>
       <div id="inv-preview-section" style="display:none">
-        <div class="sec-label">Preview</div>
+        <div class="sec-label" data-i18n="inv_preview_label">Preview</div>
         <div class="invoice-preview" id="inv-preview"></div>
         <div style="padding:0 14px 24px">
-          <p style="font-size:12px;color:var(--muted);margin-bottom:10px">To save as PDF: tap the share/print button in your browser and choose "Save as PDF" or "Print to PDF".</p>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:10px" data-i18n="inv_save_pdf_note">To save as PDF: tap the share/print button in your browser and choose "Save as PDF" or "Print to PDF".</p>
         </div>
       </div>
     </div>
 
     <!-- SETTINGS -->
     <div class="page" id="page-settings" role="region" aria-label="Settings">
-      <div class="sec-label">Settings</div>
+      <div class="sec-label" data-i18n="settings_page_title">Settings</div>
       <div class="set-group">
-        <h2>Display</h2>
-        <div class="set-row"><span class="set-label">Learning mode</span><label class="toggle" aria-label="Learning mode"><input type="checkbox" id="learn-tog" checked onchange="saveS()"><div class="t-track"></div><div class="t-thumb"></div></label></div>
-        <p style="font-size:12px;color:var(--muted);padding:6px 0 10px">Show helpful explanations throughout the app. Turn off once you know the system.</p>
+        <h2 data-i18n="set_h_display">Display</h2>
+        <div class="set-row"><span class="set-label" data-i18n="set_learning_mode">Learning mode</span><label class="toggle" aria-label="Learning mode"><input type="checkbox" id="learn-tog" checked onchange="saveS()"><div class="t-track"></div><div class="t-thumb"></div></label></div>
+        <p style="font-size:12px;color:var(--muted);padding:6px 0 10px" data-i18n="set_learning_desc">Show helpful explanations throughout the app. Turn off once you know the system.</p>
       </div>
       <div class="set-group">
-        <h2>Your accounts</h2>
-        <p style="font-size:12px;color:var(--muted);padding:0 0 10px">Optional — just for your reference. Helps you remember which account is which when the app says "move to your set-aside account."</p>
-        <div class="field"><label for="acct-chequing">Chequing account</label><input id="acct-chequing" type="text" placeholder="e.g. TD Chequing" oninput="saveAcctNames()"></div>
-        <div class="field"><label for="acct-setaside">Set-aside account (high-interest savings)</label><input id="acct-setaside" type="text" placeholder="e.g. EQ Bank HISA, Tangerine Savings" oninput="saveAcctNames()"></div>
-        <div class="field" style="margin-bottom:0"><label for="acct-invest">Investment account</label><input id="acct-invest" type="text" placeholder="e.g. Wealthsimple RRSP, Questrade TFSA" oninput="saveAcctNames()"></div>
+        <h2 data-i18n="settings_tips_section">Tips</h2>
+        <button class="btn-outline" onclick="replayAllTips()" data-i18n="settings_replay_tips" style="margin-bottom:8px">Replay tips</button>
+        <button class="btn-outline" onclick="openTour()" data-i18n="settings_guided_tour" style="margin-bottom:8px">Take the guided tour</button>
+        <button class="btn-outline" onclick="openOv('readiness-modal')" data-i18n="set_readiness_btn">Account setup guide</button>
       </div>
       <div class="set-group">
-        <h2>Monthly costs</h2>
-        <div class="set-row"><span class="set-label">Total baseline</span><span class="set-val" id="set-base">$0</span></div>
-        <button class="btn-outline" onclick="openOv('exp-modal')">Edit monthly costs</button>
+        <h2 data-i18n="settings_language">Language</h2>
+        <div class="set-row"><span class="set-label" data-i18n="settings_language">Language</span><span class="set-val" id="set-lang">English</span></div>
+        <button class="btn-outline" onclick="openLangPicker()" data-i18n="settings_change_language">Change language</button>
       </div>
       <div class="set-group">
-        <h2>Tax settings</h2>
-        <div class="set-row"><span class="set-label">Currency symbol</span><span class="set-val" id="set-currency">$</span></div>
-        <div class="set-row"><span class="set-label">Tax set-aside</span><span class="set-val" id="set-tax">32%</span></div>
-        <div class="set-row"><span class="set-label">Sales tax rate</span><span class="set-val" id="set-hst">13%</span></div>
+        <h2 data-i18n="set_h_accounts">Your accounts</h2>
+        <p style="font-size:12px;color:var(--muted);padding:0 0 10px" data-i18n="set_accounts_note">Optional — just for your reference. Helps you remember which account is which when the app says "move to your set-aside account."</p>
+        <div class="field"><label for="acct-chequing" data-i18n="set_chequing_label">Chequing account</label><input id="acct-chequing" type="text" placeholder="e.g. TD Chequing" data-i18n-ph="set_chequing_ph" oninput="saveAcctNames()"></div>
+        <div class="field"><label for="acct-setaside" data-i18n="set_setaside_label">Set-aside account (high-interest savings)</label><input id="acct-setaside" type="text" placeholder="e.g. EQ Bank HISA, Tangerine Savings" data-i18n-ph="set_setaside_ph" oninput="saveAcctNames()"></div>
+        <div class="field" style="margin-bottom:0"><label for="acct-invest" data-i18n="set_invest_label">Investment account</label><input id="acct-invest" type="text" placeholder="e.g. Wealthsimple RRSP, Questrade TFSA" data-i18n-ph="set_invest_ph" oninput="saveAcctNames()"></div>
+      </div>
+      <div class="set-group">
+        <h2 data-i18n="set_h_monthly_costs">Monthly costs</h2>
+        <div class="set-row"><span class="set-label" data-i18n="set_total_baseline">Total baseline</span><span class="set-val" id="set-base">$0</span></div>
+        <button class="btn-outline" onclick="openOv('exp-modal')" data-i18n="set_edit_costs">Edit monthly costs</button>
+      </div>
+      <div class="set-group">
+        <h2 data-i18n="set_h_tax">Tax settings</h2>
+        <div class="set-row"><span class="set-label" data-i18n="set_currency_label">Currency symbol</span><span class="set-val" id="set-currency">$</span></div>
+        <div class="set-row"><span class="set-label" data-i18n="set_taxsetaside_label">Tax set-aside</span><span class="set-val" id="set-tax">32%</span></div>
+        <div class="set-row"><span class="set-label" data-i18n="set_salestax_rate_label">Sales tax rate</span><span class="set-val" id="set-hst">13%</span></div>
   
-        <button class="btn-outline" onclick="openOv('tax-modal')">Edit tax settings</button>
+        <button class="btn-outline" onclick="openOv('tax-modal')" data-i18n="set_edit_tax">Edit tax settings</button>
       </div>
       <div class="set-group">
-        <h2>Fun fund</h2>
-        <div class="set-row"><span class="set-label">Carry over unspent amount</span><label class="toggle" aria-label="Carry over fun fund"><input type="checkbox" id="carry-tog" onchange="saveS()"><div class="t-track"></div><div class="t-thumb"></div></label></div>
-        <p style="font-size:12px;color:var(--muted);padding:6px 0 10px">When off, your fun fund resets each month to last month's enjoy-life allocations.</p>
-      </div>
-      <div class="set-group">
-        <h2>Buffer month</h2>
-        <div class="set-row"><span class="set-label">I maintain a buffer month</span><label class="toggle" aria-label="Buffer month"><input type="checkbox" id="buf-tog" onchange="saveS()"><div class="t-track"></div><div class="t-thumb"></div></label></div>
-        <p style="font-size:12px;color:var(--muted);padding:6px 0 10px">This is a reminder toggle for your own reference — it doesn't change calculations. If you pay yourself from last month's income on the 1st, log it as a regular gig with that date. The baseline check works the same way.</p>
+        <button onclick="toggleAdvancedSettings()" style="width:100%;display:flex;align-items:center;justify-content:space-between;background:none;border:none;padding:0;cursor:pointer">
+          <h2 style="margin-bottom:0" data-i18n="set_h_advanced">Advanced settings</h2>
+          <i class="ti ti-chevron-down" id="adv-chevron" style="color:var(--muted);transition:transform .15s" aria-hidden="true"></i>
+        </button>
+        <div id="adv-settings-body" style="display:none;margin-top:10px">
+          <div class="set-row"><span class="set-label" data-i18n="set_carryover_label">Carry over unspent amount</span><label class="toggle" aria-label="Carry over fun fund"><input type="checkbox" id="carry-tog" onchange="saveS()"><div class="t-track"></div><div class="t-thumb"></div></label></div>
+          <p style="font-size:12px;color:var(--muted);padding:6px 0 0" data-i18n="set_carryover_desc">When off, your fun fund resets each month to last month's enjoy-life allocations.</p>
+        </div>
       </div>
       <div class="set-group" style="padding-bottom:30px">
-        <h2>Savings goals</h2>
+        <h2 data-i18n="set_h_savings_goals">Savings goals</h2>
         <div id="set-bkts"></div>
-        <button class="btn-outline" onclick="openOv('bkt-modal')">Edit savings goals</button>
+        <button class="btn-outline" onclick="openOv('bkt-modal')" data-i18n="set_edit_savings">Edit savings goals</button>
       </div>
       <div class="set-group">
-        <h2>Account balances</h2>
-        <p style="font-size:12px;color:var(--muted);padding:0 0 10px">Enter your current balances to calculate your months of coverage (runway). Update whenever you like.</p>
+        <h2 data-i18n="set_h_balances">Account balances</h2>
+        <p style="font-size:12px;color:var(--muted);padding:0 0 10px" data-i18n="set_balances_desc">Enter your current balances to calculate your months of coverage (runway). Update whenever you like.</p>
         <div class="frow" style="margin-bottom:8px">
-          <div class="field" style="margin-bottom:0"><label for="bal-chk">Checking ($)</label><input id="bal-chk" type="number" placeholder="0" oninput="saveBalances()"></div>
-          <div class="field" style="margin-bottom:0"><label for="bal-sav">Savings / HISA ($)</label><input id="bal-sav" type="number" placeholder="0" oninput="saveBalances()"></div>
+          <div class="field" style="margin-bottom:0"><label for="bal-chk" data-i18n="set_checking_label">Checking ($)</label><input id="bal-chk" type="number" placeholder="0" oninput="saveBalances()"></div>
+          <div class="field" style="margin-bottom:0"><label for="bal-sav" data-i18n="set_savings_setaside_label">Savings / set-aside account ($)</label><input id="bal-sav" type="number" placeholder="0" oninput="saveBalances()"></div>
         </div>
         <div class="frow">
-          <div class="field" style="margin-bottom:0"><label for="bal-tfsa">Tax-free savings ($)</label><input id="bal-tfsa" type="number" placeholder="0" oninput="saveBalances()"></div>
-          <div class="field" style="margin-bottom:0"><label for="bal-inv">Investment accounts ($)</label><input id="bal-inv" type="number" placeholder="0" oninput="saveBalances()"></div>
+          <div class="field" style="margin-bottom:0"><label for="bal-tfsa" data-i18n="set_tfsa_label">Tax-free savings ($)</label><input id="bal-tfsa" type="number" placeholder="0" oninput="saveBalances()"></div>
+          <div class="field" style="margin-bottom:0"><label for="bal-inv" data-i18n="set_invest_accounts_label">Investment accounts ($)</label><input id="bal-inv" type="number" placeholder="0" oninput="saveBalances()"></div>
         </div>
       </div>
       <div class="set-group">
-        <h2>Debt balances</h2>
-        <p style="font-size:12px;color:var(--muted);padding:0 0 10px">Track what you owe so the momentum chart shows your payoff progress.</p>
-        <div class="field"><label for="debt-cc">Credit card total owing ($)</label><input id="debt-cc" type="number" placeholder="0" oninput="saveBalances()"></div>
-        <div class="field" style="margin-bottom:0"><label for="debt-loan">Other debt ($)</label><input id="debt-loan" type="number" placeholder="0" oninput="saveBalances()"></div>
+        <h2 data-i18n="set_h_debt">Debt balances</h2>
+        <p style="font-size:12px;color:var(--muted);padding:0 0 10px" data-i18n="set_debt_desc">Track what you owe so the momentum chart shows your payoff progress.</p>
+        <div class="field"><label for="debt-cc" data-i18n="set_cc_owing_label">Credit card total owing ($)</label><input id="debt-cc" type="number" placeholder="0" oninput="saveBalances()"></div>
+        <div class="field" style="margin-bottom:0"><label for="debt-loan" data-i18n="debt_loan_label">Other debt ($)</label><input id="debt-loan" type="number" placeholder="0" oninput="saveBalances()"></div>
       </div>
       <div class="set-group">
-        <h2>Self-loan</h2>
-        <p style="font-size:12px;color:var(--muted);padding:0 0 10px">Money you've borrowed from yourself — out of savings or investing surplus, to be repaid on your own terms. Tracked separately because you owe it to yourself, not a creditor.</p>
-        <div class="set-row"><span class="set-label">Currently owed to yourself</span><span class="set-val" id="set-selfloan">$0</span></div>
-        <div class="field" style="margin-top:10px;margin-bottom:0"><label for="selfloan-add">Add to self-loan owed ($)</label><input id="selfloan-add" type="number" placeholder="0"></div>
-        <button class="btn-outline" onclick="addSelfLoanLump()" style="margin-top:8px">Add this amount</button>
-        <button class="btn-outline" onclick="openBalanceOverride()" style="margin-top:8px">Set exact balances</button>
+        <h2 data-i18n="dash_selfloan_label">Self-loan</h2>
+        <p style="font-size:12px;color:var(--muted);padding:0 0 10px" data-i18n="set_selfloan_desc">Money you've borrowed from yourself — out of savings or investing surplus, to be repaid on your own terms. Tracked separately because you owe it to yourself, not a creditor.</p>
+        <div class="set-row"><span class="set-label" data-i18n="dash_owed_self">Currently owed to yourself</span><span class="set-val" id="set-selfloan">$0</span></div>
+        <div class="field" style="margin-top:10px;margin-bottom:0"><label for="selfloan-add" data-i18n="set_selfloan_add_label">Add to self-loan owed ($)</label><input id="selfloan-add" type="number" placeholder="0"></div>
+        <button class="btn-outline" onclick="addSelfLoanLump()" style="margin-top:8px" data-i18n="set_add_amount">Add this amount</button>
+        <button class="btn-outline" onclick="openBalanceOverride()" style="margin-top:8px" data-i18n="set_exact_balances">Set exact balances</button>
       </div>
       <div class="set-group" style="padding-bottom:30px">
-        <h2>Your data</h2>
-        <p style="font-size:12px;color:var(--muted);padding:6px 0 10px">Export your data to keep a backup or to transfer it to a future version of the app. Your data never leaves your device unless you export it.</p>
-        <button class="btn-outline" onclick="exportData()" style="margin-bottom:8px">Export my data (backup)</button>
-        <button class="btn-outline" onclick="document.getElementById('import-file').click()">Import data from backup</button>
+        <h2 data-i18n="set_h_data">Your data</h2>
+        <p style="font-size:12px;color:var(--muted);padding:6px 0 10px" data-i18n="set_data_desc">Export your data to keep a backup or to transfer it to a future version of the app. Your data never leaves your device unless you export it.</p>
+        <button class="btn-outline" onclick="exportData()" style="margin-bottom:8px" data-i18n="set_export_btn">Export my data (backup)</button>
+        <button class="btn-outline" onclick="document.getElementById('import-file').click()" data-i18n="set_import_btn">Import data from backup</button>
         <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(this)">
       </div>
       <div class="set-group" style="padding-bottom:36px">
-        <h2>Legal</h2>
-        <button class="btn-outline" onclick="openOv('terms-modal')">Terms &amp; disclaimer</button>
-        <button class="btn-outline" onclick="openOv('readiness-modal')" style="margin-top:8px">Account setup guide</button>
-        <p style="font-size:11px;color:var(--muted);text-align:center;padding-top:14px">artisticAutonomy™ — © 2026 Alejandro Céspedes. All rights reserved.</p>
+        <h2 data-i18n="set_h_legal">Legal</h2>
+        <button class="btn-outline" onclick="openOv('terms-modal')" data-i18n="set_terms_btn">Terms &amp; disclaimer</button>
+        <p style="font-size:11px;color:var(--muted);text-align:center;padding-top:14px" data-i18n="set_copyright">artisticAutonomy™ — © 2026 Alejandro Céspedes. All rights reserved.</p>
       </div>
     </div>
 
     <!-- HELP -->
     <div class="page" id="page-help" role="region" aria-label="How it works">
-      <button class="back-btn" onclick="showPage('dashboard')"><i class="ti ti-arrow-left" aria-hidden="true"></i> Back</button>
-      <div class="sec-label">How it works</div>
+      <button class="back-btn" onclick="showPage('dashboard')"><i class="ti ti-arrow-left" aria-hidden="true"></i> <span data-i18n="btn_back">Back</span></button>
+      <div class="sec-label" data-i18n="hiw_page_title">How it works</div>
       <div class="help-sec">
-        <h2>The core idea</h2>
-        <p>Every gig you earn goes through a simple sequence: government obligations first, then your baseline costs, then — only after those are covered — the rest is yours to allocate intentionally.</p>
-        <div class="help-term"><h3>1. Tax + dues → HISA immediately</h3><p>The moment a gig is logged, the government's portion is calculated and flagged for your high-interest savings account. It earns interest there until due — and stays separate so you are never tempted to spend it.</p></div>
-        <div class="help-term"><h3>2. Baseline covered first</h3><p>Your net income accumulates month by month. Only after it clears your baseline does the surplus unlock. This ensures your fixed costs are never at risk. To cover your baseline faster, consider growing your income — more gigs, higher-paying engagements, or a complementary income stream alongside your creative work. Many working musicians fund their art through parallel work that does not compromise it — it gives them the financial runway to do more of what they love.</p></div>
-        <div class="help-term"><h3>3. Surplus splits intentionally</h3><p>The surplus divides between enjoy-life, your savings buckets, and investing. You set the percentages and can change them anytime in Settings. Important: even when you have debt payments, the app always preserves a portion for enjoy-life and investing. This is intentional — the discipline of moving something forward on every payment, however small, is the habit that builds financial health over time. Debt is addressed through surplus, never by eliminating saving and investing entirely.</p></div>
-        <h2>The accounts that make this work</h2>
-        <p>You do not need to open everything at once — but having three separate accounts makes this system much cleaner in practice.</p>
-        <div class="help-term"><h3>Chequing — your transaction account</h3><p>Day-to-day spending flows through here. Keep only what you need for the current week. Everything else earns more interest elsewhere.</p></div>
-        <div class="help-term"><h3>Savings and HISA — your two holding accounts</h3><p>These serve different purposes. Your savings account is where your baseline sits between gigs — it feeds chequing as bills come in. Your HISA (High-Interest Savings Account) is where your tax set-aside, savings bucket allocations, and enjoy-life allocation park after each gig — earning interest while they wait. On the 1st of each month, your enjoy-life allocation moves from HISA back to savings, where it tops up chequing as you spend during the month. A HISA earns significantly more than a regular savings account — worth switching if you have not already.</p></div>
-        <div class="help-term"><h3>Investment account — your future account</h3><p>Where the invest portion goes and stays. Important: opening the account is step one, but the money needs to actually be invested once it lands there — placed into an index fund, ETF, or other vehicle. An account sitting in cash is not investing. This is a two-step process that many people miss. What you invest in is your decision — do your own research and speak with a professional about what is right for your specific situation. This app does not give investment advice.</p></div>
-        <h2>Setting your percentages</h2>
-        <p>Not sure what percentages to enter for your savings buckets? Here is a practical starting framework.</p>
-        <div class="help-term"><h3>The math is simple</h3><p>Annual goal ÷ annual freelance income = percentage per gig. If you earn roughly $30,000 as a freelancer and want to set aside $6,000 for a vacation, that is $6,000 ÷ $30,000 = 20%. Set your vacation bucket to 20% and each gig automatically moves 20% of its surplus toward that goal.</p></div>
-        <div class="help-term"><h3>Example — Canadian freelancer</h3><p>Annual income: $30,000. Vacation goal: $6,000 → 20%. TFSA contribution goal: $7,000 → 24%. Tax set-aside: 35% (covers income tax + pension contributions). After tax, vacation, and TFSA prep, roughly 50-55% of each surplus goes to investing or debt paydown — a healthy building-future percentage. Adjust to match your actual goals and local tax obligations. Your accountant can confirm the right tax rate for your situation.</p></div>
-        <div class="help-term"><h3>The gated surplus reminder</h3><p>These percentages apply only to your surplus — what is left after your monthly baseline is covered. If a gig does not clear the baseline gate, nothing splits yet. The full gig goes toward covering baseline first, and the splits open on the next gig that pushes you over.</p></div>
-        <h2>Your enjoy-life money flow</h2>
-        <div class="help-term"><h3>Where it goes and when</h3><p>Each gig's enjoy-life allocation parks in your HISA alongside the tax money — it earns interest while it waits. On the 1st of each month, move that amount back to your savings account. Then top up chequing from savings as you actually spend it during the month. The app shows your available spending money in the "Spending money this month" banner on the dashboard.</p></div>
+        <h2 data-i18n="hiw_h_core">The core idea</h2>
+        <p data-i18n="hiw_p_core">Every gig you earn goes through a simple sequence: government obligations first, then your baseline costs, then — only after those are covered — the rest is yours to allocate intentionally.</p>
+        <div class="help-term"><h3 data-i18n="hiw_h1">1. Tax + dues → set-aside account immediately</h3><p data-i18n="hiw_p1">The moment a gig is logged, the government's portion is calculated and flagged for your high-interest savings account. It earns interest there until due — and stays separate so you are never tempted to spend it.</p></div>
+        <div class="help-term"><h3 data-i18n="hiw_h2">2. Baseline covered first</h3><p data-i18n="hiw_p2">Your net income accumulates month by month. Only after it clears your baseline does the surplus unlock. This ensures your fixed costs are never at risk. To cover your baseline faster, consider growing your income — more gigs, higher-paying engagements, or a complementary income stream alongside your creative work. Many working musicians fund their art through parallel work that does not compromise it — it gives them the financial runway to do more of what they love.</p></div>
+        <div class="help-term"><h3 data-i18n="hiw_h3">3. Surplus splits intentionally</h3><p data-i18n="hiw_p3">The surplus divides between enjoy-life, your savings buckets, and investing. You set the percentages and can change them anytime in Settings. Important: even when you have debt payments, the app always preserves a portion for enjoy-life and investing. This is intentional — the discipline of moving something forward on every payment, however small, is the habit that builds financial health over time. Debt is addressed through surplus, never by eliminating saving and investing entirely.</p></div>
+        <h2 data-i18n="hiw_h_accounts">The accounts that make this work</h2>
+        <p data-i18n="hiw_p_accounts_intro">You do not need to open everything at once — but having three separate accounts makes this system much cleaner in practice.</p>
+        <div class="help-term"><h3 data-i18n="hiw_h_chequing">Chequing — your transaction account</h3><p data-i18n="hiw_p_chequing">Day-to-day spending flows through here. Keep only what you need for the current week. Everything else earns more interest elsewhere.</p></div>
+        <div class="help-term"><h3 data-i18n="hiw_h_savings">Savings and your set-aside account — your two holding accounts</h3><p data-i18n="hiw_p_savings">These serve different purposes. Your savings account is where your baseline sits between gigs — it feeds chequing as bills come in. Your set-aside account (a high-interest savings account, or the equivalent at your bank) is where your tax set-aside, savings bucket allocations, and enjoy-life allocation park after each gig — earning interest while they wait. On the 1st of each month, your enjoy-life allocation moves from the set-aside account back to savings, where it tops up chequing as you spend during the month. A high-interest set-aside account earns significantly more than a regular savings account — worth switching if you have not already.</p></div>
+        <div class="help-term"><h3 data-i18n="hiw_h_invest">Investment account — your future account</h3><p data-i18n="hiw_p_invest">Where the invest portion goes and stays. Important: opening the account is step one, but the money needs to actually be invested once it lands there — placed into an index fund, ETF, or other vehicle. An account sitting in cash is not investing. This is a two-step process that many people miss. What you invest in is your decision — do your own research and speak with a professional about what is right for your specific situation. This app does not give investment advice.</p></div>
+        <h2 data-i18n="hiw_h_percentages">Setting your percentages</h2>
+        <p data-i18n="hiw_p_percentages_intro">Not sure what percentages to enter for your savings buckets? Here is a practical starting framework.</p>
+        <div class="help-term"><h3 data-i18n="hiw_h_math">The math is simple</h3><p data-i18n="hiw_p_math">Annual goal ÷ annual freelance income = percentage per gig. If you earn roughly $30,000 as a freelancer and want to set aside $6,000 for a vacation, that is $6,000 ÷ $30,000 = 20%. Set your vacation bucket to 20% and each gig automatically moves 20% of its surplus toward that goal.</p></div>
+        <div class="help-term"><h3 data-i18n="hiw_h_example">Example — Canadian freelancer</h3><p data-i18n="hiw_p_example">Annual income: $30,000. Vacation goal: $6,000 → 20%. TFSA contribution goal: $7,000 → 24%. Tax set-aside: 35% (covers income tax + pension contributions). After tax, vacation, and TFSA prep, roughly 50-55% of each surplus goes to investing or debt paydown — a healthy building-future percentage. Adjust to match your actual goals and local tax obligations. Your accountant can confirm the right tax rate for your situation.</p></div>
+        <div class="help-term"><h3 data-i18n="hiw_h_gated_reminder">The gated surplus reminder</h3><p data-i18n="hiw_p_gated_reminder">These percentages apply only to your surplus — what is left after your monthly baseline is covered. If a gig does not clear the baseline gate, nothing splits yet. The full gig goes toward covering baseline first, and the splits open on the next gig that pushes you over.</p></div>
+        <h2 data-i18n="hiw_h_enjoy_flow">Your enjoy-life money flow</h2>
+        <div class="help-term"><h3 data-i18n="hiw_h_where">Where it goes and when</h3><p data-i18n="hiw_p_where">Each gig's enjoy-life allocation parks in your set-aside account alongside the tax money — it earns interest while it waits. On the 1st of each month, move that amount back to your savings account. Then top up chequing from savings as you actually spend it during the month. The app shows your available spending money in the "Spending money this month" banner on the dashboard.</p></div>
       </div>
     </div>
 
     <!-- GLOSSARY -->
     <div class="page" id="page-glossary" role="region" aria-label="Glossary">
-      <button class="back-btn" onclick="showPage('dashboard')"><i class="ti ti-arrow-left" aria-hidden="true"></i> Back</button>
-      <div class="sec-label">Glossary</div>
+      <button class="back-btn" onclick="showPage('dashboard')"><i class="ti ti-arrow-left" aria-hidden="true"></i> <span data-i18n="btn_back">Back</span></button>
+      <div class="sec-label" data-i18n="gloss_page_title">Glossary</div>
       <div class="help-sec">
-        <div class="help-term"><h3>HISA</h3><p>High-Interest Savings Account — a Canadian term for a savings account that pays significantly more interest than a standard account. If you are outside Canada, look for the equivalent at your bank: a high-yield savings account, notice account, or similar. The concept is the same: money earns interest while it waits, rather than sitting idle.</p></div>
-        <div class="help-term"><h3>Baseline</h3><p>Your total fixed monthly costs — rent, utilities, groceries, insurance, everything that goes out every month regardless of whether you worked. This is the number your income is measured against. Once covered, the surplus unlocks.</p></div>
-        <div class="help-term"><h3>Gated surplus</h3><p>The amount available to allocate toward savings and investing — but only after the baseline is fully covered for the month. The gate protects your fixed costs before anything else moves.</p></div>
-        <div class="help-term"><h3>Sales tax</h3><p>Tax collected from clients on behalf of the government, added on top of your fee. In Canada this is HST or GST. In Europe it is VAT. In Latin America, IVA. In Australia, GST. The concept and the app's handling of it are identical regardless of what your country calls it. Only applies if you are registered to collect it — check your local threshold.</p></div>
-        <div class="help-term"><h3>Work dues</h3><p>Fees paid to a professional association or union calculated as a percentage of your scale fee. In Canada this commonly applies to AFM (musicians' union) members. Outside Canada your equivalent might be the Musicians' Union (UK), ISMA, or another body. If you do not belong to a union or association, turn this off — it will not affect your calculations.</p></div>
-        <div class="help-term"><h3>Enjoy-life allocation</h3><p>A deliberate percentage of your surplus set aside for guilt-free spending. It parks in your HISA while it waits, then moves back to savings on the 1st of each month — ready to top up chequing as you actually spend it. Intentional enjoyment is part of a sustainable financial plan.</p></div>
-        <div class="help-term"><h3>Building future %</h3><p>The percentage of your net income over the last 90 days that went toward savings buckets or investing. Higher means more of your earnings are working for your future rather than passing through.</p></div>
-        <div class="help-term"><h3>Fun fund</h3><p>Last month's enjoy-life allocations, released on the 1st of this month as your spending ceiling. The app does not track what you spend it on — that is intentional. Any unspent amount either carries forward or resets, depending on your setting.</p></div>
-        <div class="help-term"><h3>Self-loan</h3><p>Money you borrowed from your own surplus — not from a creditor, but from your future savings or investing. Tracked separately because the obligation is to yourself, not a lender. Log it when you redirect surplus for an immediate need, and pay it back through future gigs when the situation allows.</p></div>
-        <div class="help-term"><h3>Tax set-aside</h3><p>The percentage you hold back from every gig to cover your income tax bill and pension contributions at year end. Your accountant can confirm the right number for your situation. If unsure: 32% is a reasonable starting point for most Canadian freelancers; 35% is safer if you want to avoid a surprise; outside Canada, research your self-employment tax rate — it is almost always higher than employees pay.</p></div>
+        <div class="help-term"><h3 data-i18n="gloss_h_setaside">Set-aside account</h3><p data-i18n="gloss_p_setaside">A high-interest savings account where your tax set-aside, savings buckets, and enjoy-life allocation park after each gig, earning interest while they wait. In Canada this is a HISA (High-Interest Savings Account); in the US, a HYSA (High-Yield Savings Account). If you are elsewhere, look for the equivalent at your bank: a high-yield savings account, notice account, or similar. The concept is the same everywhere: money earns interest while it waits, rather than sitting idle.</p></div>
+        <div class="help-term"><h3 data-i18n="gloss_h_baseline">Baseline</h3><p data-i18n="gloss_p_baseline">Your total fixed monthly costs — rent, utilities, groceries, insurance, everything that goes out every month regardless of whether you worked. This is the number your income is measured against. Once covered, the surplus unlocks.</p></div>
+        <div class="help-term"><h3 data-i18n="gloss_h_gated">Gated surplus</h3><p data-i18n="gloss_p_gated">The amount available to allocate toward savings and investing — but only after the baseline is fully covered for the month. The gate protects your fixed costs before anything else moves.</p></div>
+        <div class="help-term"><h3 data-i18n="gloss_h_salestax">Sales tax</h3><p data-i18n="gloss_p_salestax">Tax collected from clients on behalf of the government, added on top of your fee. In Canada this is HST or GST. In Europe it is VAT. In Latin America, IVA. In Australia, GST. The concept and the app's handling of it are identical regardless of what your country calls it. Only applies if you are registered to collect it — check your local threshold.</p></div>
+        <div class="help-term"><h3 data-i18n="gloss_h_workdues">Work dues</h3><p data-i18n="gloss_p_workdues">Fees paid to a professional association or union calculated as a percentage of your scale fee. In Canada this commonly applies to AFM (musicians' union) members. Outside Canada your equivalent might be the Musicians' Union (UK), ISMA, or another body. If you do not belong to a union or association, turn this off — it will not affect your calculations.</p></div>
+        <div class="help-term"><h3 data-i18n="gloss_h_enjoy">Enjoy-life allocation</h3><p data-i18n="gloss_p_enjoy">A deliberate percentage of your surplus set aside for guilt-free spending. It parks in your set-aside account while it waits, then moves back to savings on the 1st of each month — ready to top up chequing as you actually spend it. Intentional enjoyment is part of a sustainable financial plan.</p></div>
+        <div class="help-term"><h3 data-i18n="gloss_h_saved">Saved & invested</h3><p data-i18n="gloss_p_saved">The percentage of your net income over the last 90 days that went toward savings buckets or investing. Higher means more of your earnings are working for your future rather than passing through.</p></div>
+        <div class="help-term"><h3 data-i18n="gloss_h_funfund">Fun fund</h3><p data-i18n="gloss_p_funfund">Last month's enjoy-life allocations, released on the 1st of this month as your spending ceiling. The app does not track what you spend it on — that is intentional. Any unspent amount either carries forward or resets, depending on your setting.</p></div>
+        <div class="help-term"><h3 data-i18n="gloss_h_selfloan">Self-loan</h3><p data-i18n="gloss_p_selfloan">Money you borrowed from your own surplus — not from a creditor, but from your future savings or investing. Tracked separately because the obligation is to yourself, not a lender. Log it when you redirect surplus for an immediate need, and pay it back through future gigs when the situation allows.</p></div>
+        <div class="help-term"><h3 data-i18n="gloss_h_taxsetaside">Tax set-aside</h3><p data-i18n="gloss_p_taxsetaside">The percentage you hold back from every gig to cover your income tax bill and pension contributions at year end. Your accountant can confirm the right number for your situation. If unsure: 32% is a reasonable starting point for most Canadian freelancers; 35% is safer if you want to avoid a surprise; outside Canada, research your self-employment tax rate — it is almost always higher than employees pay.</p></div>
       </div>
     </div>
 
     <!-- GIG DETAIL -->
     <div class="page" id="page-detail" role="region" aria-label="Gig details">
-      <button class="back-btn" onclick="showPage('gigs')"><i class="ti ti-arrow-left" aria-hidden="true"></i> Back</button>
+      <button class="back-btn" onclick="showPage('gigs')"><i class="ti ti-arrow-left" aria-hidden="true"></i> <span data-i18n="btn_back">Back</span></button>
       <div id="det-content"></div>
     </div>
 
   </main>
 
   <nav class="nav" aria-label="Main navigation">
-    <button class="nav-btn active" id="nav-dashboard" onclick="showPage('dashboard')" aria-label="Dashboard"><i class="ti ti-layout-dashboard" aria-hidden="true"></i>Dashboard</button>
-    <button class="nav-btn" id="nav-gigs" onclick="showPage('gigs')" aria-label="Gig history"><i class="ti ti-music" aria-hidden="true"></i>Gigs</button>
-    <button class="nav-btn" id="nav-reports" onclick="showPage('reports')" aria-label="Reports & tools"><i class="ti ti-file-text" aria-hidden="true"></i>Reports</button>
+    <button class="nav-btn active" id="nav-dashboard" onclick="showPage('dashboard')" aria-label="Dashboard"><i class="ti ti-layout-dashboard" aria-hidden="true"></i><span data-i18n="nav_dashboard">Dashboard</span></button>
+    <button class="nav-btn" id="nav-gigs" onclick="showPage('gigs')" aria-label="Gig history"><i class="ti ti-music" aria-hidden="true"></i><span data-i18n="nav_gigs">Gigs</span></button>
+    <button class="nav-btn" id="nav-reports" onclick="showPage('reports')" aria-label="Reports & tools"><i class="ti ti-file-text" aria-hidden="true"></i><span data-i18n="nav_reports">Reports</span></button>
   </nav>
 
   <button class="fab" id="fab" style="display:none" onclick="openOv('gig-modal')" aria-label="Log a new gig" title="Log a gig">
@@ -505,7 +520,7 @@
     <button class="d-item" onclick="closeDrawer();showPage('settings')"><i class="ti ti-settings" aria-hidden="true"></i><div class="d-item-text"><h3>Settings</h3><p>Costs, tax rates, savings goals</p></div></button>
     <div class="d-sec">Learn</div>
     <button class="d-item" onclick="closeDrawer();showPage('help')"><i class="ti ti-info-circle" aria-hidden="true"></i><div class="d-item-text"><h3>How it works</h3><p>Understanding your numbers</p></div></button>
-    <button class="d-item" onclick="closeDrawer();showPage('glossary')"><i class="ti ti-book" aria-hidden="true"></i><div class="d-item-text"><h3>Glossary</h3><p>HISA, surplus, gated — explained</p></div></button>
+    <button class="d-item" onclick="closeDrawer();showPage('glossary')"><i class="ti ti-book" aria-hidden="true"></i><div class="d-item-text"><h3>Glossary</h3><p>Set-aside account, surplus, gated — explained</p></div></button>
     <div class="d-sec">Tools</div>
     <button class="d-item" onclick="closeDrawer();showPage('invoice')"><i class="ti ti-file-dollar" aria-hidden="true"></i><div class="d-item-text"><h3>Invoice generator</h3><p>Create a professional invoice — free</p></div></button>
   </div>
@@ -515,115 +530,115 @@
 <div class="overlay" id="gig-modal" role="dialog" aria-modal="true" aria-label="Log a gig" onclick="closeOvIf(event,'gig-modal')">
   <div class="sheet">
     <div class="drag" aria-hidden="true"></div>
-    <h2 class="m-title">Log a gig</h2>
-    <div class="field" id="f-date"><label for="g-date">Date</label><input id="g-date" type="date" onchange="document.getElementById('f-date').classList.remove('error');checkHistoricalToggle()"><span class="field-err">Please add a date</span></div>
-    <div class="field"><label for="g-status">Status</label><select id="g-status"><option value="Received">Received</option><option value="Pending">Pending</option></select></div>
+    <h2 class="m-title" data-i18n="gig_title">Log a gig</h2>
+    <div class="field" id="f-date"><label for="g-date" data-i18n="gig_date">Date</label><input id="g-date" type="date" onchange="document.getElementById('f-date').classList.remove('error');checkHistoricalToggle()"><span class="field-err" data-i18n="gig_date_err">Please add a date</span></div>
+    <div class="field"><label for="g-status" data-i18n="gig_status">Status</label><select id="g-status"><option value="Received" data-i18n="gig_status_received">Received</option><option value="Pending" data-i18n="gig_status_pending">Pending</option></select></div>
     <!-- Historical entry toggle — shown when date is in a past month -->
     <div id="historical-toggle-row" style="display:none;background:var(--gold-l);border-radius:var(--rs);padding:10px 12px;margin-bottom:10px">
       <div style="display:flex;align-items:center;justify-content:space-between">
         <div>
-          <div style="font-size:13px;font-weight:600;color:var(--gold-d)">Historical entry</div>
-          <div style="font-size:11px;color:var(--muted);margin-top:2px">Enter what actually happened instead of auto-calculating</div>
+          <div style="font-size:13px;font-weight:600;color:var(--gold-d)" id="tip-anchor-historical"><span data-i18n="gig_hist_toggle_label">Historical entry</span></div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px" data-i18n="hist_note">Enter what actually happened instead of auto-calculating</div>
         </div>
         <label class="toggle" aria-label="Historical entry mode"><input type="checkbox" id="g-historical" onchange="toggleHistoricalMode()"><div class="t-track"></div><div class="t-thumb"></div></label>
       </div>
     </div>
     <!-- Historical manual fields — shown when historical toggle is on -->
     <div id="historical-fields" style="display:none;background:var(--gold-l);border-radius:var(--rs);padding:12px;margin-bottom:10px">
-      <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--gold-d);margin-bottom:10px">What actually happened</div>
+      <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--gold-d);margin-bottom:10px" data-i18n="hist_what_happened">What actually happened</div>
       <div class="frow">
-        <div class="field" style="margin-bottom:8px"><label for="h-fee" style="color:var(--gold-d)">Scale fee ($)</label><input id="h-fee" type="number" placeholder="0"></div>
-        <div class="field" style="margin-bottom:8px"><label for="h-cart" style="color:var(--gold-d)">Cartage / tips ($)</label><input id="h-cart" type="number" placeholder="0"></div>
+        <div class="field" style="margin-bottom:8px"><label for="h-fee" style="color:var(--gold-d)" data-i18n="hist_scale_fee">Scale fee ($)</label><input id="h-fee" type="number" placeholder="0"></div>
+        <div class="field" style="margin-bottom:8px"><label for="h-cart" style="color:var(--gold-d)" data-i18n="hist_cartage">Cartage / tips ($)</label><input id="h-cart" type="number" placeholder="0"></div>
       </div>
       <div class="frow">
-        <div class="field" style="margin-bottom:8px"><label for="h-tax" style="color:var(--gold-d)">Tax set-aside ($)</label><input id="h-tax" type="number" placeholder="0" oninput="calcHistoricalHisa()"></div>
-        <div class="field" style="margin-bottom:8px"><label for="h-hst" style="color:var(--gold-d)">Sales tax ($)</label><input id="h-hst" type="number" placeholder="0" oninput="calcHistoricalHisa()"></div>
+        <div class="field" style="margin-bottom:8px"><label for="h-tax" style="color:var(--gold-d)" data-i18n="hist_tax">Tax set-aside ($)</label><input id="h-tax" type="number" placeholder="0" oninput="calcHistoricalHisa()"></div>
+        <div class="field" style="margin-bottom:8px"><label for="h-hst" style="color:var(--gold-d)" data-i18n="hist_hst">Sales tax ($)</label><input id="h-hst" type="number" placeholder="0" oninput="calcHistoricalHisa()"></div>
       </div>
       <div class="frow">
-        <div class="field" style="margin-bottom:8px"><label for="h-dues" style="color:var(--gold-d)">Work dues ($)</label><input id="h-dues" type="number" placeholder="0" oninput="calcHistoricalHisa()"></div>
-        <div class="field" style="margin-bottom:8px"><label for="h-net" style="color:var(--gold-d)">Net liquid ($)</label><input id="h-net" type="number" placeholder="0"></div>
+        <div class="field" style="margin-bottom:8px"><label for="h-dues" style="color:var(--gold-d)" data-i18n="hist_dues">Work dues ($)</label><input id="h-dues" type="number" placeholder="0" oninput="calcHistoricalHisa()"></div>
+        <div class="field" style="margin-bottom:8px"><label for="h-net" style="color:var(--gold-d)" data-i18n="hist_net">Net liquid ($)</label><input id="h-net" type="number" placeholder="0"></div>
       </div>
       <div class="frow">
-        <div class="field" style="margin-bottom:8px"><label for="h-enjoy" style="color:var(--gold-d)">Enjoy next month ($)</label><input id="h-enjoy" type="number" placeholder="0"></div>
-        <div class="field" style="margin-bottom:8px"><label for="h-invest" style="color:var(--gold-d)">Invested ($)</label><input id="h-invest" type="number" placeholder="0"></div>
+        <div class="field" style="margin-bottom:8px"><label for="h-enjoy" style="color:var(--gold-d)" data-i18n="hist_enjoy">Enjoy next month ($)</label><input id="h-enjoy" type="number" placeholder="0"></div>
+        <div class="field" style="margin-bottom:8px"><label for="h-invest" style="color:var(--gold-d)" data-i18n="hist_invest">Invested ($)</label><input id="h-invest" type="number" placeholder="0"></div>
       </div>
       <div class="frow">
-        <div class="field" style="margin-bottom:8px"><label for="h-cc" style="color:var(--gold-d)">Credit card paid ($)</label><input id="h-cc" type="number" placeholder="0"></div>
-        <div class="field" style="margin-bottom:8px"><label for="h-loan" style="color:var(--gold-d)">Other debt paid ($)</label><input id="h-loan" type="number" placeholder="0"></div>
+        <div class="field" style="margin-bottom:8px"><label for="h-cc" style="color:var(--gold-d)" data-i18n="hist_cc">Credit card paid ($)</label><input id="h-cc" type="number" placeholder="0"></div>
+        <div class="field" style="margin-bottom:8px"><label for="h-loan" style="color:var(--gold-d)" data-i18n="hist_loan">Other debt paid ($)</label><input id="h-loan" type="number" placeholder="0"></div>
       </div>
       <div class="frow">
-        <div class="field" style="margin-bottom:8px"><label for="h-sl-borrow" style="color:var(--gold-d)">Self-loan borrowed ($)</label><input id="h-sl-borrow" type="number" placeholder="0"></div>
-        <div class="field" style="margin-bottom:8px"><label for="h-sl-repay" style="color:var(--gold-d)">Self-loan repaid ($)</label><input id="h-sl-repay" type="number" placeholder="0"></div>
+        <div class="field" style="margin-bottom:8px"><label for="h-sl-borrow" style="color:var(--gold-d)" data-i18n="hist_sl_borrow">Self-loan borrowed ($)</label><input id="h-sl-borrow" type="number" placeholder="0"></div>
+        <div class="field" style="margin-bottom:8px"><label for="h-sl-repay" style="color:var(--gold-d)" data-i18n="hist_sl_repay">Self-loan repaid ($)</label><input id="h-sl-repay" type="number" placeholder="0"></div>
       </div>
       <div class="field" style="margin-bottom:8px">
-        <label for="h-type" style="color:var(--gold-d)">Income type</label>
+        <label for="h-type" style="color:var(--gold-d)" data-i18n="hist_income_type">Income type</label>
         <select id="h-type" style="width:100%;padding:11px 12px;border:1.5px solid var(--border);border-radius:var(--rs);font-size:15px;font-family:var(--font);outline:none">
-          <option value="Freelance">Self-employed / Freelance</option>
-          <option value="Employment">Employment (T4 — tax at source)</option>
-          <option value="Other">Other</option>
+          <option value="Freelance" data-i18n="hist_type_freelance">Self-employed / Freelance</option>
+          <option value="Employment" data-i18n="hist_type_employment">Employment (T4 — tax at source)</option>
+          <option value="Other" data-i18n="hist_type_other">Other</option>
         </select>
       </div>
-      <div class="field" style="margin-bottom:8px"><label for="h-notes" style="color:var(--gold-d)">Notes</label><input id="h-notes" type="text" placeholder="e.g. T4, HST not collected, cash payment..."></div>
+      <div class="field" style="margin-bottom:8px"><label for="h-notes" style="color:var(--gold-d)" data-i18n="hist_notes">Notes</label><input id="h-notes" type="text" placeholder="e.g. T4, HST not collected, cash payment..." data-i18n-ph="hist_notes_ph"></div>
       <div id="h-hisa-preview" style="background:var(--sage);border-radius:var(--rs);padding:10px 12px;text-align:center;margin-top:4px;display:none">
-        <div style="font-size:11px;color:var(--cream)">HISA transfer (tax + dues)</div>
+        <div style="font-size:11px;color:var(--cream)" data-i18n="hist_transfer_header">Set-aside account transfer (tax + dues)</div>
         <div style="font-size:20px;font-weight:700;color:var(--gold)" id="h-hisa-amt">$0</div>
       </div>
     </div>
-    <div class="field" id="f-name"><label for="g-name">Description</label><input id="g-name" type="text" placeholder="e.g. Concert, rehearsal, performance, event" oninput="document.getElementById('f-name').classList.remove('error')"><span class="field-err">Please add a description</span></div>
-    <div class="field" id="f-payer"><label for="g-payer">Payer</label><input id="g-payer" type="text" placeholder="Organization or person" oninput="document.getElementById('f-payer').classList.remove('error')"><span class="field-err">Please add the payer</span></div>
+    <div class="field" id="f-name"><label for="g-name" data-i18n="gig_desc">Description</label><input id="g-name" type="text" placeholder="e.g. Concert, rehearsal, performance, event" data-i18n-ph="gig_desc_ph" oninput="document.getElementById('f-name').classList.remove('error')"><span class="field-err" data-i18n="gig_desc_err">Please add a description</span></div>
+    <div class="field" id="f-payer"><label for="g-payer" data-i18n="gig_payer">Payer</label><input id="g-payer" type="text" placeholder="Organization or person" data-i18n-ph="gig_payer_ph" oninput="document.getElementById('f-payer').classList.remove('error')"><span class="field-err" data-i18n="gig_payer_err">Please add the payer</span></div>
     <div id="main-gig-fields">
-    <div class="field"><label for="g-type">Income type</label><select id="g-type" onchange="updateGigTypeDefaults()"><option value="Freelance">Self-employed / freelance</option><option value="Employment">Employment (tax deducted at source)</option><option value="Other">Other</option></select></div>
+    <div class="field"><label for="g-type" data-i18n="gig_income_type">Income type</label><select id="g-type" onchange="updateGigTypeDefaults()"><option value="Freelance" data-i18n="gig_type_freelance">Self-employed / freelance</option><option value="Employment" data-i18n="gig_type_employment">Employment (tax deducted at source)</option><option value="Other" data-i18n="gig_type_other">Other</option></select></div>
     <!-- Optional: enter check amount to reverse-calculate scale fee -->
     <div style="background:var(--sage-l);border-radius:var(--rs);padding:10px 12px;margin-bottom:8px">
-      <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--sage);margin-bottom:6px">Check amount helper (optional)</div>
+      <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--sage);margin-bottom:6px" data-i18n="check_helper_title">Check amount helper (optional)</div>
       <div style="display:flex;gap:8px;align-items:flex-end">
-        <div class="field" style="flex:1;margin-bottom:0"><label for="g-check-amt">Amount on check</label><input id="g-check-amt" type="number" placeholder="0.00" oninput="reverseCalcFee()" style="font-size:14px"></div>
-        <div style="flex:1;padding-bottom:2px"><div style="font-size:11px;color:var(--muted);margin-bottom:3px">Calculated scale fee</div><div id="g-check-result" style="font-size:15px;font-weight:600;color:var(--sage-d);padding:11px 12px;background:var(--white);border-radius:var(--rs);border:1.5px solid var(--border)">—</div></div>
+        <div class="field" style="flex:1;margin-bottom:0"><label for="g-check-amt" data-i18n="check_amount_label">Amount on check</label><input id="g-check-amt" type="number" placeholder="0.00" oninput="reverseCalcFee()" style="font-size:14px"></div>
+        <div style="flex:1;padding-bottom:2px"><div style="font-size:11px;color:var(--muted);margin-bottom:3px" data-i18n="check_calc_label">Calculated scale fee</div><div id="g-check-result" style="font-size:15px;font-weight:600;color:var(--sage-d);padding:11px 12px;background:var(--white);border-radius:var(--rs);border:1.5px solid var(--border)">—</div></div>
       </div>
-      <p style="font-size:11px;color:var(--muted);margin-top:6px">Enter the payment received and the scale fee will be estimated. Confirm it matches your invoice, then it auto-fills below.</p>
+      <p style="font-size:11px;color:var(--muted);margin-top:6px" data-i18n="check_helper_note">Enter the payment received and the scale fee will be estimated. Confirm it matches your invoice, then it auto-fills below.</p>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-      <div class="field" id="f-fee"><label for="g-fee">Scale fee</label><input id="g-fee" type="number" placeholder="—" oninput="calcGigModal();document.getElementById('f-fee').classList.remove('error')" style="font-size:14px"><span class="field-err">Please add a scale fee</span></div>
-      <div class="field"><label for="g-cart">Cartage / tips ($)</label><input id="g-cart" type="number" placeholder="0.00" oninput="calcGigModal()" style="font-size:14px"></div>
+      <div class="field" id="f-fee"><label for="g-fee" data-i18n="gig_scale_fee">Scale fee</label><input id="g-fee" type="number" placeholder="—" oninput="this.dataset.autofilled='';calcGigModal();document.getElementById('f-fee').classList.remove('error')" style="font-size:14px"><span class="field-err" data-i18n="gig_scale_fee_err">Please add a scale fee</span></div>
+      <div class="field"><label for="g-cart" data-i18n="gig_cartage">Cartage / tips ($)</label><input id="g-cart" type="number" placeholder="0.00" oninput="calcGigModal()" style="font-size:14px"></div>
     </div>
     <div style="background:var(--sage-l);border-radius:var(--rs);padding:10px 12px;margin-bottom:10px">
       <div style="display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(74,102,91,.1)">
-        <span style="font-size:13px;color:var(--muted)">Apply sales tax to this gig</span>
+        <span style="font-size:13px;color:var(--muted)" data-i18n="apply_sales_tax">Apply sales tax to this gig</span>
         <label class="toggle" aria-label="Apply sales tax"><input type="checkbox" id="g-hst" onchange="calcGigModal()"><div class="t-track"></div><div class="t-thumb"></div></label>
       </div>
       <div style="display:flex;align-items:center;justify-content:space-between;padding:5px 0">
-        <span style="font-size:13px;color:var(--muted)">Apply work dues to this gig</span>
+        <span style="font-size:13px;color:var(--muted)" data-i18n="apply_work_dues">Apply work dues to this gig</span>
         <label class="toggle" aria-label="Apply work dues"><input type="checkbox" id="g-dues" checked onchange="calcGigModal()"><div class="t-track"></div><div class="t-thumb"></div></label>
       </div>
     </div>
     <div style="background:var(--red-l);border-radius:var(--rs);padding:10px 12px;margin-bottom:10px">
-      <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--red);margin-bottom:8px">Debt payments from this gig (optional)</div>
+      <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--red);margin-bottom:8px" data-i18n="debt_payments_title">Debt payments from this gig (optional)</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-        <div class="field" style="margin-bottom:0"><label for="g-cc-pay" style="color:var(--red)">Credit card ($)</label><input id="g-cc-pay" type="number" placeholder="0" style="font-size:13px" oninput="calcGigModal()"></div>
-        <div class="field" style="margin-bottom:0"><label for="g-loan-pay" style="color:var(--gold-d)">Other debt ($)</label><input id="g-loan-pay" type="number" placeholder="0" style="font-size:13px" oninput="calcGigModal()"></div>
+        <div class="field" style="margin-bottom:0"><label for="g-cc-pay" style="color:var(--red)" data-i18n="debt_cc_label">Credit card ($)</label><input id="g-cc-pay" type="number" placeholder="0" style="font-size:13px" oninput="calcGigModal()"></div>
+        <div class="field" style="margin-bottom:0"><label for="g-loan-pay" style="color:var(--gold-d)" data-i18n="debt_loan_label">Other debt ($)</label><input id="g-loan-pay" type="number" placeholder="0" style="font-size:13px" oninput="calcGigModal()"></div>
       </div>
-      <p style="font-size:11px;color:var(--red);margin-top:6px">Comes out of this gig's surplus, the same money that would otherwise go to enjoy-life, savings, or investing.</p>
+      <p style="font-size:11px;color:var(--red);margin-top:6px" data-i18n="debt_note">Comes out of this gig's surplus, the same money that would otherwise go to enjoy-life, savings, or investing.</p>
     </div>
     <div style="background:var(--gold-l);border-radius:var(--rs);padding:10px 12px;margin-bottom:10px">
-      <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--gold-d);margin-bottom:8px">Self-loan (optional)</div>
+      <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--gold-d);margin-bottom:8px" data-i18n="selfloan_title">Self-loan (optional)</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-        <div class="field" style="margin-bottom:0"><label for="g-selfloan-borrow" style="color:var(--gold-d)">Borrow from this gig ($)</label><input id="g-selfloan-borrow" type="number" placeholder="0" style="font-size:13px" oninput="calcGigModal()"></div>
-        <div class="field" style="margin-bottom:0"><label for="g-selfloan-repay" style="color:var(--gold-d)">Pay yourself back ($)</label><input id="g-selfloan-repay" type="number" placeholder="0" style="font-size:13px" oninput="calcGigModal()"></div>
+        <div class="field" style="margin-bottom:0"><label for="g-selfloan-borrow" style="color:var(--gold-d)" data-i18n="selfloan_borrow_label">Borrow from this gig ($)</label><input id="g-selfloan-borrow" type="number" placeholder="0" style="font-size:13px" oninput="calcGigModal()"></div>
+        <div class="field" style="margin-bottom:0"><label for="g-selfloan-repay" style="color:var(--gold-d)" data-i18n="selfloan_repay_label">Pay yourself back ($)</label><input id="g-selfloan-repay" type="number" placeholder="0" style="font-size:13px" oninput="calcGigModal()"></div>
       </div>
-      <p id="sl-tip" style="font-size:11px;color:var(--gold-d);margin-top:6px">Money you owe yourself, separate from debt to a creditor. Borrowing comes out of this gig's surplus — money already earmarked for savings or investing. "Pay yourself back" reduces what you owe yourself, the same way debt payments reduce what you owe a creditor.</p>
+      <p id="sl-tip" style="font-size:11px;color:var(--gold-d);margin-top:6px" data-i18n="selfloan_tip">Money you owe yourself, separate from debt to a creditor. Borrowing comes out of this gig's surplus — money already earmarked for savings or investing. "Pay yourself back" reduces what you owe yourself, the same way debt payments reduce what you owe a creditor.</p>
     </div>
-    <div class="field"><label for="g-notes">Notes (optional)</label><input id="g-notes" type="text" placeholder="Any notes about this gig"></div>
+    <div class="field"><label for="g-notes" data-i18n="gig_notes">Notes (optional)</label><input id="g-notes" type="text" placeholder="Any notes about this gig" data-i18n-ph="gig_notes_ph"></div>
     </div><!-- end main-gig-fields -->
     <div id="gig-split-area" style="display:none">
-      <div class="split-prev"><div class="split-ttl">Where this goes</div><div id="gig-split-rows"></div></div>
+      <div class="split-prev"><div class="split-ttl" data-i18n="split_where">Where this goes</div><div id="gig-split-rows"></div></div>
       <div class="hisa-box">
         <h3 id="hm-acct-header">Move to your set-aside account now</h3>
         <div class="hisa-amt" id="gig-hisa-amt">$0</div>
-        <p class="hisa-tip" id="gig-hisa-tip">Tax set-aside + pension contributions. Park this in your high-interest savings account — it earns interest until it's due and stays separate so it's not tempting to spend.</p>
+        <p class="hisa-tip" id="gig-hisa-tip" data-i18n="gig_hisa_tip">Tax set-aside + pension contributions. Park this in your high-interest savings account — it earns interest until it's due and stays separate so it's not tempting to spend.</p>
       </div>
     </div>
-    <button class="btn btn-p" onclick="saveGig()">Add gig</button>
-    <button class="btn btn-g" onclick="closeOv('gig-modal')">Cancel</button>
+    <button class="btn btn-p" onclick="saveGig()" data-i18n="btn_add_gig">Add gig</button>
+    <button class="btn btn-g" onclick="closeOv('gig-modal')" data-i18n="btn_cancel">Cancel</button>
   </div>
 </div>
 
@@ -634,12 +649,12 @@
     <div style="width:52px;height:52px;background:var(--sage);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px" aria-hidden="true">
       <i class="ti ti-check" style="color:white;font-size:24px"></i>
     </div>
-    <h2 style="font-size:17px;font-weight:600;color:var(--sage-d);margin-bottom:5px">Gig logged</h2>
+    <h2 style="font-size:17px;font-weight:600;color:var(--sage-d);margin-bottom:5px" data-i18n="gig_logged_title">Gig logged</h2>
     <p style="font-size:13px;color:var(--muted);margin-bottom:16px" id="hm-sub">One thing to do now.</p>
     <div class="hisa-box">
       <h3 id="hm-transfer-header">Transfer to your set-aside account</h3>
       <div class="hisa-amt" id="hm-amt">$0</div>
-      <p class="hisa-tip" id="hm-tip">It all earns interest while it waits. Here is what it is holding:</p>
+      <p class="hisa-tip" id="hm-tip" data-i18n="hm_tip">It all earns interest while it waits. Here is what it is holding:</p>
     </div>
     <div id="hm-breakdown" style="text-align:left;background:var(--sage-l);border-radius:var(--rs);padding:11px 13px;margin:10px 0"></div>
     <button class="btn btn-p" onclick="closeOv('hisa-modal')" style="margin:16px 0 8px">Got it</button>
@@ -700,6 +715,10 @@
       <input id="eb-pct" type="number" class="add-pct" placeholder="%" aria-label="Percentage">
       <button class="add-btn" onclick="addEditBucket()" aria-label="Add"><i class="ti ti-plus" aria-hidden="true"></i></button>
     </div>
+    <div style="display:flex;align-items:center;gap:6px;margin:-4px 0 8px;padding-left:2px">
+      <span style="font-size:11px;color:var(--muted)" data-i18n="bkt_goal_label">Goal (optional)</span>
+      <input id="eb-goal" type="number" placeholder="0" style="width:90px;border:1px solid var(--border);border-radius:6px;padding:4px 6px;font-size:13px;font-family:var(--font);outline:none">
+    </div>
     <p class="pct-note" id="edit-pct-left" aria-live="polite"></p>
     <p style="font-size:11px;color:var(--muted);text-align:center;padding:4px 0 8px">Changes apply to new gigs only — past entries are not affected.</p>
     <div class="field" style="margin-top:10px"><label for="ee-enjoy">Enjoy-life % (of remaining surplus)</label><input id="ee-enjoy" type="number"></div>
@@ -709,7 +728,21 @@
 </div>
 
 <!-- TERMS & DISCLAIMER MODAL -->
-<div class="overlay" id="readiness-modal" role="dialog" aria-modal="true" aria-label="Account setup guide">
+<div class="overlay" id="lang-modal" role="dialog" aria-modal="true" aria-label="Choose your language" onclick="closeLangIfVoluntary(event)">
+  <div class="sheet">
+    <div class="drag" aria-hidden="true"></div>
+    <div style="text-align:center;margin-bottom:16px">
+      <div style="width:52px;height:52px;background:var(--sage);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px">
+        <i class="ti ti-language" style="color:white;font-size:24px" aria-hidden="true"></i>
+      </div>
+      <h2 id="lang-modal-title" style="font-size:18px;font-weight:700;color:var(--sage-d)">Choose your language</h2>
+      <p id="lang-modal-sub" style="font-size:13px;color:var(--muted);margin-top:6px">You can change this anytime in Settings.</p>
+    </div>
+    <div id="lang-options" style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px"></div>
+    <button class="btn btn-p" id="lang-confirm-btn" onclick="confirmLang()">Continue</button>
+  </div>
+</div>
+<div class="overlay" id="readiness-modal" role="dialog" aria-modal="true" aria-label="Account setup guide" onclick="closeOvIf(event,'readiness-modal')">
   <div class="sheet">
     <div class="drag" aria-hidden="true"></div>
     <div style="text-align:center;margin-bottom:16px">
@@ -749,20 +782,52 @@
     <button class="btn btn-g" onclick="closeOv('balance-override-modal')">Cancel</button>
   </div>
 </div>
+<div class="overlay" id="tour-modal" role="dialog" aria-modal="true" aria-label="Guided tour" onclick="closeOvIf(event,'tour-modal')">
+  <div class="sheet">
+    <div class="drag" aria-hidden="true"></div>
+    <div style="text-align:center;margin-bottom:16px">
+      <div style="width:52px;height:52px;background:var(--sage);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px">
+        <i id="tour-icon" class="ti ti-layout-dashboard" style="color:white;font-size:24px" aria-hidden="true"></i>
+      </div>
+      <h2 id="tour-title" style="font-size:18px;font-weight:700;color:var(--sage-d)">Your dashboard</h2>
+      <p id="tour-body" style="font-size:13px;color:var(--muted);margin-top:8px;line-height:1.5">Placeholder</p>
+    </div>
+    <div id="tour-dots" style="display:flex;justify-content:center;gap:6px;margin-bottom:18px"></div>
+    <button class="btn btn-p" id="tour-next-btn" onclick="tourNext()">Next</button>
+    <button class="btn btn-g" id="tour-back-btn" onclick="tourPrev()" style="display:none">Back</button>
+  </div>
+</div>
+<div class="overlay" id="checkin-modal" role="dialog" aria-modal="true" aria-label="Quarterly check-in" onclick="closeOvIf(event,'checkin-modal')">
+  <div class="sheet">
+    <div class="drag" aria-hidden="true"></div>
+    <div id="checkin-body"></div>
+    <div id="checkin-dots" style="display:flex;justify-content:center;gap:6px;margin:4px 0 18px"></div>
+    <button class="btn btn-p" id="checkin-next-btn" onclick="checkinNext()">Next</button>
+    <button class="btn btn-g" id="checkin-back-btn" onclick="checkinPrev()" style="display:none;margin-top:8px">Back</button>
+  </div>
+</div>
 <div class="overlay" id="terms-modal" role="dialog" aria-modal="true" aria-label="Terms and disclaimer" onclick="closeOvIf(event,'terms-modal')">
   <div class="sheet">
     <div class="drag" aria-hidden="true"></div>
-    <h2 class="m-title">Terms &amp; disclaimer</h2>
+    <h2 class="m-title" data-i18n="terms_title">Terms &amp; disclaimer</h2>
     <div style="font-size:13px;color:var(--muted);line-height:1.7;max-height:55vh;overflow-y:auto;padding-right:4px">
-      <p style="margin-bottom:12px"><strong style="color:var(--sage-d)">artisticAutonomy™</strong> is a proprietary tool created by Alejandro Céspedes. The name, branding, design, and underlying code are protected by copyright and trademark. This beta version is shared privately for testing purposes only and is not licensed for redistribution, copying, or commercial reuse.</p>
-      <p style="margin-bottom:12px"><strong style="color:var(--sage-d)">Not financial advice.</strong> This app is an organizational and educational tool. It does not provide financial, tax, legal, or investment advice. Calculations are based on the percentages and settings you enter — always confirm tax obligations and financial decisions with a qualified professional.</p>
-      <p style="margin-bottom:12px"><strong style="color:var(--sage-d)">Your data.</strong> All information you enter stays on your own device, stored locally in your browser. It is never transmitted to or stored on any external server by this app. You are responsible for backing up your data using the export feature, as clearing your browser data will erase it.</p>
-      <p style="margin-bottom:0"><strong style="color:var(--sage-d)">Beta software.</strong> This app is under active development. Features, calculations, and data structures may change. While care is taken to keep your data intact across updates, no guarantee is made against data loss — please export backups regularly.</p>
+      <p style="margin-bottom:12px"><strong style="color:var(--sage-d)">artisticAutonomy™</strong> <span data-i18n="terms_p1">is a proprietary tool created by Alejandro Céspedes. The name, branding, design, and underlying code are protected by copyright and trademark. This beta version is shared privately for testing purposes only and is not licensed for redistribution, copying, or commercial reuse.</span></p>
+      <p style="margin-bottom:12px"><strong style="color:var(--sage-d)" data-i18n="terms_p2_strong">Not financial advice.</strong> <span data-i18n="terms_p2">This app is an organizational and educational tool. It does not provide financial, tax, legal, or investment advice. Calculations are based on the percentages and settings you enter.</span></p>
+      <p style="margin-bottom:6px"><strong style="color:var(--sage-d)" data-i18n="terms_professional_strong">When to talk to a real professional.</strong> <span data-i18n="terms_professional_intro">This app helps you organize and understand your numbers — it is not a substitute for personalized advice. Talk to a qualified accountant, tax professional, or financial advisor when:</span></p>
+      <ul style="margin:0 0 12px;padding-left:18px">
+        <li style="margin-bottom:4px" data-i18n="terms_prof_1">You are registering for sales tax (HST/GST/VAT) for the first time, or unsure if you should be</li>
+        <li style="margin-bottom:4px" data-i18n="terms_prof_2">You receive a tax bill that surprises you, or are behind on tax payments</li>
+        <li style="margin-bottom:4px" data-i18n="terms_prof_3">You are dealing with debt beyond what a simple payment plan can address</li>
+        <li style="margin-bottom:4px" data-i18n="terms_prof_4">You receive a large one-time payment or windfall</li>
+        <li style="margin-bottom:4px" data-i18n="terms_prof_5">You are a few years from retirement, or planning a major life change</li>
+        <li style="margin-bottom:4px" data-i18n="terms_prof_6">Your situation involves multiple income types, provinces/states, or countries</li>
+      </ul>
+      <p style="margin-bottom:12px"><strong style="color:var(--sage-d)" data-i18n="terms_p3_strong">Your data.</strong> <span data-i18n="terms_p3">All information you enter stays on your own device, stored locally in your browser. It is never transmitted to or stored on any external server by this app. You are responsible for backing up your data using the export feature, as clearing your browser data will erase it.</span></p>
+      <p style="margin-bottom:0"><strong style="color:var(--sage-d)" data-i18n="terms_p4_strong">Beta software.</strong> <span data-i18n="terms_p4">This app is under active development. Features, calculations, and data structures may change. While care is taken to keep your data intact across updates, no guarantee is made against data loss — please export backups regularly.</span></p>
     </div>
-    <button class="btn btn-p" onclick="closeOv('terms-modal')" style="margin-top:16px">Got it</button>
+    <button class="btn btn-p" onclick="closeOv('terms-modal')" style="margin-top:16px" data-i18n="terms_got_it">Got it</button>
   </div>
 </div>
-
 
 <script src="main.js" defer></script>
 </body>
