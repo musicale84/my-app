@@ -557,7 +557,10 @@ function load(){
       // hasSeenReadinessCheck intentionally NOT defaulted — existing users should see it once
       // Backfill entryOrder for gigs logged before sort feature existed
       if(S.gigs && S.gigs.length){
-        S.gigs.forEach((g,i)=>{ if(!g.entryOrder) g.entryOrder = new Date(g.date+'T12:00:00').getTime() + i; });
+        S.gigs.forEach((g,i)=>{
+          if(!g.entryOrder) g.entryOrder = new Date(g.date+'T12:00:00').getTime() + i;
+          if(typeof g.includeInAccountantReport!=='boolean') g.includeInAccountantReport = true;
+        });
       }
     } else {
       // No v5 data found - check if there is older data to migrate
@@ -954,6 +957,7 @@ function saveGig(){
   const isHistorical = document.getElementById('g-historical')?.checked || false;
   const fee = isHistorical ? 0 : (parseFloat(document.getElementById('g-fee').value)||0);
   const payer = document.getElementById('g-payer').value.trim();
+  const includeInAccountantReport = document.getElementById('g-include-acct')?.checked !== false;
   // Clear previous errors
   ['f-date','f-name','f-payer','f-fee'].forEach(id=>{
     const el=document.getElementById(id); if(el) el.classList.remove('error');
@@ -993,7 +997,7 @@ function saveGig(){
       id: editId || Date.now(), entryOrder: editId ? (S.gigs.find(g=>g.id===editId)?.entryOrder||Date.now()) : Date.now(),
       date, name, payer, notes:hNotes||notes, status, type:hType,
       fee:hFee, cart:hCart, applyHst:false, applyDues:false,
-      isHistorical:true,
+      isHistorical:true, includeInAccountantReport,
       incomeTax:hTax, salesTax:hHst, workDues:hDues,
       hisa:hisaTransfer, netLiquid:hNet, gigSurplus:Math.max(0,hNet),
       enjoy:hEnjoy, buckets:[], invest:hInvest, moveToHisa:hisaTransfer,
@@ -1048,7 +1052,7 @@ function saveGig(){
   const gig = {
     id: editId || Date.now(), entryOrder: editId ? (S.gigs.find(g=>g.id===editId)?.entryOrder || Date.now()) : Date.now(),
     date, name, payer, notes, type, status,
-    fee, cart, applyHst, applyDues,
+    fee, cart, applyHst, applyDues, includeInAccountantReport,
     workDues:r.workDues, salesTax:r.salesTax, incomeTax:r.incomeTax,
     hisa:r.hisa, netLiquid:r.netLiquid, gigSurplus:r.gigSurplus,
     enjoy:r.enjoy, buckets:r.buckets, invest:r.invest, moveToHisa:r.moveToHisa,
@@ -1132,6 +1136,7 @@ function editGig(id){
   document.getElementById('g-cart').value = g.cart||'';
   document.getElementById('g-hst').checked = !!g.applyHst;
   document.getElementById('g-dues').checked = g.applyDues!==false;
+  document.getElementById('g-include-acct').checked = g.includeInAccountantReport!==false;
   document.getElementById('g-cc-pay').value = g.ccPay||'';
   document.getElementById('g-loan-pay').value = g.loanPay||'';
   document.getElementById('g-selfloan-borrow').value = g.selfLoanBorrow||'';
@@ -1332,6 +1337,7 @@ function openGigModal(){
   const gType=document.getElementById('g-type'); if(gType) gType.value='Freelance';
   const hst=document.getElementById('g-hst'); if(hst) hst.checked = S.lastHstToggle===true;
   const dues=document.getElementById('g-dues'); if(dues) dues.checked = S.lastDuesToggle!==false;
+  const inclAcct=document.getElementById('g-include-acct'); if(inclAcct) inclAcct.checked = true;
   document.getElementById('gig-split-area').style.display='none';
   document.getElementById('historical-toggle-row').style.display='none';
   document.getElementById('historical-fields').style.display='none';
@@ -1362,6 +1368,21 @@ function filt(f){
   updateFilterPills();
   renderGigs();
 }
+function sortGigList(list, mode){
+  if(mode==='newest') list.sort((a,b)=>new Date(b.date)-new Date(a.date) || (b.entryOrder||0)-(a.entryOrder||0));
+  else if(mode==='oldest') list.sort((a,b)=>new Date(a.date)-new Date(b.date) || (a.entryOrder||0)-(b.entryOrder||0));
+  else if(mode==='historical'){
+    const hist = list.filter(g=>g.isHistorical).sort((a,b)=>new Date(b.date)-new Date(a.date));
+    const reg = list.filter(g=>!g.isHistorical).sort((a,b)=>new Date(b.date)-new Date(a.date));
+    list = [...hist, ...reg];
+  }
+  else if(mode==='pending'){
+    const pend = list.filter(g=>g.status==='Pending').sort((a,b)=>new Date(a.date)-new Date(b.date));
+    const recv = list.filter(g=>g.status!=='Pending').sort((a,b)=>new Date(b.date)-new Date(a.date));
+    list = [...pend, ...recv];
+  }
+  return list;
+}
 function renderGigs(){
   updateFilterPills();
   // Populate year dropdown once
@@ -1386,18 +1407,7 @@ function renderGigs(){
     (g.notes||'').toLowerCase().includes(searchTerm)
   );
   const sortMode = document.getElementById('gig-sort')?.value || 'newest';
-  if(sortMode==='newest') list.sort((a,b)=>new Date(b.date)-new Date(a.date) || (b.entryOrder||0)-(a.entryOrder||0));
-  else if(sortMode==='oldest') list.sort((a,b)=>new Date(a.date)-new Date(b.date) || (a.entryOrder||0)-(b.entryOrder||0));
-  else if(sortMode==='historical'){
-    const hist = list.filter(g=>g.isHistorical).sort((a,b)=>new Date(b.date)-new Date(a.date));
-    const reg = list.filter(g=>!g.isHistorical).sort((a,b)=>new Date(b.date)-new Date(a.date));
-    list = [...hist, ...reg];
-  }
-  else if(sortMode==='pending'){
-    const pend = list.filter(g=>g.status==='Pending').sort((a,b)=>new Date(a.date)-new Date(b.date));
-    const recv = list.filter(g=>g.status!=='Pending').sort((a,b)=>new Date(b.date)-new Date(a.date));
-    list = [...pend, ...recv];
-  }
+  list = sortGigList(list, sortMode);
   document.getElementById('gigs-ct').textContent=list.length+' entr'+(list.length===1?'y':'ies');
   document.getElementById('gigs-list').innerHTML=list.length?list.map(gigRow).join(''):'<div class="empty"><i class="ti ti-music" aria-hidden="true"></i><p>No gigs here yet.</p></div>';
 }
@@ -1455,11 +1465,13 @@ function showRep(type){
   document.getElementById('rep-title').textContent = r.title+' — '+y;
   if(type==='accountant'){
     // Custom accountant report: freelance/other only, gig-by-gig table
-    const freelanceRec = rec.filter(g=>g.type!=='Employment');
+    const acctSortMode = S.lastRepSort || 'newest';
+    const freelanceRec = sortGigList(rec.filter(g=>g.type!=='Employment' && g.includeInAccountantReport!==false), acctSortMode);
     const totalGross = freelanceRec.reduce((t,g)=>t+(g.fee||0)+(g.cart||0),0);
     const totalHst = freelanceRec.reduce((t,g)=>t+(g.salesTax||0),0);
     const totalDues = freelanceRec.reduce((t,g)=>t+(g.workDues||0),0);
     const totalTax = freelanceRec.reduce((t,g)=>t+(g.incomeTax||0),0);
+    const sortOpt = (val,label) => '<option value="'+val+'"'+(acctSortMode===val?' selected':'')+'>'+label+'</option>';
     const rows = freelanceRec.map(g=>`
       <div class="rep-row" style="font-size:12px;flex-wrap:wrap;gap:2px">
         <span style="flex:0 0 70px;color:var(--muted)">${fmtD(g.date)}</span>
@@ -1472,6 +1484,11 @@ function showRep(type){
       </div>`).join('');
     document.getElementById('rep-content').innerHTML =
       '<div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:8px">'+t('rep_acct_freelance_note')+'</div>'+
+      '<div style="display:flex;justify-content:flex-end;margin-bottom:8px">'+
+        '<select id="rep-acct-sort" onchange="saveRepSort();showRep(\'accountant\')" style="padding:7px 9px;border:1.5px solid var(--border);border-radius:var(--rs);font-size:12px;font-family:var(--font);color:var(--muted);background:var(--white)" aria-label="Sort report entries">'+
+          sortOpt('newest','Newest first')+sortOpt('oldest','Oldest first')+sortOpt('historical','Historical first')+sortOpt('pending','Pending first')+
+        '</select>'+
+      '</div>'+
       '<div class="rep-row" style="font-size:10px;font-weight:600;color:var(--muted);border-bottom:2px solid var(--border);padding-bottom:4px">'+
         '<span style="flex:0 0 70px">'+t('det_date')+'</span><span style="flex:1">'+t('gig_desc')+'</span><span style="flex:0 0 90px">'+t('gig_payer')+'</span>'+
         '<span style="flex:0 0 60px;text-align:right">'+t('rep_col_gross')+'</span><span style="flex:0 0 55px;text-align:right">'+t('rep_col_hst')+'</span>'+
@@ -1837,6 +1854,11 @@ function renderEditBktList(){
 function saveGigSort(){
   const sel = document.getElementById('gig-sort');
   if(sel) S.lastGigSort = sel.value;
+  save();
+}
+function saveRepSort(){
+  const sel = document.getElementById('rep-acct-sort');
+  if(sel) S.lastRepSort = sel.value;
   save();
 }
 function updateBucket(id, field, val){

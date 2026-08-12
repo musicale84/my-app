@@ -604,11 +604,11 @@
     <div style="background:var(--sage-l);border-radius:var(--rs);padding:10px 12px;margin-bottom:10px">
       <div style="display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(74,102,91,.1)">
         <span style="font-size:13px;color:var(--muted)" data-i18n="apply_sales_tax">Apply sales tax to this gig</span>
-        <label class="toggle" aria-label="Apply sales tax"><input type="checkbox" id="g-hst" onchange="calcGigModal()"><div class="t-track"></div><div class="t-thumb"></div></label>
+        <label class="toggle" aria-label="Apply sales tax"><input type="checkbox" id="g-hst" onchange="calcGigModal();reverseCalcFee()"><div class="t-track"></div><div class="t-thumb"></div></label>
       </div>
       <div style="display:flex;align-items:center;justify-content:space-between;padding:5px 0">
         <span style="font-size:13px;color:var(--muted)" data-i18n="apply_work_dues">Apply work dues to this gig</span>
-        <label class="toggle" aria-label="Apply work dues"><input type="checkbox" id="g-dues" checked onchange="calcGigModal()"><div class="t-track"></div><div class="t-thumb"></div></label>
+        <label class="toggle" aria-label="Apply work dues"><input type="checkbox" id="g-dues" checked onchange="calcGigModal();reverseCalcFee()"><div class="t-track"></div><div class="t-thumb"></div></label>
       </div>
     </div>
     <div style="background:var(--red-l);border-radius:var(--rs);padding:10px 12px;margin-bottom:10px">
@@ -629,6 +629,13 @@
     </div>
     <div class="field"><label for="g-notes" data-i18n="gig_notes">Notes (optional)</label><input id="g-notes" type="text" placeholder="Any notes about this gig" data-i18n-ph="gig_notes_ph"></div>
     </div><!-- end main-gig-fields -->
+    <div style="background:var(--sage-l);border-radius:var(--rs);padding:10px 12px;margin-bottom:10px">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <span style="font-size:13px;color:var(--muted)">Include in accountant report</span>
+        <label class="toggle" aria-label="Include in accountant report"><input type="checkbox" id="g-include-acct" checked><div class="t-track"></div><div class="t-thumb"></div></label>
+      </div>
+      <p style="font-size:11px;color:var(--muted);margin-top:4px">Turn off for entries that aren't real freelance income, like a buffer-month placeholder.</p>
+    </div>
     <div id="gig-split-area" style="display:none">
       <div class="split-prev"><div class="split-ttl" data-i18n="split_where">Where this goes</div><div id="gig-split-rows"></div></div>
       <div class="hisa-box">
