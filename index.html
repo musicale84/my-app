@@ -226,6 +226,7 @@
           <div class="leg-i"><div class="leg-d" style="background:var(--gold)"></div><span data-i18n="dash_leg_debt">Debt payoff</span></div>
         </div>
       </div>
+      <div id="progress-card-section"></div>
       <div class="sec-label" data-i18n="dash_recent_gigs">Recent gigs</div>
       <div id="d-recent"></div>
     </div>
@@ -276,8 +277,21 @@
       <div id="rep-detail" style="display:none">
         <button class="back-btn" onclick="hideRep()"><i class="ti ti-arrow-left" aria-hidden="true"></i> <span data-i18n="btn_back">Back</span></button>
         <div class="sec-label" id="rep-title">Report</div>
+        <div style="display:flex;gap:8px;padding:0 14px 4px;flex-wrap:wrap">
+          <button class="btn-outline" style="width:auto;margin:0;padding:8px 12px;font-size:12px" onclick="exportReportPDF()"><i class="ti ti-file-type-pdf" style="vertical-align:-2px;margin-right:4px" aria-hidden="true"></i>PDF</button>
+          <button class="btn-outline" style="width:auto;margin:0;padding:8px 12px;font-size:12px" onclick="exportReportCSV()"><i class="ti ti-file-type-csv" style="vertical-align:-2px;margin-right:4px" aria-hidden="true"></i>CSV</button>
+          <button class="btn-outline" style="width:auto;margin:0;padding:8px 12px;font-size:12px" onclick="exportReportExcel()"><i class="ti ti-file-spreadsheet" style="vertical-align:-2px;margin-right:4px" aria-hidden="true"></i>Excel <i class="ti ti-lock" id="rep-excel-lock-ico" style="font-size:11px;margin-left:2px" aria-hidden="true"></i></button>
+        </div>
+        <p id="rep-excel-lock-note" style="font-size:11px;color:var(--muted);padding:0 14px 10px;display:none" data-i18n="rep_excel_locked_note">Excel export is a premium feature — enable it in Settings → Developer / Testing.</p>
         <div style="margin:0 14px" id="rep-content"></div>
       </div>
+    </div>
+
+    <!-- YOUR PROGRESS (premium) -->
+    <div class="page" id="page-progress" role="region" aria-label="Your Progress">
+      <button class="back-btn" onclick="showPage('dashboard')"><i class="ti ti-arrow-left" aria-hidden="true"></i> <span data-i18n="btn_back">Back</span></button>
+      <div class="sec-label" data-i18n="progress_card_title">Your Progress</div>
+      <div id="progress-content" style="padding-bottom:20px"></div>
     </div>
 
     <!-- INVOICE GENERATOR -->
@@ -295,6 +309,8 @@
           <div class="field"><label for="inv-your-email" data-i18n="inv_email_label">Email</label><input id="inv-your-email" type="email" placeholder="you@email.com"></div>
           <div class="field"><label for="inv-your-phone" data-i18n="inv_phone_label">Phone (optional)</label><input id="inv-your-phone" type="tel" placeholder=""></div>
         </div>
+        <h3 style="font-size:14px;font-weight:600;color:var(--sage-d);margin-bottom:8px" data-i18n="inv_logo_title">Logo (premium)</h3>
+        <div id="inv-logo-section" style="margin-bottom:16px"></div>
         <h3 style="font-size:14px;font-weight:600;color:var(--sage-d);margin:16px 0 12px" data-i18n="inv_client_details">Client details</h3>
         <div class="field"><label for="inv-client-name" data-i18n="inv_client_name_label">Client name / organization</label><input id="inv-client-name" type="text" placeholder="Client Name" data-i18n-ph="inv_client_name_ph"></div>
         <div class="field"><label for="inv-client-addr" data-i18n="inv_client_addr_label">Client address</label><textarea id="inv-client-addr" rows="2" placeholder="123 Main St, City, Province/State" data-i18n-ph="inv_client_addr_ph" style="resize:none"></textarea></div>
@@ -307,36 +323,10 @@
         <h3 style="font-size:14px;font-weight:600;color:var(--sage-d);margin:16px 0 12px" data-i18n="inv_line_items">Line items</h3>
         <div id="inv-lines"></div>
         <button onclick="addInvLine()" class="btn-outline" style="margin-bottom:16px"><i class="ti ti-plus" style="vertical-align:-2px;margin-right:4px" aria-hidden="true"></i> <span data-i18n="inv_add_line">Add line item</span></button>
-        <div class="frow">
-          <div class="field">
-            <label for="inv-premium-toggle" data-i18n="inv_premium_label">Apply premium / markup?</label>
-            <select id="inv-premium-toggle" onchange="document.getElementById('inv-premium-field').style.display=this.value==='yes'?'block':'none'">
-              <option value="no" data-i18n="inv_premium_no">No premium</option>
-              <option value="yes" data-i18n="inv_premium_yes">Yes — add a percentage</option>
-            </select>
-          </div>
-          <div class="field" id="inv-premium-field" style="display:none">
-            <label for="inv-premium-pct" data-i18n="inv_premium_pct_label">Premium %</label>
-            <input id="inv-premium-pct" type="number" placeholder="25">
-          </div>
-        </div>
-        <div class="frow">
-          <div class="field">
-            <label for="inv-tax-toggle" data-i18n="inv_tax_label">Include sales tax?</label>
-            <select id="inv-tax-toggle">
-              <option value="no" data-i18n="inv_tax_no">No — exempt or not registered</option>
-              <option value="yes" data-i18n="inv_tax_yes">Yes — include sales tax</option>
-            </select>
-          </div>
-          <div class="field" id="inv-tax-rate-field" style="display:none">
-            <label for="inv-tax-pct" data-i18n="inv_tax_rate_label">Tax rate %</label>
-            <input id="inv-tax-pct" type="number" value="13">
-          </div>
-        </div>
-        <div class="field" id="inv-tax-reg-field" style="display:none">
-          <label for="inv-tax-reg" data-i18n="inv_tax_reg_label">Tax registration number</label>
-          <input id="inv-tax-reg" type="text" placeholder="123456789 RT0001" data-i18n-ph="inv_tax_reg_ph">
-        </div>
+        <h3 style="font-size:14px;font-weight:600;color:var(--sage-d);margin-bottom:6px" data-i18n="inv_adjustments_title">Adjustments</h3>
+        <p style="font-size:11px;color:var(--muted);margin-bottom:10px" data-i18n="inv_adjustments_desc">Premiums, sales tax, union dues, discounts — anything that adds to or subtracts from the subtotal. Each can carry an optional reference note (e.g. a tax registration or union member number) shown in parentheses on the invoice.</p>
+        <div id="inv-adjustments"></div>
+        <button onclick="addInvAdjustment()" class="btn-outline" style="margin-bottom:16px"><i class="ti ti-plus" style="vertical-align:-2px;margin-right:4px" aria-hidden="true"></i> <span data-i18n="inv_add_adjustment">Add adjustment</span></button>
         <div class="field">
           <label for="inv-payment-note" data-i18n="inv_payment_label">Payment instructions</label>
           <input id="inv-payment-note" type="text" placeholder="e-Transfer to you@email.com within 30 days" data-i18n-ph="inv_payment_ph">
@@ -347,7 +337,7 @@
         <div class="sec-label" data-i18n="inv_preview_label">Preview</div>
         <div class="invoice-preview" id="inv-preview"></div>
         <div style="padding:0 14px 24px">
-          <p style="font-size:12px;color:var(--muted);margin-bottom:10px" data-i18n="inv_save_pdf_note">To save as PDF: tap the share/print button in your browser and choose "Save as PDF" or "Print to PDF".</p>
+          <button class="btn btn-p" onclick="exportInvoicePDF()"><i class="ti ti-printer" style="vertical-align:-2px;margin-right:5px" aria-hidden="true"></i><span data-i18n="inv_export_btn">Export / print invoice</span></button>
         </div>
       </div>
     </div>
@@ -438,6 +428,11 @@
         <button class="btn-outline" onclick="exportData()" style="margin-bottom:8px" data-i18n="set_export_btn">Export my data (backup)</button>
         <button class="btn-outline" onclick="document.getElementById('import-file').click()" data-i18n="set_import_btn">Import data from backup</button>
         <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(this)">
+      </div>
+      <div class="set-group" style="padding-bottom:30px;border:1.5px dashed var(--red);border-radius:var(--r);margin:0 14px 20px;padding:12px 13px">
+        <h2 style="color:var(--red)" data-i18n="set_h_dev_testing">Developer / Testing</h2>
+        <p style="font-size:12px;color:var(--muted);padding:0 0 10px" data-i18n="set_dev_testing_desc">Local-only preview toggle for testing premium features on this device. This is not a real subscription — no payment is processed and no account is involved.</p>
+        <div class="set-row"><span class="set-label" data-i18n="set_dev_premium_label">Premium preview (dev only)</span><label class="toggle" aria-label="Premium preview dev toggle"><input type="checkbox" id="dev-premium-tog" onchange="saveDevPremiumToggle()"><div class="t-track"></div><div class="t-thumb"></div></label></div>
       </div>
       <div class="set-group" style="padding-bottom:36px">
         <h2 data-i18n="set_h_legal">Legal</h2>
