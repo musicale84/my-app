@@ -15,6 +15,8 @@
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 <link rel="stylesheet" href="style.css">
+<!-- Supabase Auth — same lightweight CDN-script approach as the icon font above, no bundler involved -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <!-- PostHog Analytics — add your Project API Key and API Host to activate -->
 <!-- analytics -->
@@ -32,10 +34,21 @@
       </svg>
     </div>
     <h1 class="lock-title">artisticAutonomy<sup style="font-size:11px;font-weight:400;vertical-align:super">™</sup></h1>
-    <p class="lock-sub">Financial toolkit for creative professionals.<br>Beta access — enter your password to continue.</p>
-    <input class="lock-input" type="password" id="lock-pwd" placeholder="••••••••" aria-label="Access password" onkeydown="if(event.key==='Enter')checkPwd()">
-    <button class="lock-btn" onclick="checkPwd()">Continue</button>
-    <p class="lock-err" id="lock-err" role="alert">Incorrect password. Please try again.</p>
+    <p class="lock-sub" id="auth-sub">Financial toolkit for creative professionals.<br>Sign in to continue.</p>
+    <input class="lock-input" type="email" id="auth-email" placeholder="you@email.com" aria-label="Email" autocomplete="email" style="text-align:left;letter-spacing:normal" onkeydown="if(event.key==='Enter')document.getElementById('auth-password').focus()">
+    <input class="lock-input" type="password" id="auth-password" placeholder="••••••••" aria-label="Password" autocomplete="current-password" style="margin-top:10px" onkeydown="if(event.key==='Enter'){ if(authMode==='signup'){ document.getElementById('auth-password-confirm').focus(); } else { handleAuthSubmit(); } }">
+    <input class="lock-input" type="password" id="auth-password-confirm" placeholder="••••••••" aria-label="Confirm password" autocomplete="new-password" style="margin-top:10px;display:none" onkeydown="if(event.key==='Enter')handleAuthSubmit()">
+    <button class="lock-btn" id="auth-submit-btn" onclick="handleAuthSubmit()" style="margin-top:12px">Log in</button>
+    <button class="auth-toggle-btn" id="auth-forgot-link" onclick="startPasswordReset()" style="display:none;margin-top:8px">Forgot password?</button>
+    <p class="lock-err" id="auth-err" role="alert" style="display:none"></p>
+    <p class="lock-msg" id="auth-msg" role="status" style="display:none"></p>
+    <button class="auth-toggle-btn" id="auth-resend-btn" onclick="resendConfirmationEmail()" style="display:none;margin-top:4px">Resend confirmation email</button>
+    <div id="auth-existing-hint" style="display:none;margin-top:8px">
+      <p class="lock-msg" id="auth-existing-hint-text" style="display:block;margin-top:0"></p>
+      <button class="auth-toggle-btn" onclick="document.getElementById('auth-existing-hint').style.display='none';document.getElementById('auth-password').focus()" style="margin-top:4px;margin-right:8px" id="auth-existing-login-btn"></button>
+      <button class="auth-toggle-btn" onclick="startPasswordReset()" style="margin-top:4px" id="auth-existing-reset-btn"></button>
+    </div>
+    <button class="auth-toggle-btn" id="auth-toggle-btn" onclick="toggleAuthMode()">Need an account? Sign up</button>
   </div>
   <p class="lock-disclaimer">This is a private beta. Your financial data stays on your device and is never shared.</p>
 </div>
@@ -346,6 +359,19 @@
     <div class="page" id="page-settings" role="region" aria-label="Settings">
       <div class="sec-label" data-i18n="settings_page_title">Settings</div>
       <div class="set-group">
+        <h2 data-i18n="set_h_account">Account</h2>
+        <div class="set-row"><span class="set-label" data-i18n="set_logged_in_as">Logged in as</span><span class="set-val" id="set-account-email">—</span></div>
+        <button class="btn-outline" onclick="handleLogout()" style="margin-top:8px" data-i18n="set_logout_btn">Log out</button>
+        <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border)">
+          <h3 style="font-size:13px;font-weight:600;color:var(--sage-d);margin-bottom:8px" data-i18n="set_change_pw_title">Change password</h3>
+          <div class="field"><label for="set-new-password" data-i18n="auth_new_password_ph">New password</label><input id="set-new-password" type="password" placeholder="••••••••" autocomplete="new-password"></div>
+          <div class="field"><label for="set-confirm-password" data-i18n="auth_confirm_password_ph">Confirm password</label><input id="set-confirm-password" type="password" placeholder="••••••••" autocomplete="new-password"></div>
+          <p class="lock-err" id="set-pw-err" role="alert" style="display:none;margin:4px 0 0"></p>
+          <p class="lock-msg" id="set-pw-msg" role="status" style="display:none;margin:4px 0 0"></p>
+          <button class="btn-outline" id="set-change-pw-btn" onclick="handleChangePassword()" style="margin-top:8px" data-i18n="set_change_pw_btn">Update password</button>
+        </div>
+      </div>
+      <div class="set-group">
         <h2 data-i18n="set_h_display">Display</h2>
         <div class="set-row"><span class="set-label" data-i18n="set_learning_mode">Learning mode</span><label class="toggle" aria-label="Learning mode"><input type="checkbox" id="learn-tog" checked onchange="saveS()"><div class="t-track"></div><div class="t-thumb"></div></label></div>
         <p style="font-size:12px;color:var(--muted);padding:6px 0 10px" data-i18n="set_learning_desc">Show helpful explanations throughout the app. Turn off once you know the system.</p>
@@ -526,7 +552,7 @@
   <div class="sheet">
     <div class="drag" aria-hidden="true"></div>
     <h2 class="m-title" data-i18n="gig_title">Log a gig</h2>
-    <div class="field" id="f-date"><label for="g-date" data-i18n="gig_date">Date</label><input id="g-date" type="date" onchange="document.getElementById('f-date').classList.remove('error');checkHistoricalToggle()"><span class="field-err" data-i18n="gig_date_err">Please add a date</span></div>
+    <div class="field" id="f-date"><label for="g-date" data-i18n="gig_date">Date</label><input id="g-date" type="date" onchange="document.getElementById('f-date').classList.remove('error');checkHistoricalToggle();calcGigModal()"><span class="field-err" data-i18n="gig_date_err">Please add a date</span></div>
     <div class="field"><label for="g-status" data-i18n="gig_status">Status</label><select id="g-status"><option value="Received" data-i18n="gig_status_received">Received</option><option value="Pending" data-i18n="gig_status_pending">Pending</option></select></div>
     <!-- Historical entry toggle — shown when date is in a past month -->
     <div id="historical-toggle-row" style="display:none;background:var(--gold-l);border-radius:var(--rs);padding:10px 12px;margin-bottom:10px">
@@ -594,7 +620,7 @@
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
       <div class="field" id="f-fee"><label for="g-fee" data-i18n="gig_scale_fee">Scale fee</label><input id="g-fee" type="number" placeholder="—" oninput="this.dataset.autofilled='';calcGigModal();document.getElementById('f-fee').classList.remove('error')" style="font-size:14px"><span class="field-err" data-i18n="gig_scale_fee_err">Please add a scale fee</span></div>
-      <div class="field"><label for="g-cart" data-i18n="gig_cartage">Cartage / tips ($)</label><input id="g-cart" type="number" placeholder="0.00" oninput="calcGigModal()" style="font-size:14px"></div>
+      <div class="field"><label for="g-cart" data-i18n="gig_cartage">Cartage / tips ($)</label><input id="g-cart" type="number" placeholder="0.00" oninput="calcGigModal();reverseCalcFee()" style="font-size:14px"></div>
     </div>
     <div style="background:var(--sage-l);border-radius:var(--rs);padding:10px 12px;margin-bottom:10px">
       <div style="display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(74,102,91,.1)">
