@@ -594,8 +594,23 @@ async function enterApp(){
   document.getElementById('lock').style.display='none';
   document.getElementById('app-shell').style.display='flex';
   await fetchPremiumAccess(); // must resolve before load(), since dashboard rendering reads isPremiumUnlocked() immediately
+  identifyAnalyticsUser();
   try{ load(); }catch(loadErr){ alert('Load error: '+loadErr.message); }
   try{ track('app_unlocked'); }catch(e){}
+}
+
+// Ties PostHog activity to the real signed-in account instead of just the anonymous per-device ID
+// (see getAnonId()) — called from enterApp() so it covers every real way a session starts: login,
+// signup with an instant session, a silently-restored session on normal app reopen, and auto-login
+// right after a password reset. Uses the stable Supabase user id as the actual merge key, with email
+// attached as a visible property, rather than using the email itself as the id — survives an email
+// change later without fragmenting a person's event history, matching PostHog's own recommendation.
+function identifyAnalyticsUser(){
+  try{
+    if(currentUser && window.posthog && typeof posthog.identify==='function'){
+      posthog.identify(currentUser.id, { email: currentUser.email });
+    }
+  } catch(e){}
 }
 
 function startPasswordReset(){
