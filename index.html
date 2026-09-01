@@ -295,7 +295,7 @@
           <button class="btn-outline" style="width:auto;margin:0;padding:8px 12px;font-size:12px" onclick="exportReportCSV()"><i class="ti ti-file-type-csv" style="vertical-align:-2px;margin-right:4px" aria-hidden="true"></i>CSV</button>
           <button class="btn-outline" style="width:auto;margin:0;padding:8px 12px;font-size:12px" onclick="exportReportExcel()"><i class="ti ti-file-spreadsheet" style="vertical-align:-2px;margin-right:4px" aria-hidden="true"></i>Excel <i class="ti ti-lock" id="rep-excel-lock-ico" style="font-size:11px;margin-left:2px" aria-hidden="true"></i></button>
         </div>
-        <p id="rep-excel-lock-note" style="font-size:11px;color:var(--muted);padding:0 14px 10px;display:none" data-i18n="rep_excel_locked_note">Excel export is a premium feature — enable it in Settings → Developer / Testing.</p>
+        <p id="rep-excel-lock-note" style="font-size:11px;color:var(--muted);padding:0 14px 10px;display:none" data-i18n="rep_excel_locked_note">Excel export is a premium feature.</p>
         <div style="margin:0 14px" id="rep-content"></div>
       </div>
     </div>
@@ -380,7 +380,7 @@
         <h2 data-i18n="settings_tips_section">Tips</h2>
         <button class="btn-outline" onclick="replayAllTips()" data-i18n="settings_replay_tips" style="margin-bottom:8px">Replay tips</button>
         <button class="btn-outline" onclick="openTour()" data-i18n="settings_guided_tour" style="margin-bottom:8px">Take the guided tour</button>
-        <button class="btn-outline" onclick="openOv('readiness-modal')" data-i18n="set_readiness_btn">Account setup guide</button>
+        <button class="btn-outline" onclick="track('readiness_check_shown',{source:'settings'});openOv('readiness-modal')" data-i18n="set_readiness_btn">Account setup guide</button>
       </div>
       <div class="set-group">
         <h2 data-i18n="settings_language">Language</h2>
@@ -454,11 +454,6 @@
         <button class="btn-outline" onclick="exportData()" style="margin-bottom:8px" data-i18n="set_export_btn">Export my data (backup)</button>
         <button class="btn-outline" onclick="document.getElementById('import-file').click()" data-i18n="set_import_btn">Import data from backup</button>
         <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(this)">
-      </div>
-      <div class="set-group" style="padding-bottom:30px;border:1.5px dashed var(--red);border-radius:var(--r);margin:0 14px 20px;padding:12px 13px">
-        <h2 style="color:var(--red)" data-i18n="set_h_dev_testing">Developer / Testing</h2>
-        <p style="font-size:12px;color:var(--muted);padding:0 0 10px" data-i18n="set_dev_testing_desc">Local-only preview toggle for testing premium features on this device. This is not a real subscription — no payment is processed and no account is involved.</p>
-        <div class="set-row"><span class="set-label" data-i18n="set_dev_premium_label">Premium preview (dev only)</span><label class="toggle" aria-label="Premium preview dev toggle"><input type="checkbox" id="dev-premium-tog" onchange="saveDevPremiumToggle()"><div class="t-track"></div><div class="t-thumb"></div></label></div>
       </div>
       <div class="set-group" style="padding-bottom:36px">
         <h2 data-i18n="set_h_legal">Legal</h2>
@@ -770,7 +765,7 @@
     <button class="btn btn-p" id="lang-confirm-btn" onclick="confirmLang()">Continue</button>
   </div>
 </div>
-<div class="overlay" id="readiness-modal" role="dialog" aria-modal="true" aria-label="Account setup guide" onclick="closeOvIf(event,'readiness-modal')">
+<div class="overlay" id="readiness-modal" role="dialog" aria-modal="true" aria-label="Account setup guide" onclick="closeReadinessBackdrop(event)">
   <div class="sheet">
     <div class="drag" aria-hidden="true"></div>
     <div style="text-align:center;margin-bottom:16px">
@@ -810,7 +805,7 @@
     <button class="btn btn-g" onclick="closeOv('balance-override-modal')">Cancel</button>
   </div>
 </div>
-<div class="overlay" id="tour-modal" role="dialog" aria-modal="true" aria-label="Guided tour" onclick="closeOvIf(event,'tour-modal')">
+<div class="overlay" id="tour-modal" role="dialog" aria-modal="true" aria-label="Guided tour" onclick="closeTourBackdrop(event)">
   <div class="sheet">
     <div class="drag" aria-hidden="true"></div>
     <div style="text-align:center;margin-bottom:16px">
@@ -825,7 +820,7 @@
     <button class="btn btn-g" id="tour-back-btn" onclick="tourPrev()" style="display:none">Back</button>
   </div>
 </div>
-<div class="overlay" id="checkin-modal" role="dialog" aria-modal="true" aria-label="Quarterly check-in" onclick="closeOvIf(event,'checkin-modal')">
+<div class="overlay" id="checkin-modal" role="dialog" aria-modal="true" aria-label="Quarterly check-in" onclick="closeCheckinBackdrop(event)">
   <div class="sheet">
     <div class="drag" aria-hidden="true"></div>
     <div id="checkin-body"></div>
