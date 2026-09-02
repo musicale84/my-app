@@ -218,6 +218,12 @@ html,body{height:100%;font-family:var(--font);background:var(--cream);color:var(
 .dot.active{width:18px;background:var(--sage)}
 
 /* ===== SETTINGS ===== */
+.set-accordion{margin:0 14px 12px;border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.set-accordion-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--sage-l);border:none;padding:13px 14px;cursor:pointer;text-align:left;font-family:var(--font)}
+.set-accordion-toggle:focus-visible{outline:2px solid var(--sage);outline-offset:-2px}
+.set-accordion-toggle h2{font-size:13px;font-weight:600;color:var(--sage-d);margin:0}
+.set-accordion-body{padding:2px 14px 12px}
+.set-accordion-body .set-group{padding:0}
 .set-group{padding:0 14px 14px}
 .set-group h2{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);padding:14px 0 8px;border-bottom:1px solid var(--border);margin-bottom:4px}
 .set-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)}
@@ -279,8 +285,13 @@ html,body{height:100%;font-family:var(--font);background:var(--cream);color:var(
 .help-sec{padding:0 16px 16px}
 .help-sec h2{font-size:14px;font-weight:600;color:var(--sage-d);margin:16px 0 6px}
 .help-sec p{font-size:13px;color:var(--muted);line-height:1.7}
-.help-term{background:var(--sage-l);border-radius:var(--rs);padding:11px 13px;margin:8px 0}
-.help-term h3{font-size:13px;font-weight:600;color:var(--sage-d);margin-bottom:3px}
+.help-term{background:var(--sage-l);border-radius:var(--rs);margin:8px 0;overflow:hidden}
+.help-term-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;background:none;border:none;padding:11px 13px;cursor:pointer;text-align:left;font-family:var(--font)}
+.help-term-toggle:focus-visible{outline:2px solid var(--sage);outline-offset:-2px}
+.help-term-toggle h3{margin:0}
+.help-term-chevron{color:var(--sage-d);font-size:14px;flex-shrink:0;transition:transform .15s}
+.help-term h3{font-size:13px;font-weight:600;color:var(--sage-d)}
+.help-term-body{padding:0 13px 11px}
 .help-term p{font-size:12px;color:var(--muted);line-height:1.6}
 
 /* ===== EMPTY STATE ===== */
