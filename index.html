@@ -109,6 +109,7 @@
         </div>
       </div>
       <div class="hdr-btns">
+        <span id="sync-status-badge" class="sync-badge" style="display:none" aria-live="polite"></span>
         <span style="position:relative;display:inline-flex;align-items:center">
           <button class="hdr-btn" id="checkin-btn" onclick="openCheckin()" aria-label="Quarterly check-in" title="Quarterly check-in" style="position:relative;gap:6px">
             <i class="ti ti-calendar-check" aria-hidden="true"></i>
@@ -493,10 +494,15 @@
         <div class="set-accordion-body" id="set-acc-data-body" style="display:none">
           <div class="set-group">
             <h2 data-i18n="set_h_data">Your data</h2>
-            <p style="font-size:12px;color:var(--muted);padding:6px 0 10px" data-i18n="set_data_desc">Export your data to keep a backup or to transfer it to a future version of the app. Your data never leaves your device unless you export it.</p>
+            <p style="font-size:12px;color:var(--muted);padding:6px 0 10px" data-i18n="set_data_desc">Your data syncs across your devices on your account. Export a backup anytime, or transfer it to a future version of the app.</p>
             <button class="btn-outline" onclick="exportData()" style="margin-bottom:8px" data-i18n="set_export_btn">Export my data (backup)</button>
             <button class="btn-outline" onclick="document.getElementById('import-file').click()" data-i18n="set_import_btn">Import data from backup</button>
             <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(this)">
+          </div>
+          <div class="set-group">
+            <h2 data-i18n="set_h_trash">Recently deleted</h2>
+            <p style="font-size:12px;color:var(--muted);padding:0 0 10px" data-i18n="set_trash_desc">Deleted gigs stay here for 30 days before being permanently removed, in case you deleted something by mistake.</p>
+            <div id="trash-list"><p style="font-size:12px;color:var(--muted);padding:4px 0" data-i18n="set_trash_empty">Nothing in here right now.</p></div>
           </div>
           <div class="set-group" style="padding-bottom:6px">
             <h2 data-i18n="set_h_legal">Legal</h2>
@@ -584,6 +590,35 @@
     <button class="d-item" onclick="closeDrawer();showPage('glossary')"><i class="ti ti-book" aria-hidden="true"></i><div class="d-item-text"><h3>Glossary</h3><p>Set-aside account, surplus, gated — explained</p></div></button>
     <div class="d-sec">Tools</div>
     <button class="d-item" onclick="closeDrawer();showPage('invoice')"><i class="ti ti-file-dollar" aria-hidden="true"></i><div class="d-item-text"><h3>Invoice generator</h3><p>Create a professional invoice — free</p></div></button>
+  </div>
+</div>
+
+<!-- SYNC MIGRATION MODALS (temporary scaffolding — see main.js "GIG SYNC MIGRATION" section;
+     remove once the current tester group has all migrated to synced accounts) -->
+<div class="overlay" id="migrate-upload-modal" role="dialog" aria-modal="true" aria-label="Set up sync">
+  <div class="sheet">
+    <div class="drag" aria-hidden="true"></div>
+    <h2 class="m-title" data-i18n="migrate_upload_title">Set up sync</h2>
+    <p class="lock-sub" style="text-align:left" data-i18n="migrate_upload_body">This device already has data on it. We'll use it to set up syncing on your account, so it's available on any device you log into.</p>
+    <button class="btn btn-p" onclick="confirmMigrationUpload()" style="margin-top:8px" data-i18n="migrate_upload_btn">Set up sync with this data</button>
+  </div>
+</div>
+<div class="overlay" id="migrate-choice-modal" role="dialog" aria-modal="true" aria-label="Sync this device">
+  <div class="sheet">
+    <div class="drag" aria-hidden="true"></div>
+    <h2 class="m-title" data-i18n="migrate_choice_title">This account already has synced data</h2>
+    <p class="lock-sub" style="text-align:left" data-i18n="migrate_choice_body">This device also has its own local data. What would you like to do?</p>
+    <button class="btn btn-p" onclick="chooseMigrationCombine()" style="margin-top:8px" data-i18n="migrate_choice_add_btn">Add this device's data to what's already synced</button>
+    <button class="btn btn-g" onclick="chooseMigrationDiscard()" style="margin-top:8px" data-i18n="migrate_choice_discard_btn">Discard this device's local data and use what's already synced</button>
+  </div>
+</div>
+<div class="overlay" id="migrate-compare-modal" role="dialog" aria-modal="true" aria-label="Compare settings">
+  <div class="sheet">
+    <div class="drag" aria-hidden="true"></div>
+    <h2 class="m-title" data-i18n="migrate_compare_title">A few settings differ</h2>
+    <p class="lock-sub" style="text-align:left" data-i18n="migrate_compare_body">These don't combine like gigs — pick which value to keep for each.</p>
+    <div id="migrate-compare-rows"></div>
+    <button class="btn btn-p" id="migrate-compare-confirm-btn" onclick="confirmMigrationCompare()" style="margin-top:12px" disabled data-i18n="migrate_compare_confirm_btn">Continue</button>
   </div>
 </div>
 
@@ -890,7 +925,8 @@
         <li style="margin-bottom:4px" data-i18n="terms_prof_5">You are a few years from retirement, or planning a major life change</li>
         <li style="margin-bottom:4px" data-i18n="terms_prof_6">Your situation involves multiple income types, provinces/states, or countries</li>
       </ul>
-      <p style="margin-bottom:12px"><strong style="color:var(--sage-d)" data-i18n="terms_p3_strong">Your data.</strong> <span data-i18n="terms_p3">All information you enter stays on your own device, stored locally in your browser. It is never transmitted to or stored on any external server by this app. You are responsible for backing up your data using the export feature, as clearing your browser data will erase it.</span></p>
+      <p style="margin-bottom:12px"><strong style="color:var(--sage-d)" data-i18n="terms_p3_strong">Your data.</strong> <span data-i18n="terms_p3">Your information is stored securely in the cloud (via Supabase) so it can sync across your devices, in addition to being cached locally on each device you use. Supabase acts as our data processor — they host the infrastructure, but we remain responsible for how your data is used and protected. Your data is never sold, and we do not have routine access to individual users' financial details; access is protected by database-level security rules tied to your own account.</span></p>
+      <p style="margin-bottom:12px"><strong style="color:var(--sage-d)" data-i18n="terms_p5_strong">Cookies and local storage.</strong> <span data-i18n="terms_p5">This app uses browser local storage (not traditional cookies) to keep you logged in. Our analytics tool (PostHog) sets one small cookie to distinguish anonymous sessions, alongside its own local storage — no financial information is ever included in this. We do not use advertising or tracking cookies.</span></p>
       <p style="margin-bottom:0"><strong style="color:var(--sage-d)" data-i18n="terms_p4_strong">Beta software.</strong> <span data-i18n="terms_p4">This app is under active development. Features, calculations, and data structures may change. While care is taken to keep your data intact across updates, no guarantee is made against data loss — please export backups regularly.</span></p>
     </div>
     <button class="btn btn-p" onclick="closeOv('terms-modal')" style="margin-top:16px" data-i18n="terms_got_it">Got it</button>
