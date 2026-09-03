@@ -628,7 +628,7 @@
     <div class="drag" aria-hidden="true"></div>
     <h2 class="m-title" data-i18n="gig_title">Log a gig</h2>
     <div class="field" id="f-date"><label for="g-date" data-i18n="gig_date">Date</label><input id="g-date" type="date" onchange="document.getElementById('f-date').classList.remove('error');checkHistoricalToggle();calcGigModal()"><span class="field-err" data-i18n="gig_date_err">Please add a date</span></div>
-    <div class="field"><label for="g-status" data-i18n="gig_status">Status</label><select id="g-status"><option value="Received" data-i18n="gig_status_received">Received</option><option value="Pending" data-i18n="gig_status_pending">Pending</option></select></div>
+    <div class="field"><label for="g-status" data-i18n="gig_status">Status</label><select id="g-status" onchange="calcGigModal()"><option value="Received" data-i18n="gig_status_received">Received</option><option value="Pending" data-i18n="gig_status_pending">Pending</option></select></div>
     <!-- Historical entry toggle — shown when date is in a past month -->
     <div id="historical-toggle-row" style="display:none;background:var(--gold-l);border-radius:var(--rs);padding:10px 12px;margin-bottom:10px">
       <div style="display:flex;align-items:center;justify-content:space-between">
