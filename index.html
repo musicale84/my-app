@@ -378,6 +378,11 @@
               <p class="lock-msg" id="set-pw-msg" role="status" style="display:none;margin:4px 0 0"></p>
               <button class="btn-outline" id="set-change-pw-btn" onclick="handleChangePassword()" style="margin-top:8px" data-i18n="set_change_pw_btn">Update password</button>
             </div>
+            <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border)">
+              <h3 style="font-size:13px;font-weight:600;color:var(--red);margin-bottom:8px" data-i18n="set_h_delete_account">Delete account</h3>
+              <p style="font-size:12px;color:var(--muted);padding:0 0 10px" data-i18n="set_delete_account_desc">Permanently delete your account and all your data. Starts a 30-day grace period — nothing is removed right away, and you can cancel anytime before then.</p>
+              <button class="btn-danger" onclick="openDeleteAccountModal()" data-i18n="set_delete_account_btn">Delete my account</button>
+            </div>
           </div>
         </div>
       </div>
@@ -619,6 +624,44 @@
     <p class="lock-sub" style="text-align:left" data-i18n="migrate_compare_body">These don't combine like gigs — pick which value to keep for each.</p>
     <div id="migrate-compare-rows"></div>
     <button class="btn btn-p" id="migrate-compare-confirm-btn" onclick="confirmMigrationCompare()" style="margin-top:12px" disabled data-i18n="migrate_compare_confirm_btn">Continue</button>
+  </div>
+</div>
+
+<!-- DELETE ACCOUNT MODAL -->
+<div class="overlay" id="delete-account-modal" role="dialog" aria-modal="true" aria-label="Delete account">
+  <div class="sheet">
+    <div class="drag" aria-hidden="true"></div>
+    <h2 class="m-title" data-i18n="del_acc_modal_title">Delete your account?</h2>
+    <p class="lock-sub" style="text-align:left" data-i18n="del_acc_modal_body">This starts a 30-day countdown, not an immediate deletion. Log back in anytime during those 30 days and you'll be offered the choice to cancel. After 30 days, your account and all your data are permanently deleted and can't be recovered.</p>
+    <div class="field"><label for="del-acc-type" data-i18n="del_acc_type_label">Type DELETE to confirm</label><input id="del-acc-type" type="text" autocomplete="off" oninput="updateDeleteAccountConfirmState()"></div>
+    <div class="field"><label for="del-acc-password" data-i18n="del_acc_password_label">Confirm your password</label><input id="del-acc-password" type="password" placeholder="••••••••" autocomplete="current-password" oninput="updateDeleteAccountConfirmState()"></div>
+    <p class="lock-err" id="del-acc-err" role="alert" style="display:none"></p>
+    <button class="btn-danger" id="del-acc-confirm-btn" onclick="submitDeleteAccount()" disabled data-i18n="del_acc_confirm_btn">Delete my account</button>
+    <button class="btn btn-g" onclick="closeOv('delete-account-modal')" data-i18n="del_acc_cancel_btn">Cancel</button>
+  </div>
+</div>
+<div class="overlay" id="delete-account-scheduled-modal" role="dialog" aria-modal="true" aria-label="Account deletion scheduled" onclick="closeOvIf(event,'delete-account-scheduled-modal')">
+  <div class="sheet" style="text-align:center">
+    <div class="drag" aria-hidden="true"></div>
+    <h2 class="m-title" data-i18n="del_acc_scheduled_title">Account deletion scheduled</h2>
+    <p class="lock-sub" data-i18n="del_acc_scheduled_body">Your account will be permanently deleted in 30 days. Log back in anytime before then to cancel.</p>
+    <button class="btn btn-p" onclick="confirmDeleteAccountScheduled()" style="margin-top:8px" data-i18n="del_acc_scheduled_ok_btn">OK, log me out</button>
+  </div>
+</div>
+
+<!-- PENDING DELETION MODAL — mandatory, no backdrop dismiss; shown at boot (logging back in during
+     the 30-day window) and live via realtime if another device requests deletion while this one is
+     already open. See setupProfileRealtimeSync() / showPendingDeletionModal() in main.js. -->
+<div class="overlay" id="pending-deletion-modal" role="dialog" aria-modal="true" aria-label="Account scheduled for deletion">
+  <div class="sheet">
+    <div class="drag" aria-hidden="true"></div>
+    <h2 class="m-title" data-i18n="pending_del_title">Your account is scheduled for deletion</h2>
+    <!-- No data-i18n here on purpose — the {date} placeholder needs a real substitution, so
+         showPendingDeletionModal() in main.js sets this text directly via t('pending_del_body'),
+         same pattern as hm-sub/hisa-modal's dynamic text. Fallback below is English only. -->
+    <p class="lock-sub" style="text-align:left" id="pending-del-body-text">This account is set to be permanently deleted on {date}. You can cancel and keep using your account, or log out.</p>
+    <button class="btn btn-p" onclick="choosePendingDeletionCancel()" style="margin-top:8px" data-i18n="pending_del_cancel_btn">Cancel deletion, keep my account</button>
+    <button class="btn-outline" onclick="choosePendingDeletionLogout()" style="margin-top:8px" data-i18n="pending_del_logout_btn">Log out</button>
   </div>
 </div>
 

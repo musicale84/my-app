@@ -37,7 +37,7 @@ en:{
   lang_en:"English", lang_es:"Español", lang_fr:"Français", lang_confirm:"Continue",
   nav_dashboard:"Dashboard", nav_gigs:"Gigs", nav_reports:"Reports",
   onb1_title:"Your monthly baseline", onb1_sub:"Add every fixed cost — rent, groceries, utilities, childcare. This is the number your income is measured against each month.",
-  onb1_add_expense:"Add expense", onb1_baseline_label:"Monthly baseline", onb1_continue:"Continue", onb1_suggestion_note:"The grey numbers are rough starting suggestions — type your real amount to replace them.", terms_title:"Terms & disclaimer", terms_p1:"artisticAutonomy™ is a proprietary tool created by Alejandro Céspedes. The name, branding, design, and underlying code are protected by copyright and trademark. This beta version is shared privately for testing purposes only and is not licensed for redistribution, copying, or commercial reuse.", terms_p2_strong:"Not financial advice.", terms_p2:"This app is an organizational and educational tool. It does not provide financial, tax, legal, or investment advice. Calculations are based on the percentages and settings you enter.", terms_professional_strong:"When to talk to a real professional.", terms_professional_intro:"This app helps you organize and understand your numbers — it is not a substitute for personalized advice. Talk to a qualified accountant, tax professional, or financial advisor when:", terms_prof_1:"You are registering for sales tax (HST/GST/VAT) for the first time, or unsure if you should be", terms_prof_2:"You receive a tax bill that surprises you, or are behind on tax payments", terms_prof_3:"You are dealing with debt beyond what a simple payment plan can address", terms_prof_4:"You receive a large one-time payment or windfall", terms_prof_5:"You are a few years from retirement, or planning a major life change", terms_prof_6:"Your situation involves multiple income types, provinces/states, or countries", terms_p3_strong:"Your data.", terms_p3:"Your information is stored securely in the cloud (via Supabase) so it can sync across your devices, in addition to being cached locally on each device you use. Supabase acts as our data processor — they host the infrastructure, but we remain responsible for how your data is used and protected. Your data is never sold, and we do not have routine access to individual users' financial details; access is protected by database-level security rules tied to your own account.", terms_p5_strong:"Cookies and local storage.", terms_p5:"This app uses browser local storage (not traditional cookies) to keep you logged in. Our analytics tool (PostHog) sets one small cookie to distinguish anonymous sessions, alongside its own local storage — no financial information is ever included in this. We do not use advertising or tracking cookies.", terms_p4_strong:"Beta software.", terms_p4:"This app is under active development. Features, calculations, and data structures may change. While care is taken to keep your data intact across updates, no guarantee is made against data loss — please export backups regularly.", terms_got_it:"Got it",
+  onb1_add_expense:"Add expense", onb1_baseline_label:"Monthly baseline", onb1_continue:"Continue", onb1_suggestion_note:"The grey numbers are rough starting suggestions — type your real amount to replace them.", terms_title:"Terms & disclaimer", terms_p1:"artisticAutonomy™ is a proprietary tool created by Alejandro Céspedes. The name, branding, design, and underlying code are protected by copyright and trademark. This beta version is shared privately for testing purposes only and is not licensed for redistribution, copying, or commercial reuse.", terms_p2_strong:"Not financial advice.", terms_p2:"This app is an organizational and educational tool. It does not provide financial, tax, legal, or investment advice. Calculations are based on the percentages and settings you enter.", terms_professional_strong:"When to talk to a real professional.", terms_professional_intro:"This app helps you organize and understand your numbers — it is not a substitute for personalized advice. Talk to a qualified accountant, tax professional, or financial advisor when:", terms_prof_1:"You are registering for sales tax (HST/GST/VAT) for the first time, or unsure if you should be", terms_prof_2:"You receive a tax bill that surprises you, or are behind on tax payments", terms_prof_3:"You are dealing with debt beyond what a simple payment plan can address", terms_prof_4:"You receive a large one-time payment or windfall", terms_prof_5:"You are a few years from retirement, or planning a major life change", terms_prof_6:"Your situation involves multiple income types, provinces/states, or countries", terms_p3_strong:"Your data.", terms_p3:"Your information is stored securely in the cloud (via Supabase) so it can sync across your devices, in addition to being cached locally on each device you use. Supabase acts as our data processor — they host the infrastructure, but we remain responsible for how your data is used and protected. Your data is never sold, and we do not have routine access to individual users' financial details; access is protected by database-level security rules tied to your own account. If you delete your account, we retain anonymized, non-identifying usage data to help us understand and improve the app.", terms_p5_strong:"Cookies and local storage.", terms_p5:"This app uses browser local storage (not traditional cookies) to keep you logged in. Our analytics tool (PostHog) sets one small cookie to distinguish anonymous sessions, alongside its own local storage — no financial information is ever included in this. We do not use advertising or tracking cookies.", terms_p4_strong:"Beta software.", terms_p4:"This app is under active development. Features, calculations, and data structures may change. While care is taken to keep your data intact across updates, no guarantee is made against data loss — please export backups regularly.", terms_got_it:"Got it",
   onb2_title:"Tax settings", onb2_sub:"These drive every calculation. Defaults are set for Ontario — adjust for your province or country.",
   onb2_currency_label:"Currency symbol", onb2_currency_other_label:"Your currency symbol",
   onb2_tax_label:"Tax set-aside % (includes pension contribution)", onb2_hst_label:"Sales tax %", onb2_dues_label:"Work dues %",
@@ -58,7 +58,7 @@ en:{
   inv_export_btn:"Export / print invoice",
   export_default_name:"My Business", export_footer_invoice:"Prepared with artisticAutonomy™ | artisticautonomy.ca", export_footer_report:"Generated by artisticAutonomy™ | artisticautonomy.ca", progress_peak_efficiency:"🏆 Peak efficiency! You're excelling across every dimension.",
   auth_sub_line1:"Financial toolkit for creative professionals.", auth_sub_login_line2:"Sign in to continue.", auth_sub_signup_line2:"Create your account to get started.", auth_login_btn:"Log in", auth_signup_btn:"Create account", auth_toggle_to_signup:"Need an account? Sign up", auth_toggle_to_login:"Already have an account? Log in", auth_err_missing_fields:"Please enter both email and password.", auth_msg_check_email:"Account created! Check your email to confirm, then log in.", auth_err_generic:"Something went wrong. Please try again.", set_h_account:"Account", set_logged_in_as:"Logged in as", set_logout_btn:"Log out",
-  auth_forgot_link:"Forgot password?", auth_back_to_login:"Back to log in", auth_reset_send_btn:"Send reset link", auth_sub_reset_line2:"Enter your email to get a reset link.", auth_set_new_password_btn:"Set new password", auth_sub_setnew_line2:"Choose a new password.", auth_new_password_ph:"New password", auth_err_missing_email:"Please enter your email.", auth_err_missing_password:"Please enter a new password.", auth_msg_reset_sent:"Check your email for a password reset link.", auth_msg_password_updated:"Password updated! Please log in.", auth_password_field_label:"Password", auth_confirm_password_ph:"Confirm password", auth_err_password_mismatch:"Passwords don't match.", auth_resend_btn:"Resend confirmation email", auth_msg_resend_sent:"Confirmation email resent — check your inbox.", auth_existing_account_msg:"This email already has an account.", auth_existing_account_login_btn:"Log in instead", auth_existing_account_reset_btn:"Reset password", auth_resend_cooldown:"Resend available in {s}s", set_change_pw_title:"Change password", set_change_pw_btn:"Update password", set_pw_msg_updated:"Password updated!", set_group_account:"Account & Security", set_group_setup:"Your Setup", set_group_balances:"Balances & Debt", set_group_prefs:"Preferences", set_group_data:"Data & Legal", gig_draft_restore_prompt:"Restore your unsaved draft from {time}?", det_fee_from_check:"Scale fee calculated from a {amt} check amount.",
+  auth_forgot_link:"Forgot password?", auth_back_to_login:"Back to log in", auth_reset_send_btn:"Send reset link", auth_sub_reset_line2:"Enter your email to get a reset link.", auth_set_new_password_btn:"Set new password", auth_sub_setnew_line2:"Choose a new password.", auth_new_password_ph:"New password", auth_err_missing_email:"Please enter your email.", auth_err_missing_password:"Please enter a new password.", auth_msg_reset_sent:"Check your email for a password reset link.", auth_msg_password_updated:"Password updated! Please log in.", auth_password_field_label:"Password", auth_confirm_password_ph:"Confirm password", auth_err_password_mismatch:"Passwords don't match.", auth_resend_btn:"Resend confirmation email", auth_msg_resend_sent:"Confirmation email resent — check your inbox.", auth_existing_account_msg:"This email already has an account.", auth_existing_account_login_btn:"Log in instead", auth_existing_account_reset_btn:"Reset password", auth_resend_cooldown:"Resend available in {s}s", set_change_pw_title:"Change password", set_change_pw_btn:"Update password", set_pw_msg_updated:"Password updated!", set_h_delete_account:"Delete account", set_delete_account_desc:"Permanently delete your account and all your data. Starts a 30-day grace period — nothing is removed right away, and you can cancel anytime before then.", set_delete_account_btn:"Delete my account", del_acc_modal_title:"Delete your account?", del_acc_modal_body:"This starts a 30-day countdown, not an immediate deletion. Log back in anytime during those 30 days and you'll be offered the choice to cancel. After 30 days, your account and all your data are permanently deleted and can't be recovered.", del_acc_type_label:"Type DELETE to confirm", del_acc_password_label:"Confirm your password", del_acc_confirm_btn:"Delete my account", del_acc_cancel_btn:"Cancel", del_acc_scheduled_title:"Account deletion scheduled", del_acc_scheduled_body:"Your account will be permanently deleted in 30 days. Log back in anytime before then to cancel.", del_acc_scheduled_ok_btn:"OK, log me out", pending_del_title:"Your account is scheduled for deletion", pending_del_body:"This account is set to be permanently deleted on {date}. You can cancel and keep using your account, or log out.", pending_del_cancel_btn:"Cancel deletion, keep my account", pending_del_logout_btn:"Log out", del_acc_wrong_password_err:"That password isn't correct.", del_acc_cancel_failed_err:"Couldn't cancel the deletion — check your connection and try again.", account_deleted_msg:"This account has been deleted.", set_group_account:"Account & Security", set_group_setup:"Your Setup", set_group_balances:"Balances & Debt", set_group_prefs:"Preferences", set_group_data:"Data & Legal", gig_draft_restore_prompt:"Restore your unsaved draft from {time}?", det_fee_from_check:"Scale fee calculated from a {amt} check amount.",
   sync_status_synced:"Synced", sync_status_syncing:"Syncing…", sync_status_offline:"Offline — will sync when reconnected",
   set_h_trash:"Recently deleted", set_trash_desc:"Deleted gigs stay here for 30 days before being permanently removed, in case you deleted something by mistake.", set_trash_empty:"Nothing in here right now.", set_trash_days_left:"{days} days left", set_trash_restore_btn:"Restore",
   gig_delete_confirm:"\"{name}\" on {date} — move to Recently Deleted? You can restore it within 30 days.",
@@ -72,7 +72,7 @@ es:{
   lang_en:"English", lang_es:"Español", lang_fr:"Français", lang_confirm:"Continuar",
   nav_dashboard:"Inicio", nav_gigs:"Trabajos", nav_reports:"Informes",
   onb1_title:"Tu base mensual", onb1_sub:"Añade cada gasto fijo — alquiler, comida, servicios, cuidado infantil. Este es el número con el que se mide tu ingreso cada mes.",
-  onb1_add_expense:"Añadir gasto", onb1_baseline_label:"Base mensual", onb1_continue:"Continuar", onb1_suggestion_note:"Los números en gris son sugerencias aproximadas de inicio — escribe tu monto real para reemplazarlos.", terms_title:"Términos y descargo de responsabilidad", terms_p1:"artisticAutonomy™ es una herramienta propiedad de Alejandro Céspedes. El nombre, la marca, el diseño y el código subyacente están protegidos por derechos de autor y marca registrada. Esta versión beta se comparte de forma privada solo para fines de prueba y no está autorizada para redistribución, copia o reutilización comercial.", terms_p2_strong:"No es asesoría financiera.", terms_p2:"Esta app es una herramienta de organización y educación. No ofrece asesoría financiera, fiscal, legal ni de inversión. Los cálculos se basan en los porcentajes y ajustes que tú ingresas.", terms_professional_strong:"Cuándo hablar con un profesional real.", terms_professional_intro:"Esta app te ayuda a organizar y entender tus números — no sustituye una asesoría personalizada. Habla con un contador, profesional de impuestos o asesor financiero calificado cuando:", terms_prof_1:"Te registres para cobrar impuesto sobre ventas (HST/GST/IVA) por primera vez, o no estés seguro si debes hacerlo", terms_prof_2:"Recibas una factura de impuestos que te sorprenda, o estés atrasado en pagos de impuestos", terms_prof_3:"Estés lidiando con deudas más allá de lo que un plan de pago simple puede resolver", terms_prof_4:"Recibas un pago único grande o una entrada de dinero inesperada", terms_prof_5:"Estés a pocos años de jubilarte, o planeando un cambio importante de vida", terms_prof_6:"Tu situación involucre múltiples tipos de ingreso, provincias/estados o países", terms_p3_strong:"Tus datos.", terms_p3:"Tu información se almacena de forma segura en la nube (a través de Supabase) para que puedas sincronizarla entre tus dispositivos, además de guardarse en caché localmente en cada dispositivo que uses. Supabase actúa como nuestro procesador de datos — ellos alojan la infraestructura, pero nosotros seguimos siendo responsables de cómo se usan y protegen tus datos. Tus datos nunca se venden, y no tenemos acceso rutinario a los detalles financieros de usuarios individuales; el acceso está protegido por reglas de seguridad a nivel de base de datos vinculadas a tu propia cuenta.", terms_p5_strong:"Cookies y almacenamiento local.", terms_p5:"Esta app usa el almacenamiento local del navegador (no cookies tradicionales) para mantener tu sesión iniciada. Nuestra herramienta de análisis (PostHog) coloca una pequeña cookie para distinguir sesiones anónimas, junto con su propio almacenamiento local — nunca se incluye información financiera en esto. No usamos cookies de publicidad ni de rastreo.", terms_p4_strong:"Software beta.", terms_p4:"Esta app está en desarrollo activo. Las funciones, cálculos y estructuras de datos pueden cambiar. Aunque se procura mantener tus datos intactos entre actualizaciones, no se garantiza contra pérdida de datos — exporta copias de seguridad con regularidad.", terms_got_it:"Entendido",
+  onb1_add_expense:"Añadir gasto", onb1_baseline_label:"Base mensual", onb1_continue:"Continuar", onb1_suggestion_note:"Los números en gris son sugerencias aproximadas de inicio — escribe tu monto real para reemplazarlos.", terms_title:"Términos y descargo de responsabilidad", terms_p1:"artisticAutonomy™ es una herramienta propiedad de Alejandro Céspedes. El nombre, la marca, el diseño y el código subyacente están protegidos por derechos de autor y marca registrada. Esta versión beta se comparte de forma privada solo para fines de prueba y no está autorizada para redistribución, copia o reutilización comercial.", terms_p2_strong:"No es asesoría financiera.", terms_p2:"Esta app es una herramienta de organización y educación. No ofrece asesoría financiera, fiscal, legal ni de inversión. Los cálculos se basan en los porcentajes y ajustes que tú ingresas.", terms_professional_strong:"Cuándo hablar con un profesional real.", terms_professional_intro:"Esta app te ayuda a organizar y entender tus números — no sustituye una asesoría personalizada. Habla con un contador, profesional de impuestos o asesor financiero calificado cuando:", terms_prof_1:"Te registres para cobrar impuesto sobre ventas (HST/GST/IVA) por primera vez, o no estés seguro si debes hacerlo", terms_prof_2:"Recibas una factura de impuestos que te sorprenda, o estés atrasado en pagos de impuestos", terms_prof_3:"Estés lidiando con deudas más allá de lo que un plan de pago simple puede resolver", terms_prof_4:"Recibas un pago único grande o una entrada de dinero inesperada", terms_prof_5:"Estés a pocos años de jubilarte, o planeando un cambio importante de vida", terms_prof_6:"Tu situación involucre múltiples tipos de ingreso, provincias/estados o países", terms_p3_strong:"Tus datos.", terms_p3:"Tu información se almacena de forma segura en la nube (a través de Supabase) para que puedas sincronizarla entre tus dispositivos, además de guardarse en caché localmente en cada dispositivo que uses. Supabase actúa como nuestro procesador de datos — ellos alojan la infraestructura, pero nosotros seguimos siendo responsables de cómo se usan y protegen tus datos. Tus datos nunca se venden, y no tenemos acceso rutinario a los detalles financieros de usuarios individuales; el acceso está protegido por reglas de seguridad a nivel de base de datos vinculadas a tu propia cuenta. Si eliminas tu cuenta, conservamos datos de uso anonimizados y no identificables que nos ayudan a entender y mejorar la app.", terms_p5_strong:"Cookies y almacenamiento local.", terms_p5:"Esta app usa el almacenamiento local del navegador (no cookies tradicionales) para mantener tu sesión iniciada. Nuestra herramienta de análisis (PostHog) coloca una pequeña cookie para distinguir sesiones anónimas, junto con su propio almacenamiento local — nunca se incluye información financiera en esto. No usamos cookies de publicidad ni de rastreo.", terms_p4_strong:"Software beta.", terms_p4:"Esta app está en desarrollo activo. Las funciones, cálculos y estructuras de datos pueden cambiar. Aunque se procura mantener tus datos intactos entre actualizaciones, no se garantiza contra pérdida de datos — exporta copias de seguridad con regularidad.", terms_got_it:"Entendido",
   onb2_title:"Configuración de impuestos", onb2_sub:"Esto determina cada cálculo. Los valores por defecto son para Ontario — ajústalos según tu provincia o país.",
   onb2_currency_label:"Símbolo de moneda", onb2_currency_other_label:"Tu símbolo de moneda",
   onb2_tax_label:"% de reserva de impuestos (incluye aportes a pensión)", onb2_hst_label:"% de impuesto sobre ventas", onb2_dues_label:"% de cuotas sindicales/gremiales",
@@ -93,7 +93,7 @@ es:{
   inv_export_btn:"Exportar / imprimir factura",
   export_default_name:"Mi Negocio", export_footer_invoice:"Preparado con artisticAutonomy™ | artisticautonomy.ca", export_footer_report:"Generado por artisticAutonomy™ | artisticautonomy.ca", progress_peak_efficiency:"🏆 ¡Eficiencia máxima! Estás sobresaliendo en todas las dimensiones.",
   auth_sub_line1:"Herramienta financiera para profesionales creativos.", auth_sub_login_line2:"Inicia sesión para continuar.", auth_sub_signup_line2:"Crea tu cuenta para empezar.", auth_login_btn:"Iniciar sesión", auth_signup_btn:"Crear cuenta", auth_toggle_to_signup:"¿No tienes cuenta? Regístrate", auth_toggle_to_login:"¿Ya tienes cuenta? Inicia sesión", auth_err_missing_fields:"Ingresa tu correo y contraseña.", auth_msg_check_email:"¡Cuenta creada! Revisa tu correo para confirmarla y luego inicia sesión.", auth_err_generic:"Algo salió mal. Inténtalo de nuevo.", set_h_account:"Cuenta", set_logged_in_as:"Sesión iniciada como", set_logout_btn:"Cerrar sesión",
-  auth_forgot_link:"¿Olvidaste tu contraseña?", auth_back_to_login:"Volver a iniciar sesión", auth_reset_send_btn:"Enviar enlace de restablecimiento", auth_sub_reset_line2:"Ingresa tu correo para recibir un enlace de restablecimiento.", auth_set_new_password_btn:"Establecer nueva contraseña", auth_sub_setnew_line2:"Elige una nueva contraseña.", auth_new_password_ph:"Nueva contraseña", auth_err_missing_email:"Ingresa tu correo electrónico.", auth_err_missing_password:"Ingresa una nueva contraseña.", auth_msg_reset_sent:"Revisa tu correo para el enlace de restablecimiento.", auth_msg_password_updated:"¡Contraseña actualizada! Inicia sesión.", auth_password_field_label:"Contraseña", auth_confirm_password_ph:"Confirmar contraseña", auth_err_password_mismatch:"Las contraseñas no coinciden.", auth_resend_btn:"Reenviar correo de confirmación", auth_msg_resend_sent:"Correo de confirmación reenviado — revisa tu bandeja de entrada.", auth_existing_account_msg:"Este correo ya tiene una cuenta.", auth_existing_account_login_btn:"Iniciar sesión", auth_existing_account_reset_btn:"Restablecer contraseña", auth_resend_cooldown:"Podrás reenviar en {s}s", set_change_pw_title:"Cambiar contraseña", set_change_pw_btn:"Actualizar contraseña", set_pw_msg_updated:"¡Contraseña actualizada!", set_group_account:"Cuenta y seguridad", set_group_setup:"Tu configuración", set_group_balances:"Saldos y deudas", set_group_prefs:"Preferencias", set_group_data:"Datos y legal", gig_draft_restore_prompt:"¿Restaurar tu borrador sin guardar de {time}?", det_fee_from_check:"Tarifa calculada a partir de un monto de cheque de {amt}.",
+  auth_forgot_link:"¿Olvidaste tu contraseña?", auth_back_to_login:"Volver a iniciar sesión", auth_reset_send_btn:"Enviar enlace de restablecimiento", auth_sub_reset_line2:"Ingresa tu correo para recibir un enlace de restablecimiento.", auth_set_new_password_btn:"Establecer nueva contraseña", auth_sub_setnew_line2:"Elige una nueva contraseña.", auth_new_password_ph:"Nueva contraseña", auth_err_missing_email:"Ingresa tu correo electrónico.", auth_err_missing_password:"Ingresa una nueva contraseña.", auth_msg_reset_sent:"Revisa tu correo para el enlace de restablecimiento.", auth_msg_password_updated:"¡Contraseña actualizada! Inicia sesión.", auth_password_field_label:"Contraseña", auth_confirm_password_ph:"Confirmar contraseña", auth_err_password_mismatch:"Las contraseñas no coinciden.", auth_resend_btn:"Reenviar correo de confirmación", auth_msg_resend_sent:"Correo de confirmación reenviado — revisa tu bandeja de entrada.", auth_existing_account_msg:"Este correo ya tiene una cuenta.", auth_existing_account_login_btn:"Iniciar sesión", auth_existing_account_reset_btn:"Restablecer contraseña", auth_resend_cooldown:"Podrás reenviar en {s}s", set_change_pw_title:"Cambiar contraseña", set_change_pw_btn:"Actualizar contraseña", set_pw_msg_updated:"¡Contraseña actualizada!", set_h_delete_account:"Eliminar cuenta", set_delete_account_desc:"Elimina permanentemente tu cuenta y todos tus datos. Inicia un período de gracia de 30 días — nada se elimina de inmediato, y puedes cancelar en cualquier momento antes de que termine.", set_delete_account_btn:"Eliminar mi cuenta", del_acc_modal_title:"¿Eliminar tu cuenta?", del_acc_modal_body:"Esto inicia una cuenta regresiva de 30 días, no una eliminación inmediata. Inicia sesión en cualquier momento durante esos 30 días y se te ofrecerá la opción de cancelar. Después de 30 días, tu cuenta y todos tus datos se eliminan permanentemente y no se pueden recuperar.", del_acc_type_label:"Escribe DELETE para confirmar", del_acc_password_label:"Confirma tu contraseña", del_acc_confirm_btn:"Eliminar mi cuenta", del_acc_cancel_btn:"Cancelar", del_acc_scheduled_title:"Eliminación de cuenta programada", del_acc_scheduled_body:"Tu cuenta se eliminará permanentemente en 30 días. Inicia sesión en cualquier momento antes de eso para cancelar.", del_acc_scheduled_ok_btn:"Aceptar, cerrar mi sesión", pending_del_title:"Tu cuenta está programada para eliminarse", pending_del_body:"Esta cuenta se eliminará permanentemente el {date}. Puedes cancelar y seguir usando tu cuenta, o cerrar sesión.", pending_del_cancel_btn:"Cancelar eliminación, conservar mi cuenta", pending_del_logout_btn:"Cerrar sesión", del_acc_wrong_password_err:"Esa contraseña no es correcta.", del_acc_cancel_failed_err:"No se pudo cancelar la eliminación — revisa tu conexión e inténtalo de nuevo.", account_deleted_msg:"Esta cuenta ha sido eliminada.", set_group_account:"Cuenta y seguridad", set_group_setup:"Tu configuración", set_group_balances:"Saldos y deudas", set_group_prefs:"Preferencias", set_group_data:"Datos y legal", gig_draft_restore_prompt:"¿Restaurar tu borrador sin guardar de {time}?", det_fee_from_check:"Tarifa calculada a partir de un monto de cheque de {amt}.",
   sync_status_synced:"Sincronizado", sync_status_syncing:"Sincronizando…", sync_status_offline:"Sin conexión — se sincronizará al reconectar",
   set_h_trash:"Eliminados recientemente", set_trash_desc:"Los gigs eliminados permanecen aquí 30 días antes de eliminarse permanentemente, por si eliminaste algo por error.", set_trash_empty:"No hay nada aquí por ahora.", set_trash_days_left:"quedan {days} días", set_trash_restore_btn:"Restaurar",
   gig_delete_confirm:"\"{name}\" del {date} — ¿mover a Eliminados recientemente? Puedes restaurarlo dentro de 30 días.",
@@ -107,7 +107,7 @@ fr:{
   lang_en:"English", lang_es:"Español", lang_fr:"Français", lang_confirm:"Continuer",
   nav_dashboard:"Tableau de bord", nav_gigs:"Contrats", nav_reports:"Rapports",
   onb1_title:"Votre base mensuelle", onb1_sub:"Ajoutez chaque dépense fixe — loyer, épicerie, services publics, garde d'enfants. C'est le montant auquel votre revenu est comparé chaque mois.",
-  onb1_add_expense:"Ajouter une dépense", onb1_baseline_label:"Base mensuelle", onb1_continue:"Continuer", onb1_suggestion_note:"Les chiffres en gris sont des suggestions approximatives de départ — tapez votre montant réel pour les remplacer.", terms_title:"Conditions et avis de non-responsabilité", terms_p1:"artisticAutonomy™ est un outil propriétaire créé par Alejandro Céspedes. Le nom, la marque, le design et le code sous-jacent sont protégés par le droit d’auteur et une marque de commerce. Cette version bêta est partagée en privé à des fins de test uniquement et n’est pas autorisée pour la redistribution, la copie ou la réutilisation commerciale.", terms_p2_strong:"Ce n’est pas un conseil financier.", terms_p2:"Cette appli est un outil d’organisation et d’éducation. Elle ne fournit pas de conseils financiers, fiscaux, juridiques ou de placement. Les calculs sont basés sur les pourcentages et paramètres que vous entrez.", terms_professional_strong:"Quand consulter un vrai professionnel.", terms_professional_intro:"Cette appli vous aide à organiser et comprendre vos chiffres — elle ne remplace pas un conseil personnalisé. Consultez un comptable, un fiscaliste ou un conseiller financier qualifié quand :", terms_prof_1:"Vous vous inscrivez pour percevoir la taxe de vente (TVH/TPS/TVA) pour la première fois, ou n’êtes pas sûr de devoir le faire", terms_prof_2:"Vous recevez une facture d’impôt qui vous surprend, ou êtes en retard sur des paiements d’impôt", terms_prof_3:"Vous faites face à une dette au-delà de ce qu’un simple plan de paiement peut régler", terms_prof_4:"Vous recevez un paiement unique important ou une rentrée d’argent inattendue", terms_prof_5:"Vous êtes à quelques années de la retraite, ou planifiez un changement de vie majeur", terms_prof_6:"Votre situation implique plusieurs types de revenu, provinces/états ou pays", terms_p3_strong:"Vos données.", terms_p3:"Vos informations sont stockées en toute sécurité dans le nuage (via Supabase) afin de pouvoir se synchroniser entre vos appareils, en plus d’être mises en cache localement sur chaque appareil que vous utilisez. Supabase agit comme notre sous-traitant de données — ils hébergent l’infrastructure, mais nous demeurons responsables de la façon dont vos données sont utilisées et protégées. Vos données ne sont jamais vendues, et nous n’avons pas d’accès routinier aux détails financiers des utilisateurs individuels; l’accès est protégé par des règles de sécurité au niveau de la base de données liées à votre propre compte.", terms_p5_strong:"Cookies et stockage local.", terms_p5:"Cette appli utilise le stockage local du navigateur (pas de cookies traditionnels) pour vous garder connecté. Notre outil d’analyse (PostHog) place un petit cookie pour distinguer les sessions anonymes, en plus de son propre stockage local — aucune information financière n’y est jamais incluse. Nous n’utilisons pas de cookies publicitaires ou de suivi.", terms_p4_strong:"Logiciel bêta.", terms_p4:"Cette appli est en développement actif. Les fonctionnalités, calculs et structures de données peuvent changer. Bien que des précautions soient prises pour garder vos données intactes entre les mises à jour, aucune garantie n’est donnée contre la perte de données — exportez des sauvegardes régulièrement.", terms_got_it:"Compris",
+  onb1_add_expense:"Ajouter une dépense", onb1_baseline_label:"Base mensuelle", onb1_continue:"Continuer", onb1_suggestion_note:"Les chiffres en gris sont des suggestions approximatives de départ — tapez votre montant réel pour les remplacer.", terms_title:"Conditions et avis de non-responsabilité", terms_p1:"artisticAutonomy™ est un outil propriétaire créé par Alejandro Céspedes. Le nom, la marque, le design et le code sous-jacent sont protégés par le droit d’auteur et une marque de commerce. Cette version bêta est partagée en privé à des fins de test uniquement et n’est pas autorisée pour la redistribution, la copie ou la réutilisation commerciale.", terms_p2_strong:"Ce n’est pas un conseil financier.", terms_p2:"Cette appli est un outil d’organisation et d’éducation. Elle ne fournit pas de conseils financiers, fiscaux, juridiques ou de placement. Les calculs sont basés sur les pourcentages et paramètres que vous entrez.", terms_professional_strong:"Quand consulter un vrai professionnel.", terms_professional_intro:"Cette appli vous aide à organiser et comprendre vos chiffres — elle ne remplace pas un conseil personnalisé. Consultez un comptable, un fiscaliste ou un conseiller financier qualifié quand :", terms_prof_1:"Vous vous inscrivez pour percevoir la taxe de vente (TVH/TPS/TVA) pour la première fois, ou n’êtes pas sûr de devoir le faire", terms_prof_2:"Vous recevez une facture d’impôt qui vous surprend, ou êtes en retard sur des paiements d’impôt", terms_prof_3:"Vous faites face à une dette au-delà de ce qu’un simple plan de paiement peut régler", terms_prof_4:"Vous recevez un paiement unique important ou une rentrée d’argent inattendue", terms_prof_5:"Vous êtes à quelques années de la retraite, ou planifiez un changement de vie majeur", terms_prof_6:"Votre situation implique plusieurs types de revenu, provinces/états ou pays", terms_p3_strong:"Vos données.", terms_p3:"Vos informations sont stockées en toute sécurité dans le nuage (via Supabase) afin de pouvoir se synchroniser entre vos appareils, en plus d’être mises en cache localement sur chaque appareil que vous utilisez. Supabase agit comme notre sous-traitant de données — ils hébergent l’infrastructure, mais nous demeurons responsables de la façon dont vos données sont utilisées et protégées. Vos données ne sont jamais vendues, et nous n’avons pas d’accès routinier aux détails financiers des utilisateurs individuels; l’accès est protégé par des règles de sécurité au niveau de la base de données liées à votre propre compte. Si vous supprimez votre compte, nous conservons des données d’utilisation anonymisées et non identifiables afin de nous aider à comprendre et améliorer l’application.", terms_p5_strong:"Cookies et stockage local.", terms_p5:"Cette appli utilise le stockage local du navigateur (pas de cookies traditionnels) pour vous garder connecté. Notre outil d’analyse (PostHog) place un petit cookie pour distinguer les sessions anonymes, en plus de son propre stockage local — aucune information financière n’y est jamais incluse. Nous n’utilisons pas de cookies publicitaires ou de suivi.", terms_p4_strong:"Logiciel bêta.", terms_p4:"Cette appli est en développement actif. Les fonctionnalités, calculs et structures de données peuvent changer. Bien que des précautions soient prises pour garder vos données intactes entre les mises à jour, aucune garantie n’est donnée contre la perte de données — exportez des sauvegardes régulièrement.", terms_got_it:"Compris",
   onb2_title:"Paramètres fiscaux", onb2_sub:"Ces valeurs déterminent chaque calcul. Les valeurs par défaut sont pour l'Ontario — ajustez-les selon votre province ou pays.",
   onb2_currency_label:"Symbole monétaire", onb2_currency_other_label:"Votre symbole monétaire",
   onb2_tax_label:"% de réserve d'impôt (incluant les cotisations de retraite)", onb2_hst_label:"% de taxe de vente", onb2_dues_label:"% de cotisations syndicales",
@@ -128,7 +128,7 @@ fr:{
   inv_export_btn:"Exporter / imprimer la facture",
   export_default_name:"Mon Entreprise", export_footer_invoice:"Préparé avec artisticAutonomy™ | artisticautonomy.ca", export_footer_report:"Généré par artisticAutonomy™ | artisticautonomy.ca", progress_peak_efficiency:"🏆 Efficacité maximale ! Vous excellez sur tous les plans.",
   auth_sub_line1:"Outil financier pour les professionnels créatifs.", auth_sub_login_line2:"Connectez-vous pour continuer.", auth_sub_signup_line2:"Créez votre compte pour commencer.", auth_login_btn:"Se connecter", auth_signup_btn:"Créer un compte", auth_toggle_to_signup:"Pas de compte? Inscrivez-vous", auth_toggle_to_login:"Déjà un compte? Connectez-vous", auth_err_missing_fields:"Veuillez entrer votre courriel et votre mot de passe.", auth_msg_check_email:"Compte créé! Vérifiez votre courriel pour le confirmer, puis connectez-vous.", auth_err_generic:"Une erreur s'est produite. Veuillez réessayer.", set_h_account:"Compte", set_logged_in_as:"Connecté en tant que", set_logout_btn:"Se déconnecter",
-  auth_forgot_link:"Mot de passe oublié?", auth_back_to_login:"Retour à la connexion", auth_reset_send_btn:"Envoyer le lien de réinitialisation", auth_sub_reset_line2:"Entrez votre courriel pour recevoir un lien de réinitialisation.", auth_set_new_password_btn:"Définir un nouveau mot de passe", auth_sub_setnew_line2:"Choisissez un nouveau mot de passe.", auth_new_password_ph:"Nouveau mot de passe", auth_err_missing_email:"Veuillez entrer votre courriel.", auth_err_missing_password:"Veuillez entrer un nouveau mot de passe.", auth_msg_reset_sent:"Vérifiez votre courriel pour le lien de réinitialisation.", auth_msg_password_updated:"Mot de passe mis à jour! Connectez-vous.", auth_password_field_label:"Mot de passe", auth_confirm_password_ph:"Confirmer le mot de passe", auth_err_password_mismatch:"Les mots de passe ne correspondent pas.", auth_resend_btn:"Renvoyer l'e-mail de confirmation", auth_msg_resend_sent:"E-mail de confirmation renvoyé — vérifiez votre boîte de réception.", auth_existing_account_msg:"Cet e-mail a déjà un compte.", auth_existing_account_login_btn:"Se connecter", auth_existing_account_reset_btn:"Réinitialiser le mot de passe", auth_resend_cooldown:"Renvoi disponible dans {s}s", set_change_pw_title:"Changer le mot de passe", set_change_pw_btn:"Mettre à jour le mot de passe", set_pw_msg_updated:"Mot de passe mis à jour!", set_group_account:"Compte et sécurité", set_group_setup:"Votre configuration", set_group_balances:"Soldes et dettes", set_group_prefs:"Préférences", set_group_data:"Données et mentions légales", gig_draft_restore_prompt:"Restaurer votre brouillon non enregistré du {time}?", det_fee_from_check:"Tarif calculé à partir d'un montant de chèque de {amt}.",
+  auth_forgot_link:"Mot de passe oublié?", auth_back_to_login:"Retour à la connexion", auth_reset_send_btn:"Envoyer le lien de réinitialisation", auth_sub_reset_line2:"Entrez votre courriel pour recevoir un lien de réinitialisation.", auth_set_new_password_btn:"Définir un nouveau mot de passe", auth_sub_setnew_line2:"Choisissez un nouveau mot de passe.", auth_new_password_ph:"Nouveau mot de passe", auth_err_missing_email:"Veuillez entrer votre courriel.", auth_err_missing_password:"Veuillez entrer un nouveau mot de passe.", auth_msg_reset_sent:"Vérifiez votre courriel pour le lien de réinitialisation.", auth_msg_password_updated:"Mot de passe mis à jour! Connectez-vous.", auth_password_field_label:"Mot de passe", auth_confirm_password_ph:"Confirmer le mot de passe", auth_err_password_mismatch:"Les mots de passe ne correspondent pas.", auth_resend_btn:"Renvoyer l'e-mail de confirmation", auth_msg_resend_sent:"E-mail de confirmation renvoyé — vérifiez votre boîte de réception.", auth_existing_account_msg:"Cet e-mail a déjà un compte.", auth_existing_account_login_btn:"Se connecter", auth_existing_account_reset_btn:"Réinitialiser le mot de passe", auth_resend_cooldown:"Renvoi disponible dans {s}s", set_change_pw_title:"Changer le mot de passe", set_change_pw_btn:"Mettre à jour le mot de passe", set_pw_msg_updated:"Mot de passe mis à jour!", set_h_delete_account:"Supprimer le compte", set_delete_account_desc:"Supprime définitivement votre compte et toutes vos données. Démarre une période de grâce de 30 jours — rien n'est supprimé immédiatement, et vous pouvez annuler à tout moment avant la fin.", set_delete_account_btn:"Supprimer mon compte", del_acc_modal_title:"Supprimer votre compte ?", del_acc_modal_body:"Ceci démarre un compte à rebours de 30 jours, pas une suppression immédiate. Reconnectez-vous à tout moment pendant ces 30 jours et on vous proposera d'annuler. Après 30 jours, votre compte et toutes vos données sont définitivement supprimés et ne peuvent pas être récupérés.", del_acc_type_label:"Tapez DELETE pour confirmer", del_acc_password_label:"Confirmez votre mot de passe", del_acc_confirm_btn:"Supprimer mon compte", del_acc_cancel_btn:"Annuler", del_acc_scheduled_title:"Suppression du compte programmée", del_acc_scheduled_body:"Votre compte sera définitivement supprimé dans 30 jours. Reconnectez-vous à tout moment avant cela pour annuler.", del_acc_scheduled_ok_btn:"OK, déconnectez-moi", pending_del_title:"Votre compte est programmé pour être supprimé", pending_del_body:"Ce compte sera définitivement supprimé le {date}. Vous pouvez annuler et continuer à utiliser votre compte, ou vous déconnecter.", pending_del_cancel_btn:"Annuler la suppression, garder mon compte", pending_del_logout_btn:"Se déconnecter", del_acc_wrong_password_err:"Ce mot de passe n'est pas correct.", del_acc_cancel_failed_err:"Impossible d'annuler la suppression — vérifiez votre connexion et réessayez.", account_deleted_msg:"Ce compte a été supprimé.", set_group_account:"Compte et sécurité", set_group_setup:"Votre configuration", set_group_balances:"Soldes et dettes", set_group_prefs:"Préférences", set_group_data:"Données et mentions légales", gig_draft_restore_prompt:"Restaurer votre brouillon non enregistré du {time}?", det_fee_from_check:"Tarif calculé à partir d'un montant de chèque de {amt}.",
   sync_status_synced:"Synchronisé", sync_status_syncing:"Synchronisation…", sync_status_offline:"Hors ligne — synchronisation à la reconnexion",
   set_h_trash:"Supprimés récemment", set_trash_desc:"Les gigs supprimés restent ici 30 jours avant d'être supprimés définitivement, au cas où vous auriez supprimé quelque chose par erreur.", set_trash_empty:"Rien ici pour le moment.", set_trash_days_left:"{days} jours restants", set_trash_restore_btn:"Restaurer",
   gig_delete_confirm:"\"{name}\" du {date} — déplacer vers Supprimés récemment? Vous pouvez le restaurer dans les 30 jours.",
@@ -578,10 +578,33 @@ function getCurrentUser(){ return currentUser; }
 // a separate manual getSession() call on boot, since running both risked a race where a
 // recovery link's session could be treated as a normal login before PASSWORD_RECOVERY was handled.
 let authBootHandled = false;
+// Set true right before our own signOut() call (handleLogout) so the SIGNED_OUT branch below can
+// tell "we did this on purpose" apart from an unexpected forced sign-out — see that branch's
+// comment for why the latter means the account was just permanently deleted.
+let explicitSignOut = false;
 sbClient.auth.onAuthStateChange(async (event, session) => {
   if(event === 'PASSWORD_RECOVERY'){
     authMode = 'reset-confirm';
     renderAuthMode();
+    authBootHandled = true;
+    return;
+  }
+  if(event === 'SIGNED_OUT'){
+    // Nothing else in this app revokes a session server-side except final account deletion (see
+    // ===== ACCOUNT DELETION =====, purge_deleted_accounts() deleting the auth.users row, which
+    // Supabase's admin delete also revokes outstanding refresh tokens for). So an unexpected
+    // SIGNED_OUT — one we didn't trigger ourselves via handleLogout — while a session was already
+    // active is our best available signal that this account was just permanently deleted out from
+    // under an open session (e.g. a second device left logged in through the 30-day window). It's
+    // a heuristic, not a certainty (a session manually revoked from the Supabase dashboard would
+    // look identical), but nothing else in this app produces that combination in practice.
+    if(authBootHandled && !explicitSignOut && currentUser){
+      currentUser = null;
+      showAccountDeletedMessage();
+      return;
+    }
+    explicitSignOut = false;
+    currentUser = null;
     authBootHandled = true;
     return;
   }
@@ -598,23 +621,39 @@ sbClient.auth.onAuthStateChange(async (event, session) => {
 // Row Level Security allowing a user to SELECT only their own row and no INSERT/UPDATE/DELETE policy
 // at all for regular users — so this can only ever be changed by Alejandro directly in the Supabase
 // dashboard's Table Editor (which has elevated access that bypasses RLS), never from the browser.
+// This same profiles row also carries pending_deletion_at (see ===== ACCOUNT DELETION ===== below),
+// so one fetch covers both — renamed from fetchPremiumAccess to reflect that.
 let premiumAccess = false;
-async function fetchPremiumAccess(){
+let pendingDeletionAt = null;
+async function fetchAccountStatus(){
   try{
-    if(!currentUser) { premiumAccess = false; return; }
-    const { data, error } = await sbClient.from('profiles').select('premium_access').eq('id', currentUser.id).single();
+    if(!currentUser) { premiumAccess = false; pendingDeletionAt = null; return; }
+    const { data, error } = await sbClient.from('profiles').select('premium_access, pending_deletion_at').eq('id', currentUser.id).single();
     if(error) throw error;
     premiumAccess = !!(data && data.premium_access);
+    pendingDeletionAt = data ? data.pending_deletion_at : null;
   } catch(e){
-    console.log('Premium access check failed — defaulting to locked:', e);
+    console.log('Account status check failed — defaulting to locked, no pending deletion:', e);
     premiumAccess = false; // fail closed: never default to unlocked just because the check errored
+    pendingDeletionAt = null;
   }
 }
 
 async function enterApp(){
   document.getElementById('lock').style.display='none';
   document.getElementById('app-shell').style.display='flex';
-  await fetchPremiumAccess(); // must resolve before load(), since dashboard rendering reads isPremiumUnlocked() immediately
+  await fetchAccountStatus(); // must resolve before load(), since dashboard rendering reads isPremiumUnlocked() immediately
+  // A pending deletion must be resolved (cancelled, or logged back out of) before the app opens —
+  // see ===== ACCOUNT DELETION ===== below. Mirrors the existing migration-prompt pattern: a
+  // mandatory modal the user must answer before proceeding, rather than a dismissible banner.
+  if(pendingDeletionAt){
+    const choice = await showPendingDeletionModal();
+    if(choice === 'logout'){ handleLogout(); return; }
+    await cancelAccountDeletion();
+  }
+  // Note: setupProfileRealtimeSync() itself is called once cloud sync actually finishes enabling,
+  // inside load()'s migration/sync bootstrap (alongside setupRealtimeSync()) — calling it here
+  // would be a no-op, since cloudSyncEnabled isn't true yet at this point in boot.
   identifyAnalyticsUser();
   try{ load(); }catch(loadErr){ alert('Load error: '+loadErr.message); }
   try{ track('app_unlocked'); }catch(e){}
@@ -905,14 +944,158 @@ function showExistingAccountHint(){
 }
 
 async function handleLogout(){
+  explicitSignOut = true; // see onAuthStateChange's SIGNED_OUT branch — this is an intentional logout
   track('logged_out'); // before signOut()/reload, so the event has a moment to actually be sent
   try{ await sbClient.auth.signOut(); }catch(e){ console.log('Logout error:', e); }
   currentUser = null;
   location.reload();
 }
+
+function showAccountDeletedMessage(){
+  document.getElementById('app-shell').style.display = 'none';
+  document.getElementById('lock').style.display = 'flex';
+  authMode = 'login';
+  renderAuthMode();
+  const err = document.getElementById('auth-err');
+  if(err){ err.textContent = t('account_deleted_msg'); err.style.display = 'block'; }
+}
 renderAuthMode();
 
+// ===== ACCOUNT DELETION =====
+// Requirements this implements (see the reasoning memory note for the "why" behind each):
+//  - Confirmation: type "DELETE" exactly + re-enter password, before the option activates.
+//  - 30-day grace period: request_account_deletion() only sets profiles.pending_deletion_at —
+//    nothing is actually removed yet. Logging back in during that window offers to cancel.
+//  - One reminder email around day 23 + the actual purge after day 30 both run entirely
+//    server-side (pg_cron + pg_net calling Brevo/PostHog directly from Postgres) — see the
+//    accompanying setup SQL. Nothing about that scheduling lives in this client code.
+//  - The actual purge (Auth record, profiles row, app_state row, all gigs rows) happens in a
+//    privileged Postgres function only pg_cron can call — never exposed to the browser. The two
+//    RPCs below (request/cancel) are the only account-deletion surface a signed-in user can reach,
+//    and both are SECURITY DEFINER functions scoped to auth.uid() internally, rather than a direct
+//    table UPDATE — profiles' RLS deliberately has no UPDATE policy for regular users at all (see
+//    fetchAccountStatus() above), and this keeps that lockdown intact instead of loosening it.
+
+// ----- Request deletion (Settings → Account & Security → Delete account) -----
+function openDeleteAccountModal(){
+  document.getElementById('del-acc-type').value = '';
+  document.getElementById('del-acc-password').value = '';
+  const err = document.getElementById('del-acc-err'); if(err) err.style.display = 'none';
+  updateDeleteAccountConfirmState();
+  openOv('delete-account-modal');
+}
+function updateDeleteAccountConfirmState(){
+  const typed = document.getElementById('del-acc-type')?.value || '';
+  const pw = document.getElementById('del-acc-password')?.value || '';
+  const btn = document.getElementById('del-acc-confirm-btn');
+  // "type DELETE exactly" — case-sensitive, no trimming leniency, matching the literal requirement.
+  if(btn) btn.disabled = !(typed === 'DELETE' && pw.length > 0);
+}
+async function submitDeleteAccount(){
+  const typed = document.getElementById('del-acc-type').value;
+  const password = document.getElementById('del-acc-password').value;
+  const err = document.getElementById('del-acc-err');
+  const btn = document.getElementById('del-acc-confirm-btn');
+  if(err) err.style.display = 'none';
+  if(typed !== 'DELETE' || !password) return; // button should already be disabled, but don't trust that alone
+  if(btn) btn.disabled = true;
+  try{
+    // Re-verifying the password (rather than trusting the already-open session) is the point of
+    // this step: it protects against someone else acting on a device the real owner happened to
+    // still be logged into, not against the person sitting at their own device right now.
+    const { error: pwError } = await sbClient.auth.signInWithPassword({ email: currentUser.email, password });
+    if(pwError){
+      if(err){ err.textContent = t('del_acc_wrong_password_err'); err.style.display = 'block'; }
+      if(btn) btn.disabled = false;
+      return;
+    }
+    const { error } = await sbClient.rpc('request_account_deletion');
+    if(error) throw error;
+    track('account_deletion_requested');
+    closeOv('delete-account-modal');
+    openOv('delete-account-scheduled-modal');
+  } catch(e){
+    if(err){ err.textContent = e.message || t('auth_err_generic'); err.style.display = 'block'; }
+    if(btn) btn.disabled = false;
+  }
+}
+function confirmDeleteAccountScheduled(){
+  closeOv('delete-account-scheduled-modal');
+  handleLogout();
+}
+
+// ----- Cancel deletion -----
+async function cancelAccountDeletion(){
+  try{
+    const { error } = await sbClient.rpc('cancel_account_deletion');
+    if(error) throw error;
+    pendingDeletionAt = null;
+    track('account_deletion_cancelled');
+  } catch(e){
+    console.log('Cancel deletion failed:', e);
+    // Fail safe toward the grace period, not silent success — if the cancel RPC didn't actually
+    // go through, the account is still genuinely pending deletion, so don't clear the in-memory
+    // flag or let the app proceed as if it were cancelled. Surface it and let them retry.
+    alert(t('del_acc_cancel_failed_err'));
+    throw e;
+  }
+}
+
+// ----- Pending-deletion modal — mandatory, no backdrop dismiss, matching the migration-prompt
+// pattern: the user must explicitly choose before the app proceeds. Shown both at boot (enterApp,
+// for "logging back in during the window") and live via realtime (setupProfileRealtimeSync, for a
+// second device already open when deletion is requested elsewhere). -----
+let _pendingDeletionResolve = null;
+function showPendingDeletionModal(){
+  const bodyEl = document.getElementById('pending-del-body-text');
+  const purgeDate = new Date(new Date(pendingDeletionAt).getTime() + 30*24*60*60*1000).toISOString().slice(0,10);
+  if(bodyEl) bodyEl.textContent = t('pending_del_body').replace('{date}', fmtFull(purgeDate)); // year included — the 30-day window can cross into a new year
+  openOv('pending-deletion-modal');
+  return new Promise(resolve => { _pendingDeletionResolve = resolve; });
+}
+async function choosePendingDeletionCancel(){
+  closeOv('pending-deletion-modal');
+  try{ await cancelAccountDeletion(); }catch(e){ openOv('pending-deletion-modal'); return; }
+  if(_pendingDeletionResolve){ _pendingDeletionResolve('cancel'); _pendingDeletionResolve = null; }
+}
+function choosePendingDeletionLogout(){
+  closeOv('pending-deletion-modal');
+  if(_pendingDeletionResolve){ _pendingDeletionResolve('logout'); _pendingDeletionResolve = null; }
+}
+
+// ----- Realtime awareness for a second, already-open device -----
+// profiles isn't part of the app_state/gigs sync pair (see setupRealtimeSync below) — this is a
+// narrow, separate subscription just for pending_deletion_at, so an already-open second device
+// finds out the moment deletion is requested elsewhere instead of only on its next reload.
+let profileRealtimeChannel = null;
+function setupProfileRealtimeSync(){
+  if(!cloudSyncEnabled || !currentUser || profileRealtimeChannel) return;
+  profileRealtimeChannel = sbClient.channel('profiles-deletion-'+currentUser.id)
+    .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'profiles', filter: 'id=eq.'+currentUser.id }, async (payload) => {
+      const wasPending = !!pendingDeletionAt;
+      pendingDeletionAt = payload.new ? payload.new.pending_deletion_at : null;
+      if(pendingDeletionAt && !wasPending){
+        const choice = await showPendingDeletionModal();
+        if(choice === 'logout') handleLogout();
+      }
+    })
+    .subscribe();
+}
+
 // ===== PERSISTENCE =====
+// BUG FIX (found via live testing 2026-09-04): the local storage key used to be a single flat
+// 'aa_v5' shared by the whole device, not scoped to which account is logged in. Signing into a
+// second account on a device that had already used a first account showed the first account's
+// cached settings/dashboard numbers for a moment (and, worse, would have kept them permanently
+// for any field cloud sync didn't overwrite) — a real cross-account data leak on a shared device,
+// not just a cosmetic flash. Every account now gets its own key, derived from their Supabase user
+// id, so switching accounts on the same device can never surface another account's cached data.
+// Existing users find nothing under their new scoped key on their first login after this fix —
+// that's expected and safe, not data loss: cloud is authoritative, so the normal "cloud has data,
+// this device doesn't" sync path (already built and tested) silently repopulates everything from
+// their own cloud data, exactly as it would on any brand-new device.
+function dataStorageKey(){ return 'aa_v5_'+currentUser.id; }
+function migrationDoneKey(){ return 'aa_migration_done_'+currentUser.id; }
 function checkFunFundReset(){
   const now=new Date(); const thisMonth=now.getMonth();
   if(S.funFund.lastResetMonth!==thisMonth){
@@ -931,8 +1114,8 @@ function migrateOldData(){
         // Generic merge: copies every field the old save has, regardless of what's been added
         // to S since then. Any new fields not present in the old save keep their fresh defaults.
         S=Object.assign({},S,parsed);
-        // Save under new key and remove old
-        localStorage.setItem('aa_v5',JSON.stringify(S));
+        // Save under new (per-account) key and remove old
+        localStorage.setItem(dataStorageKey(),JSON.stringify(S));
         localStorage.removeItem(oldKeys[i]);
         console.log('Migrated data from',oldKeys[i]);
         return true;
@@ -944,7 +1127,7 @@ function migrateOldData(){
 
 function load(){
   try{
-    const d=localStorage.getItem('aa_v5');
+    const d=localStorage.getItem(dataStorageKey());
     if(d){
       const saved=JSON.parse(d);
       S=Object.assign({},S,saved);
@@ -1017,7 +1200,7 @@ function continueBoot(){
 let appDataLoaded = false;
 function save(){
   if(!appDataLoaded) return;
-  try{localStorage.setItem('aa_v5',JSON.stringify(S));}catch(e){}
+  try{localStorage.setItem(dataStorageKey(),JSON.stringify(S));}catch(e){}
   if(cloudSyncEnabled && !applyingRemoteChange) scheduleCloudBlobPush();
 }
 
@@ -1155,11 +1338,18 @@ async function flushCloudBlobPush(){
 }
 
 // ----- Gig sync + offline queue (order-preserving: stop at first failure, resume from there) -----
+// Scoped per-account (see loadPendingGigOpsForCurrentUser(), called once currentUser is known) —
+// a flat device-wide queue meant a gig queued offline under one account could get flushed into a
+// DIFFERENT account's cloud data if someone else logged in on the same device before reconnecting.
+// Starts empty; there's no user yet at script-load time to scope this to.
 let pendingGigOps = [];
-try{ pendingGigOps = JSON.parse(localStorage.getItem('aa_pending_gig_ops')||'[]'); }catch(e){ pendingGigOps=[]; }
+function pendingGigOpsKey(){ return 'aa_pending_gig_ops_'+currentUser.id; }
+function loadPendingGigOpsForCurrentUser(){
+  try{ pendingGigOps = JSON.parse(localStorage.getItem(pendingGigOpsKey())||'[]'); }catch(e){ pendingGigOps=[]; }
+}
 function queueGigOp(op){
   pendingGigOps.push(op);
-  try{ localStorage.setItem('aa_pending_gig_ops', JSON.stringify(pendingGigOps)); }catch(e){}
+  try{ localStorage.setItem(pendingGigOpsKey(), JSON.stringify(pendingGigOps)); }catch(e){}
 }
 async function flushPendingGigQueue(){
   if(!pendingGigOps.length) return;
@@ -1172,7 +1362,7 @@ async function flushPendingGigQueue(){
       else if(op.type==='restore') await cloudRestoreGig(op.id);
       else if(op.type==='purge') await cloudPurgeGig(op.id);
       pendingGigOps.shift();
-      try{ localStorage.setItem('aa_pending_gig_ops', JSON.stringify(pendingGigOps)); }catch(e){}
+      try{ localStorage.setItem(pendingGigOpsKey(), JSON.stringify(pendingGigOps)); }catch(e){}
     } catch(e){
       updateSyncStatus('offline');
       return;
@@ -1454,14 +1644,17 @@ async function runMigrationCombine(cloudBlob, cloudGigsRows){
   await cloudPushAppState(buildSyncBlob());
   for(const g of newLocalGigs) await cloudUpsertGig(g);
 }
-// Persistent, per-device marker that this device has already resolved its one-time migration
-// decision. BUG FIX: without this, runMigrationAndSync() re-evaluated "does the cloud have data AND
-// does this device have data" fresh on every single boot — and once migration succeeds once, BOTH
-// are permanently true from then on (migrating never erases local storage), so the two-choice prompt
-// would reappear on literally every future page load, forever, for every device. This flag makes the
-// decision genuinely one-time; every boot after that just pulls the latest cloud state (so a device
-// catches up on anything that changed elsewhere while it was closed) and lets realtime take over.
-const MIGRATION_DONE_KEY = 'aa_migration_done';
+// Persistent, per-device-AND-PER-ACCOUNT marker that this device has already resolved its
+// one-time migration decision for this specific account. BUG FIX: without this, runMigrationAndSync()
+// re-evaluated "does the cloud have data AND does this device have data" fresh on every single boot
+// — and once migration succeeds once, BOTH are permanently true from then on (migrating never erases
+// local storage), so the two-choice prompt would reappear on literally every future page load,
+// forever, for every device. This flag makes the decision genuinely one-time; every boot after that
+// just pulls the latest cloud state (so a device catches up on anything that changed elsewhere while
+// it was closed) and lets realtime take over. Scoped per-account (see migrationDoneKey() above) since
+// a flat device-wide flag meant a second account logging into an already-migrated device skipped its
+// own migration decision entirely and silently inherited the first account's stale local settings —
+// a real cross-account data leak, found via live testing 2026-09-04.
 function runMigrationAndSync(){
   if(!currentUser) return Promise.resolve();
   return (async () => {
@@ -1475,7 +1668,7 @@ function runMigrationAndSync(){
     }
 
     let alreadyMigrated = false;
-    try{ alreadyMigrated = localStorage.getItem(MIGRATION_DONE_KEY) === 'true'; }catch(e){}
+    try{ alreadyMigrated = localStorage.getItem(migrationDoneKey()) === 'true'; }catch(e){}
 
     if(alreadyMigrated){
       applyCloudDataLocally(cloudBlob, cloudGigsRows);
@@ -1496,14 +1689,17 @@ function runMigrationAndSync(){
         if(choice==='discard') applyCloudDataLocally(cloudBlob, cloudGigsRows);
         else await runMigrationCombine(cloudBlob, cloudGigsRows);
       }
-      try{ localStorage.setItem(MIGRATION_DONE_KEY, 'true'); }catch(e){}
+      try{ localStorage.setItem(migrationDoneKey(), 'true'); }catch(e){}
     }
 
     cloudSyncEnabled = true;
     lastPushedBlobJSON = JSON.stringify(buildSyncBlob()); // whatever migration/pull just established is already the synced state
+    loadPendingGigOpsForCurrentUser(); // this account's own offline queue, now that we know who they are
     setupRealtimeSync();
+    setupProfileRealtimeSync();
     purgeOldDeletedGigs();
     updateSyncStatus('synced');
+    retryPendingSync(); // flush anything this account left queued from a previous offline session, right away rather than waiting for the next 'online' event or the 15s safety-net tick
   })().catch(e => console.log('Migration/sync bootstrap error:', e));
 }
 // ===== END GIG SYNC MIGRATION (TEMPORARY SCAFFOLDING) =====
@@ -2276,7 +2472,10 @@ function showDetail(id){
 // before Save is tapped. Deliberately scoped to NEW entries only (never while editingGigId is set) —
 // an interrupted edit still leaves the original saved gig intact, so there's no data-loss risk there
 // the way there is for a fresh entry the user hasn't submitted yet.
-const GIG_DRAFT_KEY = 'aa_gig_draft';
+// Scoped per-account, same reasoning as dataStorageKey() above — an unsaved draft can contain real
+// fee/payer details, so a flat device-wide key could surface one account's half-typed gig as a
+// "restore your draft?" prompt for a different account logging into the same device.
+function gigDraftKey(){ return 'aa_gig_draft_'+currentUser.id; }
 const GIG_DRAFT_FIELDS = [
   'g-date','g-status','g-name','g-payer','g-type','g-check-amt','g-fee','g-cart',
   'g-hst','g-dues','g-cc-pay','g-loan-pay','g-selfloan-borrow','g-selfloan-repay',
@@ -2302,15 +2501,15 @@ function saveGigDraftNow(){
   const meaningfulIds = ['g-name','g-payer','g-fee','g-cart','g-check-amt','g-notes','g-cc-pay','g-loan-pay','g-selfloan-borrow','g-selfloan-repay','h-fee','h-cart','h-net','h-notes'];
   const hasContent = meaningfulIds.some(id => fields[id]);
   if(!hasContent){ clearGigDraft(); return; }
-  try{ localStorage.setItem(GIG_DRAFT_KEY, JSON.stringify({ fields, savedAt: new Date().toISOString() })); }catch(e){}
+  try{ localStorage.setItem(gigDraftKey(), JSON.stringify({ fields, savedAt: new Date().toISOString() })); }catch(e){}
 }
 function clearGigDraft(){
-  try{ localStorage.removeItem(GIG_DRAFT_KEY); }catch(e){}
+  try{ localStorage.removeItem(gigDraftKey()); }catch(e){}
 }
 function checkForGigDraft(){
   if(window.editingGigId) return;
   let raw;
-  try{ raw = localStorage.getItem(GIG_DRAFT_KEY); }catch(e){ return; }
+  try{ raw = localStorage.getItem(gigDraftKey()); }catch(e){ return; }
   if(!raw) return;
   let draft;
   try{ draft = JSON.parse(raw); }catch(e){ clearGigDraft(); return; }

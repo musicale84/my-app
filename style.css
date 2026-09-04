@@ -167,6 +167,9 @@ html,body{height:100%;font-family:var(--font);background:var(--cream);color:var(
 .btn-g{background:none;color:var(--muted);font-size:14px;margin-top:6px}
 .btn-outline{background:none;border:1.5px solid var(--border);color:var(--sage-d);border-radius:var(--rs);padding:10px 14px;font-size:14px;font-family:var(--font);cursor:pointer;width:100%;font-weight:500;margin-top:6px;transition:background .15s}
 .btn-outline:hover{background:var(--sage-l)}
+.btn-danger{background:var(--red);color:white;border:none;border-radius:var(--rs);padding:11px 14px;font-size:14px;font-family:var(--font);cursor:pointer;width:100%;font-weight:600;margin-top:6px;transition:background .15s}
+.btn-danger:hover{background:#b91c1c}
+.btn-danger:disabled{background:var(--red-l);color:var(--red);cursor:not-allowed}
 
 /* ===== EXPENSE BUILDER ===== */
 .exp-row{display:flex;align-items:center;gap:7px;margin-bottom:8px}
