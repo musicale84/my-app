@@ -387,6 +387,21 @@
       </div>
 
       <div class="set-accordion">
+        <button class="set-accordion-toggle" onclick="toggleSetAccordion('set-acc-sub')" aria-expanded="false" aria-controls="set-acc-sub-body">
+          <h2 data-i18n="set_group_subscription">Subscription</h2>
+          <i class="ti ti-chevron-down help-term-chevron" aria-hidden="true"></i>
+        </button>
+        <div class="set-accordion-body" id="set-acc-sub-body" style="display:none">
+          <div class="set-group">
+            <h2 data-i18n="sub_settings_title">Premium subscription</h2>
+            <!-- Filled in by renderSubscriptionSettings() — status text plus a Subscribe or
+                 Manage billing button, depending on trial/subscription state. -->
+            <div id="sub-settings-body"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="set-accordion">
         <button class="set-accordion-toggle" onclick="toggleSetAccordion('set-acc-setup')" aria-expanded="false" aria-controls="set-acc-setup-body">
           <h2 data-i18n="set_group_setup">Your Setup</h2>
           <i class="ti ti-chevron-down help-term-chevron" aria-hidden="true"></i>
