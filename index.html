@@ -733,8 +733,9 @@
   <div class="sheet">
     <div class="drag" aria-hidden="true"></div>
     <h2 class="m-title" data-i18n="gig_title">Log a gig</h2>
-    <div class="field" id="f-date"><label for="g-date" data-i18n="gig_date">Date</label><input id="g-date" type="date" onchange="document.getElementById('f-date').classList.remove('error');checkHistoricalToggle();calcGigModal()"><span class="field-err" data-i18n="gig_date_err">Please add a date</span></div>
-    <div class="field"><label for="g-status" data-i18n="gig_status">Status</label><select id="g-status" onchange="calcGigModal()"><option value="Received" data-i18n="gig_status_received">Received</option><option value="Pending" data-i18n="gig_status_pending">Pending</option></select></div>
+    <div class="field" id="f-date"><label for="g-date" data-i18n="gig_date">Gig date</label><input id="g-date" type="date" onchange="document.getElementById('f-date').classList.remove('error');checkHistoricalToggle();calcGigModal()"><span class="field-err" data-i18n="gig_date_err">Please add a date</span><div style="font-size:11px;color:var(--muted);margin-top:4px" data-i18n="gig_date_multiday_hint">For a multi-day engagement, use the last day.</div></div>
+    <div class="field"><label for="g-status" data-i18n="gig_status">Status</label><select id="g-status" onchange="onGigStatusChange()"><option value="Received" data-i18n="gig_status_received">Received</option><option value="Pending" data-i18n="gig_status_pending">Pending</option></select></div>
+    <div class="field" id="f-received-date" style="display:none"><label for="g-received-date" data-i18n="gig_received_date">Received date</label><input id="g-received-date" type="date" onchange="calcGigModal()"><div style="font-size:11px;color:var(--muted);margin-top:4px" data-i18n="gig_received_date_hint">When the payment actually landed — editable anytime.</div></div>
     <!-- Historical entry toggle — shown when date is in a past month -->
     <div id="historical-toggle-row" style="display:none;background:var(--gold-l);border-radius:var(--rs);padding:10px 12px;margin-bottom:10px">
       <div style="display:flex;align-items:center;justify-content:space-between">
