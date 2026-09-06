@@ -214,6 +214,10 @@
           <button onclick="dismissCheckinResumeBanner()" aria-label="Dismiss" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;padding:4px"><i class="ti ti-x" aria-hidden="true"></i></button>
         </div>
       </div>
+      <div class="fun-banner" id="inactivity-nudge-banner" role="status" style="display:none;margin:0 14px 12px">
+        <div class="fun-left"><h3 id="inactivity-nudge-text"></h3></div>
+        <button onclick="dismissInactivityNudge()" aria-label="Dismiss" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;padding:4px"><i class="ti ti-x" aria-hidden="true"></i></button>
+      </div>
       <div class="card" id="this-month-card">
         <div style="font-size:11px;color:var(--muted);margin-bottom:6px" id="tip-anchor-status"><span data-i18n="dash_status_label">Status</span></div>
         <div id="d-status" class="pill pill-green" style="margin-bottom:10px" aria-live="polite"><i class="ti ti-circle-check" aria-hidden="true"></i> Baseline covered</div>
@@ -539,6 +543,17 @@
             <h2 data-i18n="set_h_display">Display</h2>
             <div class="set-row"><span class="set-label" data-i18n="set_learning_mode">Learning mode</span><label class="toggle" aria-label="Learning mode"><input type="checkbox" id="learn-tog" checked onchange="saveS()"><div class="t-track"></div><div class="t-thumb"></div></label></div>
             <p style="font-size:12px;color:var(--muted);padding:6px 0 10px" data-i18n="set_learning_desc">Show helpful explanations throughout the app. Turn off once you know the system.</p>
+          </div>
+          <div class="set-group">
+            <h2 data-i18n="set_h_reminders">Reminders</h2>
+            <div class="set-row"><span class="set-label" data-i18n="set_inactivity_nudge">Inactivity nudge</span>
+              <select id="inactivity-nudge-tog" onchange="saveS()" style="padding:7px 10px;border:1.5px solid var(--border);border-radius:var(--rs);font-size:13px;font-family:var(--font);color:var(--text);background:var(--white)" aria-label="Inactivity nudge">
+                <option value="off" data-i18n="set_inactivity_off">Off</option>
+                <option value="sometimes" data-i18n="set_inactivity_sometimes">Sometimes</option>
+                <option value="always" data-i18n="set_inactivity_always">Always</option>
+              </select>
+            </div>
+            <p style="font-size:12px;color:var(--muted);padding:6px 0 10px" data-i18n="set_inactivity_desc">A gentle nudge on the Dashboard when it's been a while since your last gig. "Sometimes" only nudges while your baseline isn't yet met; "Always" also nudges once it is.</p>
           </div>
           <div class="set-group">
             <h2 data-i18n="settings_tips_section">Tips</h2>
