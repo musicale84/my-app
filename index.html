@@ -207,6 +207,13 @@
         <div class="sec-label" style="padding:0" data-i18n="dash_this_month">This month</div>
         <div id="dash-year-indicator" style="font-size:12px;font-weight:600;color:var(--sage-d)" aria-label="Current year"></div>
       </div>
+      <div class="fun-banner" id="checkin-resume-banner" role="status" style="display:none;margin:0 14px 12px">
+        <div class="fun-left"><h3 data-i18n="checkin_resume_title">Continue your quarterly check-in?</h3><p data-i18n="checkin_resume_sub">You started one but didn't finish</p></div>
+        <div style="display:flex;align-items:center;gap:4px">
+          <button class="btn-outline" style="width:auto;padding:7px 14px;font-size:12px;margin:0" onclick="resumeCheckin()" data-i18n="checkin_followup_continue_btn">Continue</button>
+          <button onclick="dismissCheckinResumeBanner()" aria-label="Dismiss" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;padding:4px"><i class="ti ti-x" aria-hidden="true"></i></button>
+        </div>
+      </div>
       <div class="card" id="this-month-card">
         <div style="font-size:11px;color:var(--muted);margin-bottom:6px" id="tip-anchor-status"><span data-i18n="dash_status_label">Status</span></div>
         <div id="d-status" class="pill pill-green" style="margin-bottom:10px" aria-live="polite"><i class="ti ti-circle-check" aria-hidden="true"></i> Baseline covered</div>
