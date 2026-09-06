@@ -203,7 +203,10 @@
 
     <!-- DASHBOARD -->
     <div class="page" id="page-dashboard" role="region" aria-label="Dashboard">
-      <div class="sec-label" data-i18n="dash_this_month">This month</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 16px 6px">
+        <div class="sec-label" style="padding:0" data-i18n="dash_this_month">This month</div>
+        <div id="dash-year-indicator" style="font-size:12px;font-weight:600;color:var(--sage-d)" aria-label="Current year"></div>
+      </div>
       <div class="card" id="this-month-card">
         <div style="font-size:11px;color:var(--muted);margin-bottom:6px" id="tip-anchor-status"><span data-i18n="dash_status_label">Status</span></div>
         <div id="d-status" class="pill pill-green" style="margin-bottom:10px" aria-live="polite"><i class="ti ti-circle-check" aria-hidden="true"></i> Baseline covered</div>
@@ -309,12 +312,30 @@
 
     <!-- INVOICE GENERATOR -->
     <div class="page" id="page-invoice" role="region" aria-label="Invoice generator">
-      <button class="back-btn" onclick="showPage('reports')"><i class="ti ti-arrow-left" aria-hidden="true"></i> <span data-i18n="btn_back">Back</span></button>
+      <button class="back-btn" onclick="invoiceBack()"><i class="ti ti-arrow-left" aria-hidden="true"></i> <span data-i18n="btn_back">Back</span></button>
       <div class="sec-label" data-i18n="rep_card_invoice_title">Invoice generator</div>
-      <div style="padding:0 14px 14px">
-        <div style="background:var(--gold-l);border-radius:var(--rs);padding:10px 12px;font-size:12px;color:var(--gold-d);margin-bottom:14px;border-left:3px solid var(--gold)">
-          <strong data-i18n="inv_free_note_strong">Free for everyone.</strong> <span data-i18n="inv_free_note_body">Fill in the details below and tap "Preview invoice" to see your finished invoice, then save it as a PDF from your browser's print menu (File → Print → Save as PDF).</span>
+
+      <!-- LIST VIEW: Drafts / Completed — shown first; opening or starting a draft switches to
+           the form view below. Reuses the gig-list visual patterns (pills, rows, sort). -->
+      <div id="inv-list-view">
+        <div style="padding:0 14px 10px">
+          <div style="background:var(--gold-l);border-radius:var(--rs);padding:10px 12px;font-size:12px;color:var(--gold-d);border-left:3px solid var(--gold)">
+            <strong data-i18n="inv_free_note_strong">Free for everyone.</strong> <span data-i18n="inv_free_note_body">Fill in the details below and tap "Preview invoice" to see your finished invoice, then save it as a PDF from your browser's print menu (File → Print → Save as PDF).</span>
+          </div>
         </div>
+        <div style="display:flex;gap:5px;padding:0 16px 10px" role="group" aria-label="Invoice view">
+          <button onclick="showInvoiceListTab('draft')" id="inv-tab-draft" class="pill pill-green" style="cursor:pointer;border:none" data-i18n="inv_tab_drafts">Drafts</button>
+          <button onclick="showInvoiceListTab('completed')" id="inv-tab-completed" class="pill" style="cursor:pointer;border:none;background:var(--sage-l);color:var(--muted)" data-i18n="inv_tab_completed">Completed</button>
+        </div>
+        <div style="padding:0 16px 10px">
+          <button onclick="startNewInvoiceDraft()" class="btn-outline"><i class="ti ti-plus" style="vertical-align:-2px;margin-right:4px" aria-hidden="true"></i> <span data-i18n="inv_new_draft_btn">New draft</span></button>
+        </div>
+        <div id="inv-list-body" style="padding:0 16px"></div>
+      </div>
+
+      <!-- FORM VIEW: the actual invoice editor — hidden until a draft is opened or started. -->
+      <div id="inv-form-view" style="display:none">
+      <div style="padding:0 14px 14px">
         <h3 style="font-size:14px;font-weight:600;color:var(--sage-d);margin-bottom:12px" data-i18n="inv_your_details">Your details</h3>
         <div class="field"><label for="inv-your-name" data-i18n="inv_your_name_label">Your name / business name</label><input id="inv-your-name" type="text" placeholder="Your Name" data-i18n-ph="inv_your_name_ph"></div>
         <div class="field"><label for="inv-your-addr" data-i18n="inv_your_addr_label">Your address</label><textarea id="inv-your-addr" rows="2" placeholder="123 Main St, Toronto, ON M5V 1A1" data-i18n-ph="inv_your_addr_ph" style="resize:none"></textarea></div>
@@ -327,22 +348,42 @@
         <h3 style="font-size:14px;font-weight:600;color:var(--sage-d);margin:16px 0 12px" data-i18n="inv_client_details">Client details</h3>
         <div class="field"><label for="inv-client-name" data-i18n="inv_client_name_label">Client name / organization</label><input id="inv-client-name" type="text" placeholder="Client Name" data-i18n-ph="inv_client_name_ph"></div>
         <div class="field"><label for="inv-client-addr" data-i18n="inv_client_addr_label">Client address</label><textarea id="inv-client-addr" rows="2" placeholder="123 Main St, City, Province/State" data-i18n-ph="inv_client_addr_ph" style="resize:none"></textarea></div>
+        <div class="frow">
+          <div class="field"><label for="inv-client-phone" data-i18n="inv_client_phone_label">Phone (optional)</label><input id="inv-client-phone" type="tel" placeholder=""></div>
+          <div class="field"><label for="inv-client-email" data-i18n="inv_client_email_label">Email (optional)</label><input id="inv-client-email" type="email" placeholder="client@email.com"></div>
+        </div>
         <h3 style="font-size:14px;font-weight:600;color:var(--sage-d);margin:16px 0 12px" data-i18n="inv_details_title">Invoice details</h3>
         <div class="frow">
           <div class="field"><label for="inv-num" data-i18n="inv_num_label">Invoice #</label><input id="inv-num" type="text" placeholder="INV-001" data-i18n-ph="inv_num_ph"></div>
           <div class="field"><label for="inv-date" data-i18n="det_date">Date</label><input id="inv-date" type="date"></div>
         </div>
         <div class="field"><label for="inv-due" data-i18n="inv_due_label">Due date</label><input id="inv-due" type="date"></div>
-        <h3 style="font-size:14px;font-weight:600;color:var(--sage-d);margin:16px 0 12px" data-i18n="inv_line_items">Line items</h3>
+        <h3 style="font-size:14px;font-weight:600;color:var(--sage-d);margin:16px 0 6px" data-i18n="inv_line_items">Line items</h3>
+        <p class="edu-note" style="font-size:11px;color:var(--muted);margin-bottom:10px" data-i18n="inv_line_items_desc">Flat and hourly items — these form your invoice's Items subtotal.</p>
         <div id="inv-lines"></div>
         <button onclick="addInvLine()" class="btn-outline" style="margin-bottom:16px"><i class="ti ti-plus" style="vertical-align:-2px;margin-right:4px" aria-hidden="true"></i> <span data-i18n="inv_add_line">Add line item</span></button>
+
+        <h3 style="font-size:14px;font-weight:600;color:var(--sage-d);margin-bottom:6px" data-i18n="inv_premiums_title">Premiums</h3>
+        <p class="edu-note" style="font-size:11px;color:var(--muted);margin-bottom:10px" data-i18n="inv_premiums_desc">Percentage items — e.g. a premium like Doubling, or a discount — each applies independently to your Items subtotal above. Together, Items + Premiums make up your invoice's Subtotal.</p>
+        <div id="inv-premiums"></div>
+        <button onclick="addInvPremium()" class="btn-outline" style="margin-bottom:16px"><i class="ti ti-plus" style="vertical-align:-2px;margin-right:4px" aria-hidden="true"></i> <span data-i18n="inv_add_premium">Add premium</span></button>
+
+        <div style="border:1.5px solid var(--border);border-radius:var(--rs);padding:8px 12px;margin-bottom:16px">
+          <div class="split-row-item" style="border-bottom:none"><span class="sl" data-i18n="inv_subtotal">Subtotal</span><span class="sv" id="inv-form-subtotal">$0.00</span></div>
+        </div>
+
         <h3 style="font-size:14px;font-weight:600;color:var(--sage-d);margin-bottom:6px" data-i18n="inv_adjustments_title">Adjustments</h3>
-        <p style="font-size:11px;color:var(--muted);margin-bottom:10px" data-i18n="inv_adjustments_desc">Premiums, sales tax, union dues, discounts — anything that adds to or subtracts from the subtotal. Each can carry an optional reference note (e.g. a tax registration or union member number) shown in parentheses on the invoice.</p>
+        <p class="edu-note" style="font-size:11px;color:var(--muted);margin-bottom:10px" data-i18n="inv_adjustments_desc">Sales tax, union dues, discounts on the total — anything that adds to or subtracts from your invoice's combined Subtotal (Items + Premiums). Each can carry an optional reference note (e.g. a tax registration or union member number) shown in parentheses on the invoice.</p>
         <div id="inv-adjustments"></div>
         <button onclick="addInvAdjustment()" class="btn-outline" style="margin-bottom:16px"><i class="ti ti-plus" style="vertical-align:-2px;margin-right:4px" aria-hidden="true"></i> <span data-i18n="inv_add_adjustment">Add adjustment</span></button>
+
+        <div style="border:1.5px solid var(--border);border-radius:var(--rs);padding:8px 12px;margin-bottom:16px">
+          <div class="split-row-item" style="border-bottom:none"><span class="sl" style="font-weight:600;color:var(--sage-d)" data-i18n="inv_total">Total</span><span class="sv" style="color:var(--sage);font-size:15px" id="inv-form-total">$0.00</span></div>
+        </div>
         <div class="field">
           <label for="inv-payment-note" data-i18n="inv_payment_label">Payment instructions</label>
-          <input id="inv-payment-note" type="text" placeholder="e-Transfer to you@email.com within 30 days" data-i18n-ph="inv_payment_ph">
+          <textarea id="inv-payment-note" rows="3" placeholder="e-Transfer to you@email.com within 30 days" data-i18n-ph="inv_payment_ph" style="resize:none" onchange="maybeRefreshInvPreview()"></textarea>
+          <button type="button" onclick="boldInvPaymentNote()" class="btn-outline" style="width:auto;padding:6px 14px;font-size:12px;margin-top:6px"><strong data-i18n="inv_payment_bold_btn">Bold</strong></button>
         </div>
         <button class="btn btn-p" onclick="previewInvoice()" style="margin-top:4px" data-i18n="inv_preview_btn">Preview invoice</button>
       </div>
@@ -352,6 +393,7 @@
         <div style="padding:0 14px 24px">
           <button class="btn btn-p" onclick="exportInvoicePDF()"><i class="ti ti-printer" style="vertical-align:-2px;margin-right:5px" aria-hidden="true"></i><span data-i18n="inv_export_btn">Export / print invoice</span></button>
         </div>
+      </div>
       </div>
     </div>
 
