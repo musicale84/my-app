@@ -308,6 +308,7 @@
         </div>
         <div class="sec-label" data-i18n="rep_your_reports">Your reports</div>
         <button class="rep-card" onclick="showRep('accountant')"><div class="rep-ico"><i class="ti ti-file-invoice" aria-hidden="true"></i></div><div class="rep-info"><h3 data-i18n="rep_card_accountant_title">For your accountant</h3><p data-i18n="rep_card_accountant_sub">Business income, tax, pension, deductions</p></div><i class="ti ti-chevron-right" style="color:var(--muted);margin-left:auto" aria-hidden="true"></i></button>
+        <button class="rep-card" onclick="showPage('expenses')"><div class="rep-ico" style="background:var(--gold)"><i class="ti ti-receipt" aria-hidden="true"></i></div><div class="rep-info"><h3 data-i18n="rep_card_expenses_title">Business expenses</h3><p data-i18n="rep_card_expenses_sub">Log deductible expenses (premium)</p></div><i class="ti ti-chevron-right" style="color:var(--muted);margin-left:auto" aria-hidden="true"></i></button>
         <button class="rep-card" onclick="showRep('giglog')"><div class="rep-ico"><i class="ti ti-list-details" aria-hidden="true"></i></div><div class="rep-info"><h3 data-i18n="rep_card_giglog_title">Gig log</h3><p data-i18n="rep_card_giglog_sub">All income entries for the tax year</p></div><i class="ti ti-chevron-right" style="color:var(--muted);margin-left:auto" aria-hidden="true"></i></button>
         <button class="rep-card" onclick="showRep('snapshot')"><div class="rep-ico"><i class="ti ti-chart-pie" aria-hidden="true"></i></div><div class="rep-info"><h3 data-i18n="rep_card_snapshot_title">Year-end snapshot</h3><p data-i18n="rep_card_snapshot_sub">Your full financial year in review</p></div><i class="ti ti-chevron-right" style="color:var(--muted);margin-left:auto" aria-hidden="true"></i></button>
         <button class="rep-card" onclick="showRep('invest')"><div class="rep-ico"><i class="ti ti-trending-up" aria-hidden="true"></i></div><div class="rep-info"><h3 data-i18n="rep_card_invest_title">Investment tracker</h3><p data-i18n="rep_card_invest_sub">Contributions by account type</p></div><i class="ti ti-chevron-right" style="color:var(--muted);margin-left:auto" aria-hidden="true"></i></button>
@@ -333,6 +334,13 @@
       <button class="back-btn" onclick="showPage('dashboard')"><i class="ti ti-arrow-left" aria-hidden="true"></i> <span data-i18n="btn_back">Back</span></button>
       <div class="sec-label" data-i18n="progress_card_title">Your Progress</div>
       <div id="progress-content" style="padding-bottom:20px"></div>
+    </div>
+
+    <!-- BUSINESS EXPENSES (premium) -->
+    <div class="page" id="page-expenses" role="region" aria-label="Business expenses">
+      <button class="back-btn" onclick="showPage('reports')"><i class="ti ti-arrow-left" aria-hidden="true"></i> <span data-i18n="btn_back">Back</span></button>
+      <div class="sec-label" data-i18n="exp_page_title">Business expenses</div>
+      <div id="expenses-content" style="padding:0 14px 20px"></div>
     </div>
 
     <!-- INVOICE GENERATOR -->
@@ -939,6 +947,34 @@
     </div>
     <div id="hm-breakdown" style="text-align:left;background:var(--sage-l);border-radius:var(--rs);padding:11px 13px;margin:10px 0"></div>
     <button class="btn btn-p" onclick="closeOv('hisa-modal')" style="margin:16px 0 8px">Got it</button>
+  </div>
+</div>
+
+<!-- LOG EXPENSE MODAL (premium) -->
+<div class="overlay" id="expense-modal" role="dialog" aria-modal="true" aria-label="Log expense" onclick="closeOvIf(event,'expense-modal')">
+  <div class="sheet">
+    <div class="drag" aria-hidden="true"></div>
+    <h2 class="m-title" id="expense-modal-title" data-i18n="exp_modal_title">Log expense</h2>
+    <div class="field" id="f-exp-date"><label for="exp-date" data-i18n="exp_date_label">Date</label><input id="exp-date" type="date"><span class="field-err" data-i18n="exp_date_err">Please add a date</span></div>
+    <div class="field" id="f-exp-amt"><label for="exp-amt" data-i18n="exp_amt_label">Amount ($)</label><input id="exp-amt" type="number" placeholder="0.00"><span class="field-err" data-i18n="exp_amt_err">Please add an amount</span></div>
+    <div class="field"><label for="exp-category" data-i18n="exp_category_label">Category</label>
+      <select id="exp-category" onchange="onExpCategoryChange()">
+        <option value="Travel" data-i18n="exp_cat_travel">Travel</option>
+        <option value="MotorVehicle" data-i18n="exp_cat_motor">Motor vehicle</option>
+        <option value="Equipment" data-i18n="exp_cat_equipment">Equipment / supplies</option>
+        <option value="Wardrobe" data-i18n="exp_cat_wardrobe">Wardrobe / costume</option>
+        <option value="ProfDev" data-i18n="exp_cat_profdev">Professional development</option>
+        <option value="Insurance" data-i18n="exp_cat_insurance">Insurance</option>
+        <option value="ProfFees" data-i18n="exp_cat_proffees">Professional fees</option>
+        <option value="HomeOffice" data-i18n="exp_cat_homeoffice">Home office</option>
+        <option value="Other" data-i18n="exp_cat_other">Other</option>
+      </select>
+    </div>
+    <p id="exp-other-caution" style="display:none;font-size:11px;color:var(--gold-d);margin-top:-8px;margin-bottom:10px" data-i18n="exp_other_caution">"Other" is the easiest category to miscategorize — be specific in your notes and confirm with your accountant that this genuinely qualifies as a business expense.</p>
+    <div class="field"><label for="exp-notes" data-i18n="exp_notes_label">Notes (optional)</label><input id="exp-notes" type="text" placeholder="e.g. why this was for business, or a question to ask your accountant" data-i18n-ph="exp_notes_ph"></div>
+    <p style="font-size:11px;color:var(--muted);margin-bottom:12px" data-i18n="exp_disclaimer">This helps you organize your own records — it isn't tax advice. Confirm what actually qualifies as deductible with a professional; this app does not give tax advice.</p>
+    <button class="btn btn-p" id="expense-modal-save-btn" onclick="saveExpense()" data-i18n="exp_save_btn">Save expense</button>
+    <button class="btn btn-g" onclick="closeOv('expense-modal')" data-i18n="btn_cancel">Cancel</button>
   </div>
 </div>
 
