@@ -218,6 +218,20 @@
         <div class="fun-left"><h3 id="inactivity-nudge-text"></h3></div>
         <button onclick="dismissInactivityNudge()" aria-label="Dismiss" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;padding:4px"><i class="ti ti-x" aria-hidden="true"></i></button>
       </div>
+      <div class="fun-banner" id="baseline-topup-banner" role="status" style="display:none;margin:0 14px 12px">
+        <div class="fun-left"><h3 id="baseline-topup-text"></h3></div>
+        <div style="display:flex;align-items:center;gap:4px">
+          <button class="btn-outline" style="width:auto;padding:7px 14px;font-size:12px;margin:0" onclick="acceptBaselineTopup()" data-i18n="baseline_topup_btn">Top up</button>
+          <button onclick="dismissBaselineTopup()" aria-label="Dismiss" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;padding:4px"><i class="ti ti-x" aria-hidden="true"></i></button>
+        </div>
+      </div>
+      <div class="fun-banner" id="enjoy-move-banner" role="status" style="display:none;margin:0 14px 12px">
+        <div class="fun-left"><h3 id="enjoy-move-text"></h3></div>
+        <div style="display:flex;align-items:center;gap:4px">
+          <button class="btn-outline" style="width:auto;padding:7px 14px;font-size:12px;margin:0" onclick="ackEnjoyMove()" data-i18n="enjoy_move_btn">Mark as moved</button>
+          <button onclick="ackEnjoyMove()" aria-label="Dismiss" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;padding:4px"><i class="ti ti-x" aria-hidden="true"></i></button>
+        </div>
+      </div>
       <div class="card" id="this-month-card">
         <div style="font-size:11px;color:var(--muted);margin-bottom:6px" id="tip-anchor-status"><span data-i18n="dash_status_label">Status</span></div>
         <div id="d-status" class="pill pill-green" style="margin-bottom:10px" aria-live="polite"><i class="ti ti-circle-check" aria-hidden="true"></i> Baseline covered</div>
@@ -747,7 +761,7 @@
 <div class="overlay" id="gig-modal" role="dialog" aria-modal="true" aria-label="Log a gig" onclick="closeOvIf(event,'gig-modal')">
   <div class="sheet">
     <div class="drag" aria-hidden="true"></div>
-    <h2 class="m-title" data-i18n="gig_title">Log a gig</h2>
+    <h2 class="m-title" id="gig-modal-title" data-i18n="gig_title">Log a gig</h2>
     <div class="field" id="f-date"><label for="g-date" data-i18n="gig_date">Gig date</label><input id="g-date" type="date" onchange="document.getElementById('f-date').classList.remove('error');checkHistoricalToggle();calcGigModal()"><span class="field-err" data-i18n="gig_date_err">Please add a date</span><div style="font-size:11px;color:var(--muted);margin-top:4px" data-i18n="gig_date_multiday_hint">For a multi-day engagement, use the last day.</div></div>
     <div class="field"><label for="g-status" data-i18n="gig_status">Status</label><select id="g-status" onchange="onGigStatusChange()"><option value="Received" data-i18n="gig_status_received">Received</option><option value="Pending" data-i18n="gig_status_pending">Pending</option></select></div>
     <div class="field" id="f-received-date" style="display:none"><label for="g-received-date" data-i18n="gig_received_date">Received date</label><input id="g-received-date" type="date" onchange="calcGigModal()"><div style="font-size:11px;color:var(--muted);margin-top:4px" data-i18n="gig_received_date_hint">When the payment actually landed — editable anytime.</div></div>
@@ -805,9 +819,9 @@
     <div class="field" id="f-name"><label for="g-name" data-i18n="gig_desc">Description</label><input id="g-name" type="text" placeholder="e.g. Concert, rehearsal, performance, event" data-i18n-ph="gig_desc_ph" oninput="document.getElementById('f-name').classList.remove('error')"><span class="field-err" data-i18n="gig_desc_err">Please add a description</span></div>
     <div class="field" id="f-payer"><label for="g-payer" data-i18n="gig_payer">Payer</label><input id="g-payer" type="text" placeholder="Organization or person" data-i18n-ph="gig_payer_ph" oninput="document.getElementById('f-payer').classList.remove('error')"><span class="field-err" data-i18n="gig_payer_err">Please add the payer</span></div>
     <div id="main-gig-fields">
-    <div class="field"><label for="g-type" data-i18n="gig_income_type">Income type</label><select id="g-type" onchange="updateGigTypeDefaults()"><option value="Freelance" data-i18n="gig_type_freelance">Self-employed / freelance</option><option value="Employment" data-i18n="gig_type_employment">Employment (tax deducted at source)</option><option value="Other" data-i18n="gig_type_other">Other</option></select></div>
-    <!-- Optional: enter check amount to reverse-calculate scale fee -->
-    <div style="background:var(--sage-l);border-radius:var(--rs);padding:10px 12px;margin-bottom:8px">
+    <div class="field"><label for="g-type" data-i18n="gig_income_type">Income type</label><select id="g-type" onchange="updateGigTypeDefaults()"><option value="Freelance" data-i18n="gig_type_freelance">Self-employed / freelance</option><option value="Employment" data-i18n="gig_type_employment">Employment (tax deducted at source)</option><option value="Loan" data-i18n="gig_type_loan">Loan</option><option value="Grant" data-i18n="gig_type_grant">Government support</option><option value="Gift" data-i18n="gig_type_gift">Gift</option><option value="Other" data-i18n="gig_type_other">Other</option></select></div>
+    <!-- Optional: enter check amount to reverse-calculate scale fee — Gig/Employment/Other only -->
+    <div id="check-helper-block" style="background:var(--sage-l);border-radius:var(--rs);padding:10px 12px;margin-bottom:8px">
       <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--sage);margin-bottom:6px" data-i18n="check_helper_title">Check amount helper (optional)</div>
       <div style="display:flex;gap:8px;align-items:flex-end">
         <div class="field" style="flex:1;margin-bottom:0"><label for="g-check-amt" data-i18n="check_amount_label">Amount on check</label><input id="g-check-amt" type="number" placeholder="0.00" oninput="reverseCalcFee()" style="font-size:14px"></div>
@@ -815,10 +829,13 @@
       </div>
       <p style="font-size:11px;color:var(--muted);margin-top:6px" data-i18n="check_helper_note">Enter the payment received and the scale fee will be estimated. Confirm it matches your invoice, then it auto-fills below.</p>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-      <div class="field" id="f-fee"><label for="g-fee" data-i18n="gig_scale_fee">Scale fee</label><input id="g-fee" type="number" placeholder="—" oninput="this.dataset.autofilled='';calcGigModal();document.getElementById('f-fee').classList.remove('error')" style="font-size:14px"><span class="field-err" data-i18n="gig_scale_fee_err">Please add a scale fee</span></div>
-      <div class="field"><label for="g-cart" data-i18n="gig_cartage">Cartage / tips ($)</label><input id="g-cart" type="number" placeholder="0.00" oninput="calcGigModal();reverseCalcFee()" style="font-size:14px"></div>
+    <div id="fee-cart-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div class="field" id="f-fee"><label for="g-fee" id="g-fee-label" data-i18n="gig_scale_fee">Scale fee</label><input id="g-fee" type="number" placeholder="—" oninput="this.dataset.autofilled='';calcGigModal();document.getElementById('f-fee').classList.remove('error')" style="font-size:14px"><span class="field-err" data-i18n="gig_scale_fee_err">Please add a scale fee</span></div>
+      <div class="field" id="f-cart"><label for="g-cart" data-i18n="gig_cartage">Cartage / tips ($)</label><input id="g-cart" type="number" placeholder="0.00" oninput="calcGigModal();reverseCalcFee()" style="font-size:14px"></div>
     </div>
+    <!-- Gig/Employment/Other-only fields — hidden entirely for Loan/Government support/Gift, which use
+         the simpler dedicated sections below instead -->
+    <div id="gig-only-fields">
     <div style="background:var(--sage-l);border-radius:var(--rs);padding:10px 12px;margin-bottom:10px">
       <div style="display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(74,102,91,.1)">
         <span style="font-size:13px;color:var(--muted)" data-i18n="apply_sales_tax">Apply sales tax to this gig</span>
@@ -839,15 +856,54 @@
     </div>
     <div style="background:var(--gold-l);border-radius:var(--rs);padding:10px 12px;margin-bottom:10px">
       <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--gold-d);margin-bottom:8px" data-i18n="selfloan_title">Self-loan (optional)</div>
+      <div id="selfloan-repay-suggestion" style="display:none;background:var(--white);border:1px solid var(--gold);border-radius:var(--rs);padding:8px 10px;margin-bottom:8px">
+        <div id="selfloan-repay-suggestion-text" style="font-size:12px;color:var(--gold-d);margin-bottom:6px"></div>
+        <div style="display:flex;gap:6px">
+          <button type="button" class="btn-outline" style="width:auto;padding:5px 12px;font-size:12px;margin:0" onclick="acceptSelfLoanRepaySuggestion()" data-i18n="selfloan_repay_btn">Repay</button>
+          <button type="button" class="btn-outline" style="width:auto;padding:5px 12px;font-size:12px;margin:0" onclick="dismissSelfLoanRepaySuggestion()" data-i18n="btn_dismiss_generic">Dismiss</button>
+        </div>
+      </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
         <div class="field" style="margin-bottom:0"><label for="g-selfloan-borrow" style="color:var(--gold-d)" data-i18n="selfloan_borrow_label">Borrow from this gig ($)</label><input id="g-selfloan-borrow" type="number" placeholder="0" style="font-size:13px" oninput="calcGigModal()"></div>
         <div class="field" style="margin-bottom:0"><label for="g-selfloan-repay" style="color:var(--gold-d)" data-i18n="selfloan_repay_label">Pay yourself back ($)</label><input id="g-selfloan-repay" type="number" placeholder="0" style="font-size:13px" oninput="calcGigModal()"></div>
       </div>
       <p id="sl-tip" style="font-size:11px;color:var(--gold-d);margin-top:6px" data-i18n="selfloan_tip">Money you owe yourself, separate from debt to a creditor. Borrowing comes out of this gig's surplus — money already earmarked for savings or investing. "Pay yourself back" reduces what you owe yourself, the same way debt payments reduce what you owe a creditor.</p>
     </div>
+    </div><!-- end gig-only-fields -->
+    <!-- Loan only: no surplus split, counts toward baseline, manual set-aside parking -->
+    <div id="loan-fields" style="display:none;background:var(--sage-l);border-radius:var(--rs);padding:10px 12px;margin-bottom:10px">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <span style="font-size:13px;color:var(--muted)" data-i18n="loan_counts_baseline_label">Counts toward this month's baseline?</span>
+        <label class="toggle" aria-label="Counts toward this month's baseline"><input type="checkbox" id="g-loan-counts-baseline" checked onchange="calcGigModal()"><div class="t-track"></div><div class="t-thumb"></div></label>
+      </div>
+      <p style="font-size:11px;color:var(--muted);margin-top:4px;margin-bottom:10px" data-i18n="loan_counts_baseline_note">Leave on for general-purpose money covering living costs. Switch off for a purpose-specific loan (a car, a renovation) — it's still tracked as debt, just kept out of this month's baseline math.</p>
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <span style="font-size:13px;color:var(--muted)" data-i18n="loan_moveto_setaside_label">Move leftover to set-aside</span>
+        <label class="toggle" aria-label="Move leftover to set-aside"><input type="checkbox" id="g-loan-move-setaside" onchange="calcGigModal()"><div class="t-track"></div><div class="t-thumb"></div></label>
+      </div>
+      <p style="font-size:11px;color:var(--muted);margin-top:4px" data-i18n="loan_moveto_setaside_note">After this month's baseline is covered, park what's left in your set-aside account instead of it just sitting available to spend.</p>
+    </div>
+    <!-- Government support / Gift only: full manual choice, no forced default -->
+    <div id="manual-choice-fields" style="display:none;background:var(--sage-l);border-radius:var(--rs);padding:10px 12px;margin-bottom:10px">
+      <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--sage);margin-bottom:8px" data-i18n="manual_choice_title">Your choice — invest, save, or leave available</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div class="field" style="margin-bottom:0"><label for="g-manual-invest" data-i18n="manual_invest_label">Invest ($)</label><input id="g-manual-invest" type="number" placeholder="0" oninput="calcGigModal()"></div>
+        <div class="field" style="margin-bottom:0"><label for="g-manual-save" data-i18n="manual_save_label">Save ($)</label><input id="g-manual-save" type="number" placeholder="0" oninput="calcGigModal()"></div>
+      </div>
+      <p style="font-size:11px;color:var(--muted);margin-top:6px" data-i18n="manual_choice_note">Whatever's left over stays available to spend — nothing is moved automatically.</p>
+    </div>
+    <!-- Loan / Government support / Gift only: taxable toggle drives tax set-aside AND accountant
+         report inclusion together -->
+    <div id="taxable-fields" style="display:none;background:var(--gold-l);border-radius:var(--rs);padding:10px 12px;margin-bottom:10px">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <span style="font-size:13px;color:var(--gold-d)" data-i18n="gig_taxable_label">Taxable income</span>
+        <label class="toggle" aria-label="Taxable income"><input type="checkbox" id="g-taxable" onchange="calcGigModal()"><div class="t-track"></div><div class="t-thumb"></div></label>
+      </div>
+      <p style="font-size:11px;color:var(--gold-d);margin-top:4px" data-i18n="gig_taxable_note">Most loans, grants, and gifts aren't taxed as income — check with a tax pro if unsure, since rules vary and change.</p>
+    </div>
     <div class="field"><label for="g-notes" data-i18n="gig_notes">Notes (optional)</label><input id="g-notes" type="text" placeholder="Any notes about this gig" data-i18n-ph="gig_notes_ph"></div>
     </div><!-- end main-gig-fields -->
-    <div style="background:var(--sage-l);border-radius:var(--rs);padding:10px 12px;margin-bottom:10px">
+    <div id="include-acct-block" style="background:var(--sage-l);border-radius:var(--rs);padding:10px 12px;margin-bottom:10px">
       <div style="display:flex;align-items:center;justify-content:space-between">
         <span style="font-size:13px;color:var(--muted)">Include in accountant report</span>
         <label class="toggle" aria-label="Include in accountant report"><input type="checkbox" id="g-include-acct" checked><div class="t-track"></div><div class="t-thumb"></div></label>
@@ -862,7 +918,7 @@
         <p class="hisa-tip" id="gig-hisa-tip" data-i18n="gig_hisa_tip">Tax set-aside + pension contributions. Park this in your high-interest savings account — it earns interest until it's due and stays separate so it's not tempting to spend.</p>
       </div>
     </div>
-    <button class="btn btn-p" onclick="saveGig()" data-i18n="btn_add_gig">Add gig</button>
+    <button class="btn btn-p" id="gig-modal-save-btn" onclick="saveGig()" data-i18n="btn_add_gig">Add gig</button>
     <button class="btn btn-g" onclick="closeOv('gig-modal')" data-i18n="btn_cancel">Cancel</button>
   </div>
 </div>
