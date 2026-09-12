@@ -491,7 +491,10 @@
           </div>
           <div class="set-group">
             <h2 data-i18n="set_h_monthly_costs">Monthly costs</h2>
-            <div class="set-row"><span class="set-label" data-i18n="set_total_baseline">Total baseline</span><span class="set-val" id="set-base">$0</span></div>
+            <div class="set-row"><span class="set-label" data-i18n="set_monthly_costs_label">Monthly costs</span><span class="set-val" id="set-monthly-costs">$0</span></div>
+            <div class="set-row"><span class="set-label" data-i18n="set_debt_minimums_label">Debt minimums</span><span class="set-val" id="set-debt-minimums">$0</span></div>
+            <p style="font-size:11px;color:var(--muted);margin:-2px 0 4px" data-i18n="set_debt_minimums_note">Automatic, from Balances & Debt — edit a debt's minimum there.</p>
+            <div class="set-row" style="border-top:1px solid var(--border);padding-top:8px;margin-top:2px"><span class="set-label" data-i18n="set_total_baseline">Total baseline</span><span class="set-val" id="set-base">$0</span></div>
             <button class="btn-outline" onclick="openOv('exp-modal')" data-i18n="set_edit_costs">Edit monthly costs</button>
           </div>
           <div class="set-group">
@@ -539,10 +542,12 @@
             </div>
           </div>
           <div class="set-group">
-            <h2 data-i18n="set_h_debt">Debt balances</h2>
-            <p style="font-size:12px;color:var(--muted);padding:0 0 10px" data-i18n="set_debt_desc">Track what you owe so the momentum chart shows your payoff progress.</p>
-            <div class="field"><label for="debt-cc" data-i18n="set_cc_owing_label">Credit card total owing ($)</label><input id="debt-cc" type="number" placeholder="0" oninput="saveBalances()"></div>
-            <div class="field" style="margin-bottom:0"><label for="debt-loan" data-i18n="debt_loan_label">Other debt ($)</label><input id="debt-loan" type="number" placeholder="0" oninput="saveBalances()"></div>
+            <h2 data-i18n="set_h_debt">Debts</h2>
+            <p style="font-size:12px;color:var(--muted);padding:0 0 10px" data-i18n="set_debt_desc">Track what you owe — each debt's minimum payment automatically counts toward your baseline above.</p>
+            <div id="set-debt-list"></div>
+            <div class="set-row" style="margin-top:6px"><span class="set-label" data-i18n="set_debt_total_label">Total owed (excl. mortgage)</span><span class="set-val" id="set-debt-total">$0</span></div>
+            <div class="set-row"><span class="set-label" data-i18n="set_debt_blended_rate_label">Blended interest rate</span><span class="set-val" id="set-debt-blended-rate">0%</span></div>
+            <button class="btn-outline" onclick="openDebtModal()" style="margin-top:8px" data-i18n="set_add_debt">Add a debt</button>
           </div>
           <div class="set-group">
             <h2 data-i18n="dash_selfloan_label">Self-loan</h2>
@@ -810,11 +815,23 @@
       </div>
       <div class="field" style="margin-bottom:8px">
         <label for="h-type" style="color:var(--gold-d)" data-i18n="hist_income_type">Income type</label>
-        <select id="h-type" style="width:100%;padding:11px 12px;border:1.5px solid var(--border);border-radius:var(--rs);font-size:15px;font-family:var(--font);outline:none">
+        <select id="h-type" style="width:100%;padding:11px 12px;border:1.5px solid var(--border);border-radius:var(--rs);font-size:15px;font-family:var(--font);outline:none" onchange="toggleHistoricalLoanFields()">
           <option value="Freelance" data-i18n="hist_type_freelance">Self-employed / Freelance</option>
           <option value="Employment" data-i18n="hist_type_employment">Employment (T4 — tax at source)</option>
+          <option value="Loan" data-i18n="gig_type_loan">Loan</option>
           <option value="Other" data-i18n="hist_type_other">Other</option>
         </select>
+      </div>
+      <div id="h-loan-fields" style="display:none;background:var(--white);border-radius:var(--rs);padding:10px 12px;margin-bottom:8px">
+        <div class="field" style="margin-bottom:8px"><label for="h-loan-debt-select" data-i18n="loan_debt_select_label">Add this loan to</label><select id="h-loan-debt-select" onchange="onLoanDebtSelectChange('h')"></select></div>
+        <div id="h-loan-debt-new-fields">
+          <div class="field" style="margin-bottom:8px"><label for="h-loan-debt-name" data-i18n="loan_debt_new_name">New debt name</label><input id="h-loan-debt-name" type="text" placeholder="e.g. OSAP, Car loan" data-i18n-ph="loan_debt_name_ph"></div>
+          <div class="frow">
+            <div class="field" style="margin-bottom:8px"><label for="h-loan-debt-rate" data-i18n="loan_debt_new_rate">Interest rate (%)</label><input id="h-loan-debt-rate" type="number" placeholder="0"></div>
+            <div class="field" style="margin-bottom:8px"><label for="h-loan-debt-min" data-i18n="loan_debt_new_min">Minimum payment ($)</label><input id="h-loan-debt-min" type="number" placeholder="0"></div>
+          </div>
+          <div class="field" style="margin-bottom:0"><label for="h-loan-debt-deferred" data-i18n="loan_debt_new_deferred">Deferred until (optional)</label><input id="h-loan-debt-deferred" type="date"></div>
+        </div>
       </div>
       <div class="field" style="margin-bottom:8px"><label for="h-notes" style="color:var(--gold-d)" data-i18n="hist_notes">Notes</label><input id="h-notes" type="text" placeholder="e.g. T4, HST not collected, cash payment..." data-i18n-ph="hist_notes_ph"></div>
       <div id="h-hisa-preview" style="background:var(--sage);border-radius:var(--rs);padding:10px 12px;text-align:center;margin-top:4px;display:none">
@@ -888,6 +905,18 @@
         <label class="toggle" aria-label="Move leftover to set-aside"><input type="checkbox" id="g-loan-move-setaside" onchange="calcGigModal()"><div class="t-track"></div><div class="t-thumb"></div></label>
       </div>
       <p style="font-size:11px;color:var(--muted);margin-top:4px" data-i18n="loan_moveto_setaside_note">After this month's baseline is covered, park what's left in your set-aside account instead of it just sitting available to spend.</p>
+      <div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(74,102,91,.15)">
+        <div class="field" style="margin-bottom:8px"><label for="g-loan-debt-select" data-i18n="loan_debt_select_label">Add this loan to</label><select id="g-loan-debt-select" onchange="onLoanDebtSelectChange('g')"></select></div>
+        <div id="g-loan-debt-new-fields">
+          <div class="field" style="margin-bottom:8px"><label for="g-loan-debt-name" data-i18n="loan_debt_new_name">New debt name</label><input id="g-loan-debt-name" type="text" placeholder="e.g. OSAP, Car loan" data-i18n-ph="loan_debt_name_ph"></div>
+          <div class="frow">
+            <div class="field" style="margin-bottom:8px"><label for="g-loan-debt-rate" data-i18n="loan_debt_new_rate">Interest rate (%)</label><input id="g-loan-debt-rate" type="number" placeholder="0"></div>
+            <div class="field" style="margin-bottom:8px"><label for="g-loan-debt-min" data-i18n="loan_debt_new_min">Minimum payment ($)</label><input id="g-loan-debt-min" type="number" placeholder="0"></div>
+          </div>
+          <div class="field" style="margin-bottom:0"><label for="g-loan-debt-deferred" data-i18n="loan_debt_new_deferred">Deferred until (optional)</label><input id="g-loan-debt-deferred" type="date"></div>
+          <p style="font-size:11px;color:var(--muted);margin-top:4px" data-i18n="loan_debt_deferred_note">While deferred, this debt's minimum payment counts as $0 toward your baseline — it switches to the real minimum automatically once the date passes.</p>
+        </div>
+      </div>
     </div>
     <!-- Government support / Gift only: full manual choice, no forced default -->
     <div id="manual-choice-fields" style="display:none;background:var(--sage-l);border-radius:var(--rs);padding:10px 12px;margin-bottom:10px">
@@ -1112,13 +1141,39 @@
 <div class="overlay" id="balance-override-modal" role="dialog" aria-modal="true" aria-label="Override balances" onclick="closeOvIf(event,'balance-override-modal')">
   <div class="sheet">
     <div class="drag" aria-hidden="true"></div>
-    <h2 class="m-title">Set exact balances</h2>
-    <p style="font-size:13px;color:var(--muted);margin-bottom:16px">Use this to correct a balance that doesn't match reality. Enter the true current balance for each.</p>
-    <div class="field"><label for="bo-selfloan">Self-loan owed to yourself ($)</label><input id="bo-selfloan" type="number" placeholder="0"></div>
-    <div class="field"><label for="bo-cc">Credit card total owing ($)</label><input id="bo-cc" type="number" placeholder="0"></div>
-    <div class="field"><label for="bo-loan">Other debt ($)</label><input id="bo-loan" type="number" placeholder="0"></div>
-    <button class="btn btn-p" onclick="saveBalanceOverride()">Save balances</button>
+    <h2 class="m-title" data-i18n="set_exact_balances">Set exact balances</h2>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:16px" data-i18n="balance_override_desc">Use this to correct a balance that doesn't match reality.</p>
+    <div class="field"><label for="bo-selfloan" data-i18n="balance_override_selfloan_label">Self-loan owed to yourself ($)</label><input id="bo-selfloan" type="number" placeholder="0"></div>
+    <button class="btn btn-p" onclick="saveBalanceOverride()" data-i18n="btn_save_balances">Save balances</button>
     <button class="btn btn-g" onclick="closeOv('balance-override-modal')">Cancel</button>
+  </div>
+</div>
+<div class="overlay" id="debt-modal" role="dialog" aria-modal="true" aria-label="Add or edit a debt" onclick="closeOvIf(event,'debt-modal')">
+  <div class="sheet">
+    <div class="drag" aria-hidden="true"></div>
+    <h2 class="m-title" id="debt-modal-title" data-i18n="debt_modal_add_title">Add a debt</h2>
+    <div class="field"><label for="dm-name" data-i18n="debt_modal_name_label">Name</label><input id="dm-name" type="text" placeholder="e.g. Visa, OSAP, Mortgage" data-i18n-ph="debt_modal_name_ph"></div>
+    <div class="field"><label for="dm-type" data-i18n="debt_modal_type_label">Type</label>
+      <select id="dm-type">
+        <option value="credit-card" data-i18n="debt_type_credit_card">Credit card</option>
+        <option value="loan" data-i18n="debt_type_loan">Loan</option>
+        <option value="mortgage" data-i18n="debt_type_mortgage">Mortgage</option>
+      </select>
+    </div>
+    <div class="frow">
+      <div class="field" style="margin-bottom:0"><label for="dm-balance" data-i18n="debt_modal_balance_label">Balance owed ($)</label><input id="dm-balance" type="number" placeholder="0"></div>
+      <div class="field" style="margin-bottom:0"><label for="dm-rate" data-i18n="debt_modal_rate_label">Interest rate (%)</label><input id="dm-rate" type="number" placeholder="0"></div>
+    </div>
+    <div class="field" style="margin-top:10px"><label for="dm-min" data-i18n="debt_modal_min_label">Minimum payment ($)</label><input id="dm-min" type="number" placeholder="0"></div>
+    <div class="field"><label for="dm-deferred" data-i18n="debt_modal_deferred_label">Deferred until (optional)</label><input id="dm-deferred" type="date"></div>
+    <p style="font-size:11px;color:var(--muted);margin-top:-6px;padding-bottom:2px" data-i18n="debt_modal_deferred_note">While deferred, this debt's minimum counts as $0 toward your baseline — it switches to the real minimum automatically once the date passes.</p>
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0">
+      <span style="font-size:13px;color:var(--muted)" data-i18n="debt_modal_include_baseline_label">Count minimum toward baseline</span>
+      <label class="toggle" aria-label="Count minimum toward baseline"><input type="checkbox" id="dm-include-baseline" checked><div class="t-track"></div><div class="t-thumb"></div></label>
+    </div>
+    <button class="btn btn-p" onclick="saveDebtModal()" data-i18n="btn_save_generic">Save</button>
+    <button class="btn-outline" id="dm-delete-btn" onclick="deleteDebtModal()" style="display:none;margin-top:8px;color:var(--red);border-color:var(--red)" data-i18n="debt_modal_delete_btn">Delete this debt</button>
+    <button class="btn btn-g" onclick="closeOv('debt-modal')" data-i18n="btn_cancel_generic">Cancel</button>
   </div>
 </div>
 <div class="overlay" id="tour-modal" role="dialog" aria-modal="true" aria-label="Guided tour" onclick="closeTourBackdrop(event)">
