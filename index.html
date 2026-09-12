@@ -382,7 +382,7 @@
         <div class="field"><label for="inv-client-name" data-i18n="inv_client_name_label">Client name / organization</label><input id="inv-client-name" type="text" placeholder="Client Name" data-i18n-ph="inv_client_name_ph"></div>
         <div class="field"><label for="inv-client-addr" data-i18n="inv_client_addr_label">Client address</label><textarea id="inv-client-addr" rows="2" placeholder="123 Main St, City, Province/State" data-i18n-ph="inv_client_addr_ph" style="resize:none"></textarea></div>
         <div class="frow">
-          <div class="field"><label for="inv-client-phone" data-i18n="inv_client_phone_label">Phone (optional)</label><input id="inv-client-phone" type="tel" placeholder=""></div>
+          <div class="field"><label for="inv-client-phone" data-i18n="inv_client_phone_label">Phone (optional)</label><input id="inv-client-phone" type="tel" placeholder="" onchange="this.value=formatPhoneNumber(this.value)"></div>
           <div class="field"><label for="inv-client-email" data-i18n="inv_client_email_label">Email (optional)</label><input id="inv-client-email" type="email" placeholder="client@email.com"></div>
         </div>
         <h3 style="font-size:14px;font-weight:600;color:var(--sage-d);margin:16px 0 12px" data-i18n="inv_details_title">Invoice details</h3>
@@ -693,8 +693,6 @@
     <div class="d-sec">Learn</div>
     <button class="d-item" onclick="closeDrawer();showPage('help')"><i class="ti ti-info-circle" aria-hidden="true"></i><div class="d-item-text"><h3>How it works</h3><p>Understanding your numbers</p></div></button>
     <button class="d-item" onclick="closeDrawer();showPage('glossary')"><i class="ti ti-book" aria-hidden="true"></i><div class="d-item-text"><h3>Glossary</h3><p>Set-aside account, surplus, gated — explained</p></div></button>
-    <div class="d-sec">Tools</div>
-    <button class="d-item" onclick="closeDrawer();showPage('invoice')"><i class="ti ti-file-dollar" aria-hidden="true"></i><div class="d-item-text"><h3>Invoice generator</h3><p>Create a professional invoice — free</p></div></button>
   </div>
 </div>
 
@@ -928,6 +926,26 @@
     </div>
     <button class="btn btn-p" id="gig-modal-save-btn" onclick="saveGig()" data-i18n="btn_add_gig">Add gig</button>
     <button class="btn btn-g" onclick="closeOv('gig-modal')" data-i18n="btn_cancel">Cancel</button>
+  </div>
+</div>
+
+<!-- EXPORT PREVIEW (invoices + every report PDF) — an in-app overlay with its own always-visible
+     close button, replacing a window.open()'d popup. On iOS Home Screen apps, window.open() can
+     navigate the app's single standalone webview away from itself with no way back (no address
+     bar, no tab switcher, no back gesture in that mode) — this keeps everything inside the app's
+     own single window. The printable content lives in a sandboxed iframe so its print-specific
+     styling never leaks into (or gets overridden by) the app's own CSS; printing/sharing is
+     triggered from a button inside this overlay, scoped to just that iframe. -->
+<div class="overlay" id="export-preview-overlay" role="dialog" aria-modal="true" aria-label="Export preview" onclick="closeOvIf(event,'export-preview-overlay')">
+  <div class="sheet">
+    <div class="drag" aria-hidden="true"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+      <h2 class="m-title" id="export-preview-title" style="margin:0;font-size:15px">Export</h2>
+      <button onclick="closeOv('export-preview-overlay')" aria-label="Close" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:20px;padding:4px;flex-shrink:0"><i class="ti ti-x" aria-hidden="true"></i></button>
+    </div>
+    <iframe id="export-preview-frame" title="Export preview" style="width:100%;height:55vh;border:1.5px solid var(--border);border-radius:var(--rs);background:#fff"></iframe>
+    <button class="btn btn-p" onclick="printExportPreview()" style="margin-top:12px"><i class="ti ti-printer" style="vertical-align:-2px;margin-right:4px" aria-hidden="true"></i><span data-i18n="export_print_btn">Print / Save PDF</span></button>
+    <button class="btn btn-g" onclick="closeOv('export-preview-overlay')" data-i18n="btn_close">Close</button>
   </div>
 </div>
 
