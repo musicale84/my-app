@@ -1057,6 +1057,10 @@
     <p class="pct-note" id="edit-pct-left" aria-live="polite"></p>
     <p style="font-size:11px;color:var(--muted);text-align:center;padding:4px 0 8px">Changes apply to new gigs only — past entries are not affected.</p>
     <div class="field" style="margin-top:10px"><label for="ee-enjoy">Enjoy-life % (of remaining surplus)</label><input id="ee-enjoy" type="number"></div>
+    <div class="field" style="margin-top:10px"><label for="ee-enjoy-floor" data-i18n="set_enjoy_floor_label">Enjoy-life protected floor (%)</label><input id="ee-enjoy-floor" type="number"></div>
+    <p style="font-size:11px;color:var(--muted);margin-top:-6px;padding-bottom:2px" data-i18n="set_enjoy_floor_note">Debt payments from a gig can never reduce enjoy-life below this share of what it would normally be.</p>
+    <div class="field" style="margin-top:10px"><label for="ee-invest-floor" data-i18n="set_invest_floor_label">Invest protected floor (%)</label><input id="ee-invest-floor" type="number"></div>
+    <p style="font-size:11px;color:var(--muted);margin-top:-6px;padding-bottom:2px" data-i18n="set_invest_floor_note">Debt payments from a gig can never reduce investing below this share of what it would normally be.</p>
     <button class="btn btn-p" onclick="saveBuckets()">Save</button>
     <button class="btn btn-g" onclick="closeOv('bkt-modal')">Cancel</button>
   </div>
